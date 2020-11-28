@@ -1,6 +1,7 @@
 import java.util.*
 
 plugins {
+    id("com.gradle.plugin-publish") version "0.12.0"
     `java-gradle-plugin`
     `maven-publish`
     id("com.diffplug.spotless") version "5.8.2"
@@ -44,38 +45,52 @@ gradlePlugin {
         create("ruthless") {
             id = "dev.lajoscseppento.ruthless"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessPlugin"
+            displayName = "Ruthless"
+            description = " Ruthless base plugin"
         }
-    }
-    plugins {
+
         create("ruthlessJavaApplication") {
             id = "dev.lajoscseppento.ruthless.java-application"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaApplicationPlugin"
+            displayName = "Ruthless / Java Application"
+            description = " Ruthless plugin for Java applications"
         }
-    }
-    plugins {
+
         create("ruthlessJavaGradlePlugin") {
             id = "dev.lajoscseppento.ruthless.java-gradle-plugin"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaGradlePluginPlugin"
+            displayName = "Ruthless / Java Gradle Plugin"
+            description = " Ruthless plugin for Gradle plugins (implemented in Java)"
         }
-    }
-    plugins {
+
         create("ruthlessJavaLibrary") {
             id = "dev.lajoscseppento.ruthless.java-library"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaLibraryPlugin"
+            displayName = "Ruthless / Java Library"
+            description = " Ruthless plugin for Java libraries"
         }
-    }
-    plugins {
+
         create("ruthlessSpringBootApplication") {
             id = "dev.lajoscseppento.ruthless.spring-boot-application"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessSpringBootApplicationPlugin"
+            displayName = "Ruthless / Spring Boot Application"
+            description = " Ruthless plugin for Spring boot applications"
         }
-    }
-    plugins {
+
         create("ruthlessSpringBootLibrary") {
             id = "dev.lajoscseppento.ruthless.spring-boot-library"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessSpringBootLibraryPlugin"
+            displayName = "Ruthless / Spring Boot Library"
+            description = " Ruthless plugin for Spring boot libraries"
         }
     }
+}
+
+pluginBundle {
+    website = "https://github.com/LajosCseppento/ruthless"
+    vcsUrl = "https://github.com/LajosCseppento/ruthless"
+    description = "Ruthless conventions for Gradle projects to keep them DRY"
+    tags = listOf("ruthless", "conventions", "defaults", "standards", "dry")
 }
 
 val functionalTestSourceSet = sourceSets.create("functionalTest")
