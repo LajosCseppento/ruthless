@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>Why? Because XML is fun!</comment>
+  <entry key="com.fasterxml.jackson:jackson-bom">2.11.3</entry>
+  <entry key="com.google.guava:guava">30.0-jre</entry>
+  <entry key="org.assertj:assertj-core">3.18.1</entry>
+  <entry key="org.junit:junit-bom">5.7.0</entry>
+  <entry key="org.projectlombok:lombok">1.18.16</entry>
+</properties>
