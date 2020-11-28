@@ -1,6 +1,5 @@
 # Ruthless / TODO
 
- * CI build
  * Publish to Gradle Plugin Repository
  * Sonar configuration
  * Make lombok default?
