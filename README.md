@@ -54,7 +54,7 @@ include(
 Then in `build.gradle.kts` for each project, you can specify the project type to apply basic
 setup (not obligatory):
 
-```
+```kotlin
 // For a Java library:
 plugins {
     id("dev.lajoscseppento.ruthless.java-library")
@@ -74,13 +74,13 @@ Ruthless is a standard Gradle plugin project.
 
 For manual local testing, it is recommended to publish the plugin to the local Maven repository.
 
-```sh
+```shell script
 ./gradlew publishToMavenLocal
 ```
 
 Then use the local snapshot in the demo project:
 
-```sh
+```shell script
 cd ruthless-demo
 ../gradlew build -c settings-dev.gradle.kts
-` ``
+```
