@@ -6,7 +6,7 @@ pluginManagement {
 }
 
 plugins {
-    id("dev.lajoscseppento.ruthless") version "0.1.0-SNAPSHOT"
+    id("dev.lajoscseppento.ruthless") version "0.1.1-SNAPSHOT"
 }
 
 rootProject.name = "ruthless-demo"
