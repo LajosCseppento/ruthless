@@ -1,7 +1,7 @@
 buildscript {
     repositories {
-        gradlePluginPortal()
         mavenLocal()
+        gradlePluginPortal()
     }
 
     val gradleProperties = java.util.Properties()
