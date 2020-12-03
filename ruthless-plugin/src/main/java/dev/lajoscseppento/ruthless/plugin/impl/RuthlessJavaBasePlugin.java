@@ -65,6 +65,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
   }
 
   private void resolveDefaultDependency(Configuration configuration, DependencyResolveDetails dep) {
+    // TODO use constraints? https://docs.gradle.org/current/userguide/single_versions.html#sec:declaring_without_version
     ModuleVersionSelector requested = dep.getRequested();
 
     if (Utils.isUnspecified(requested.getVersion())) {

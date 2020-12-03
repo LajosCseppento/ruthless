@@ -34,6 +34,8 @@ dependencies {
         implementation("${gradlePlugin.key}:${gradlePlugin.value}")
     }
 
+    // TODO spring dependency mgmt plugin is not necessary, it is pulled in by the other spring plugin
+
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.18.1")
@@ -88,7 +90,7 @@ gradlePlugin {
 
 pluginBundle {
     website = "https://github.com/LajosCseppento/ruthless"
-    vcsUrl = "https://github.com/LajosCseppento/ruthless"
+    vcsUrl = "https://github.com/LajosCseppento/ruthless.git"
     description = "Ruthless conventions for Gradle projects to keep them DRY"
     tags = listOf("ruthless", "conventions", "defaults", "standards", "dry")
 }
