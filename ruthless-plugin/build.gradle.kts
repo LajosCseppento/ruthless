@@ -2,34 +2,19 @@ import java.util.*
 
 plugins {
     id("com.gradle.plugin-publish") version "0.12.0"
-    `java-gradle-plugin`
+    id("dev.lajoscseppento.ruthless.java-gradle-plugin")
     `maven-publish`
     `signing`
-    id("com.diffplug.spotless") version "5.8.2"
 }
 
-val lombokVersion = "1.18.16"
+ruthless.lombok()
 
 java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-
     withJavadocJar()
     withSourcesJar()
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    compileOnly("org.projectlombok:lombok:$lombokVersion")
-    annotationProcessor("org.projectlombok:lombok:$lombokVersion")
-
-    testCompileOnly("org.projectlombok:lombok:$lombokVersion")
-    testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
-
     val gradlePlugins = Properties()
     project.file("src/main/resources/gradle-plugins.xml").inputStream().use { gradlePlugins.loadFromXML(it) }
     for (gradlePlugin in gradlePlugins) {
@@ -39,10 +24,7 @@ dependencies {
 
     // TODO spring dependency mgmt plugin is not necessary, it is pulled in by the other spring plugin
 
-    testImplementation(platform("org.junit:junit-bom:5.7.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.assertj:assertj-core:3.18.1")
-    testImplementation("commons-io:commons-io:2.8.0")
+    functionalTestImplementation("commons-io:commons-io:2.8.0")
 }
 
 gradlePlugin {
@@ -175,30 +157,5 @@ signing {
         sign(publishing.publications)
     } else {
         logger.warn("Configure project without code signing")
-    }
-}
-
-val functionalTestSourceSet = sourceSets.create("functionalTest")
-
-gradlePlugin.testSourceSets(functionalTestSourceSet)
-configurations["functionalTestImplementation"].extendsFrom(configurations["testImplementation"])
-
-val functionalTest by tasks.registering(Test::class) {
-    testClassesDirs = functionalTestSourceSet.output.classesDirs
-    classpath = functionalTestSourceSet.runtimeClasspath
-}
-
-tasks.check {
-    dependsOn(functionalTest)
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
-spotless {
-    java {
-        removeUnusedImports()
-        googleJavaFormat()
     }
 }
