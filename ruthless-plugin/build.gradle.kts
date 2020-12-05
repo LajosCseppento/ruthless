@@ -50,42 +50,42 @@ gradlePlugin {
             id = "dev.lajoscseppento.ruthless"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessPlugin"
             displayName = "Ruthless"
-            description = " Ruthless base plugin"
+            description = "Ruthless base plugin"
         }
 
         create("ruthlessJavaApplication") {
             id = "dev.lajoscseppento.ruthless.java-application"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaApplicationPlugin"
             displayName = "Ruthless / Java Application"
-            description = " Ruthless plugin for Java applications"
+            description = "Ruthless plugin for Java applications"
         }
 
         create("ruthlessJavaGradlePlugin") {
             id = "dev.lajoscseppento.ruthless.java-gradle-plugin"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaGradlePluginPlugin"
             displayName = "Ruthless / Java Gradle Plugin"
-            description = " Ruthless plugin for Gradle plugins (implemented in Java)"
+            description = "Ruthless plugin for Gradle plugins (implemented in Java)"
         }
 
         create("ruthlessJavaLibrary") {
             id = "dev.lajoscseppento.ruthless.java-library"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaLibraryPlugin"
             displayName = "Ruthless / Java Library"
-            description = " Ruthless plugin for Java libraries"
+            description = "Ruthless plugin for Java libraries"
         }
 
         create("ruthlessSpringBootApplication") {
             id = "dev.lajoscseppento.ruthless.spring-boot-application"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessSpringBootApplicationPlugin"
             displayName = "Ruthless / Spring Boot Application"
-            description = " Ruthless plugin for Spring boot applications"
+            description = "Ruthless plugin for Spring boot applications"
         }
 
         create("ruthlessSpringBootLibrary") {
             id = "dev.lajoscseppento.ruthless.spring-boot-library"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessSpringBootLibraryPlugin"
             displayName = "Ruthless / Spring Boot Library"
-            description = " Ruthless plugin for Spring boot libraries"
+            description = "Ruthless plugin for Spring boot libraries"
         }
     }
 }
