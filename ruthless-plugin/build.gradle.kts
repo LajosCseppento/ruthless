@@ -107,26 +107,33 @@ pluginBundle {
     website = WEBSITE
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "snapshots"
-            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-            credentials {
-                username = property("ossrhUsername") as String
-                password = property("ossrhPassword") as String
-            }
-        }
+if (hasProperty("ossrhUsername")) {
+    publishing {
+        repositories {
+            val ossrhUsername: String by project
+            val ossrhPassword: String by project
 
-        maven {
-            name = "staging"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
-            credentials {
-                username = property("ossrhUsername") as String
-                password = property("ossrhPassword") as String
+            maven {
+                name = "snapshots"
+                url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+                credentials {
+                    username = ossrhUsername
+                    password = ossrhPassword
+                }
+            }
+
+            maven {
+                name = "staging"
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+                credentials {
+                    username = ossrhUsername
+                    password = ossrhPassword
+                }
             }
         }
     }
+} else {
+    logger.warn("Configure project without OSSRH publishing")
 }
 
 publishing.publications.withType<MavenPublication> {
@@ -167,7 +174,7 @@ signing {
     if (hasProperty("signing.keyId")) {
         sign(publishing.publications)
     } else {
-        logger.warn("Build without code signing")
+        logger.warn("Configure project without code signing")
     }
 }
 
