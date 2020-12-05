@@ -1,5 +1,5 @@
 plugins {
-    id("dev.lajoscseppento.ruthless")
+    id("dev.lajoscseppento.ruthless") version "0.1.1"
 }
 
 rootProject.name = "ruthless-demo"
