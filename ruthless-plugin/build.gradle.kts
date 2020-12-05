@@ -4,6 +4,7 @@ plugins {
     id("com.gradle.plugin-publish") version "0.12.0"
     `java-gradle-plugin`
     `maven-publish`
+    `signing`
     id("com.diffplug.spotless") version "5.8.2"
 }
 
@@ -14,13 +15,13 @@ java {
         languageVersion.set(JavaLanguageVersion.of(11))
     }
 
+    withJavadocJar()
     withSourcesJar()
 }
 
 repositories {
     mavenCentral()
 }
-
 
 dependencies {
     compileOnly("org.projectlombok:lombok:$lombokVersion")
@@ -90,11 +91,84 @@ gradlePlugin {
     }
 }
 
+val TAGS = listOf("ruthless", "conventions", "defaults", "standards", "dry")
+val DESCRIPTION = "Ruthless conventions for Gradle projects to keep them DRY"
+val VCS_URL = "https://github.com/LajosCseppento/ruthless.git"
+val WEBSITE = "https://github.com/LajosCseppento/ruthless"
+
+val POM_SCM_CONNECTION = "scm:git:git://github.com/LajosCseppento/ruthless.git"
+val POM_SCM_DEVELOPER_CONNECTION = "scm:git:ssh://git@github.com/LajosCseppento/ruthless.git"
+val POM_SCM_URL = "https://github.com/LajosCseppento/ruthless"
+
 pluginBundle {
-    website = "https://github.com/LajosCseppento/ruthless"
-    vcsUrl = "https://github.com/LajosCseppento/ruthless.git"
-    description = "Ruthless conventions for Gradle projects to keep them DRY"
-    tags = listOf("ruthless", "conventions", "defaults", "standards", "dry")
+    description = DESCRIPTION
+    tags = TAGS
+    vcsUrl = VCS_URL
+    website = WEBSITE
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "snapshots"
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+            credentials {
+                username = property("ossrhUsername") as String
+                password = property("ossrhPassword") as String
+            }
+        }
+
+        maven {
+            name = "staging"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+            credentials {
+                username = property("ossrhUsername") as String
+                password = property("ossrhPassword") as String
+            }
+        }
+    }
+}
+
+publishing.publications.withType<MavenPublication> {
+    val publicationName = name
+
+    pom {
+        if (publicationName == "pluginMaven") {
+            name.set("Ruthless")
+            description.set(DESCRIPTION)
+        }
+
+        url.set(WEBSITE)
+
+        licenses {
+            license {
+                name.set("Apache License, Version 2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0")
+            }
+        }
+
+        developers {
+            developer {
+                id.set("LajosCseppento")
+                name.set("Lajos Cseppentő")
+                this.url.set("https://www.lajoscseppento.dev")
+            }
+        }
+
+        scm {
+            connection.set(POM_SCM_CONNECTION)
+            developerConnection.set(POM_SCM_DEVELOPER_CONNECTION)
+            url.set(POM_SCM_URL)
+        }
+    }
+}
+
+signing {
+    if (hasProperty("signing.keyId")) {
+        sign(publishing.publications)
+    } else {
+        logger.warn("Build without code signing")
+    }
 }
 
 val functionalTestSourceSet = sourceSets.create("functionalTest")
