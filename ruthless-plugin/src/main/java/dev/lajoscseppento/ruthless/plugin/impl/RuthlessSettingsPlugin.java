@@ -20,7 +20,9 @@ public class RuthlessSettingsPlugin implements Plugin<Settings> {
   private static void checkGradleVersion(String gradleVersion) {
     Objects.requireNonNull(gradleVersion, "gradleVersion");
 
-    int major, minor;
+    int major;
+    int minor;
+
     try {
       String[] parts = gradleVersion.split("[.]");
       major = Integer.parseInt(parts[0]);
