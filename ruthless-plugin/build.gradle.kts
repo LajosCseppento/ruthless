@@ -159,3 +159,7 @@ signing {
         logger.warn("Configure project without code signing")
     }
 }
+
+tasks.jacocoTestReport {
+    reports.xml.isEnabled = true
+}
