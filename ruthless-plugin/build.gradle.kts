@@ -1,7 +1,7 @@
 import java.util.*
 
 plugins {
-    id("com.gradle.plugin-publish") version "0.12.0"
+    id("com.gradle.plugin-publish") version "0.15.0"
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
     `maven-publish`
     `signing`
@@ -22,9 +22,7 @@ dependencies {
         implementation("${gradlePlugin.key}:${gradlePlugin.value}")
     }
 
-    // TODO spring dependency mgmt plugin is not necessary, it is pulled in by the other spring plugin
-
-    functionalTestImplementation("commons-io:commons-io:2.8.0")
+    functionalTestImplementation("commons-io:commons-io:2.9.0")
 }
 
 gradlePlugin {
@@ -148,6 +146,13 @@ publishing.publications.withType<MavenPublication> {
             connection.set(POM_SCM_CONNECTION)
             developerConnection.set(POM_SCM_DEVELOPER_CONNECTION)
             url.set(POM_SCM_URL)
+        }
+    }
+
+    // TODO Try to remove after released #15 Add Base Support for Publishing
+    versionMapping {
+        allVariants {
+            fromResolutionResult()
         }
     }
 }

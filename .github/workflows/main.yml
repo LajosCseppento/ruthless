@@ -20,10 +20,25 @@ jobs:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - name: Gradle Build
+      - name: Build
         uses: burrunan/gradle-cache-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          arguments: sonarqube build
+          arguments: build sonarqube
+          arguments: build
+      - name: Publish to Maven Local
+        uses: burrunan/gradle-cache-action@v1
+        with:
+          arguments: publishToMavenLocal
+      - name: Build Demo
+        uses: burrunan/gradle-cache-action@v1
+        with:
+          arguments: --project-dir ruthless-demo --settings-file settings-dev.gradle.kts build
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          check_name: Test Results
+          files: '**/build/test-results/**/*.xml'
