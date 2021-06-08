@@ -15,6 +15,7 @@ import org.gradle.api.tasks.testing.Test;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.testing.jacoco.plugins.JacocoPlugin;
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension;
+import org.gradle.testing.jacoco.tasks.JacocoReport;
 
 public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
 
@@ -98,9 +99,11 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
     tasks.withType(Test.class, Test::useJUnitPlatform);
 
     JacocoPluginExtension jacoco = project.getExtensions().getByType(JacocoPluginExtension.class);
-    jacoco.setToolVersion("0.8.6");
+    jacoco.setToolVersion("0.8.7");
 
-    Task jacocoTestReportTask = tasks.getByName("jacocoTestReport");
+    JacocoReport jacocoTestReportTask = (JacocoReport) tasks.getByName("jacocoTestReport");
+    jacocoTestReportTask.getReports().getXml().setEnabled(true);
+
     Task testTask = tasks.getByName(JavaPlugin.TEST_TASK_NAME);
     testTask.finalizedBy(jacocoTestReportTask);
     jacocoTestReportTask.dependsOn(testTask);
