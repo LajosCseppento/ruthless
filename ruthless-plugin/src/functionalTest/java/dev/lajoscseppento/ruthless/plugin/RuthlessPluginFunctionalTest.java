@@ -71,7 +71,7 @@ public class RuthlessPluginFunctionalTest {
   }
 
   @Test
-  void testBuildFailsWithOldGradleVersion() throws Exception {
+  void testBuildFailsWithTooOldGradleVersion() throws Exception {
     // Given
     GradleRunner runner =
         GradleRunner.create()
