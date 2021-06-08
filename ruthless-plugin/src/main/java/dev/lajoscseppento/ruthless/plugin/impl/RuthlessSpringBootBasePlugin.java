@@ -1,5 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
+import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
 import io.spring.gradle.dependencymanagement.DependencyManagementPlugin;
 import java.util.Arrays;
 import java.util.List;
@@ -18,8 +19,8 @@ public class RuthlessSpringBootBasePlugin extends AbstractProjectPlugin {
 
   @Override
   public void apply() {
-    dependencies.add(
+    declareDependencies(
         JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME,
-        "org.springframework.boot:spring-boot-starter-test");
+        RuthlessConfiguration.INSTANCE.getSpringTestDependencies());
   }
 }
