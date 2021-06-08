@@ -1,4 +1,10 @@
-import java.util.*
+import org.yaml.snakeyaml.Yaml
+
+buildscript {
+    dependencies {
+        "classpath"("org.yaml:snakeyaml:1.28")
+    }
+}
 
 plugins {
     id("com.gradle.plugin-publish") version "0.15.0"
@@ -15,13 +21,18 @@ java {
 }
 
 dependencies {
-    val gradlePlugins = Properties()
-    project.file("src/main/resources/gradle-plugins.xml").inputStream().use { gradlePlugins.loadFromXML(it) }
+    val yamlString = project.file("src/main/resources/configuration.yml").readText();
+    val yaml: Map<String, Object> = Yaml().load(yamlString);
+    val gradlePlugins = yaml["gradlePlugins"] as List<Map<String, String>>
+
     for (gradlePlugin in gradlePlugins) {
-        logger.info("Adding ${gradlePlugin.key}:${gradlePlugin.value} as dependency")
-        implementation("${gradlePlugin.key}:${gradlePlugin.value}")
+        val gav = "${gradlePlugin["groupId"]}:${gradlePlugin["artifactId"]}:${gradlePlugin["version"]}"
+
+        logger.info("Adding $gav as dependency")
+        implementation(gav)
     }
 
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     functionalTestImplementation("commons-io:commons-io:2.9.0")
 }
 
