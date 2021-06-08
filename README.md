@@ -88,5 +88,5 @@ Then use the local snapshot in the demo project:
 
 ```shell script
 cd ruthless-demo
-../gradlew build -c settings-dev.gradle.kts
+../gradlew -c settings-dev.gradle.kts build
 ```

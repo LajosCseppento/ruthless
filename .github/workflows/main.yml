@@ -29,6 +29,5 @@ jobs:
       - name: Build Demo
         uses: burrunan/gradle-cache-action@v1
         with:
-          gradle-version: 7.0.2
           build-root-directory: ruthless-demo
-          arguments: build publishToMavenLocal -c settings-dev.gradle.kts
+          arguments: --project-dir ruthless-demo --settings-file settings-dev.gradle.kts build publishToMavenLocal
