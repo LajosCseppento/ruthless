@@ -4,6 +4,9 @@ import com.diffplug.gradle.spotless.SpotlessExtension;
 import com.diffplug.gradle.spotless.SpotlessPlugin;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactIdVersion;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -22,10 +25,6 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.testing.jacoco.plugins.JacocoPlugin;
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension;
 import org.gradle.testing.jacoco.tasks.JacocoReport;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
 
