@@ -27,7 +27,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           arguments: build sonarqube
-          arguments: build
       - name: Publish to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
