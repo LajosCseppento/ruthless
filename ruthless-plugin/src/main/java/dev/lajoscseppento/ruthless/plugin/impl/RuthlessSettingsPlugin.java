@@ -27,8 +27,8 @@ public class RuthlessSettingsPlugin implements Plugin<Settings> {
     if (cmp > 0) {
       String msg =
           String.format(
-              "Gradle version is too old, please use %s at least. Detected version: %s",
-              minimumGradleVersion, gradleVersion);
+              "Gradle version %s is too old, please use %s at least.",
+              gradleVersion, minimumGradleVersion);
       throw new GradleException(msg);
     }
   }
