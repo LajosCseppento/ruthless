@@ -29,9 +29,9 @@ public class RuthlessSettingsPlugin implements Plugin<Settings> {
       throw new GradleException("Failed to parse Gradle version: " + gradleVersion);
     }
 
-    if (major < 6 || major == 6 && minor < 7) {
+    if (major < 7 || major == 7 && minor < 0) {
       throw new GradleException(
-          "Gradle version is too old, please use 6.7 at least: " + gradleVersion);
+          "Gradle version is too old, please use 7.0 at least. Detected version: " + gradleVersion);
     }
   }
 }

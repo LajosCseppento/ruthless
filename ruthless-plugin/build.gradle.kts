@@ -150,6 +150,13 @@ publishing.publications.withType<MavenPublication> {
             url.set(POM_SCM_URL)
         }
     }
+
+    // TODO Try to remove after released #15 Add Base Support for Publishing
+    versionMapping {
+        allVariants {
+            fromResolutionResult()
+        }
+    }
 }
 
 signing {
