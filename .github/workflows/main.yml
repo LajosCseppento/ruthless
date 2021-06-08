@@ -31,12 +31,6 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           arguments: publishToMavenLocal
-      - name: Publish Test Results 2
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
-        with:
-          check_name: Test Results 2
-          files: '**/build/test-results/**/*.xml'
       - name: Build Demo
         run: ./gradlew --no-build-cache --no-daemon --project-dir ruthless-demo --settings-file settings-dev.gradle.kts clean build
       - name: Publish Test Results
