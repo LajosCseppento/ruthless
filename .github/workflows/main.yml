@@ -29,5 +29,4 @@ jobs:
       - name: Build Demo
         uses: burrunan/gradle-cache-action@v1
         with:
-          build-root-directory: ruthless-demo
           arguments: --project-dir ruthless-demo --settings-file settings-dev.gradle.kts build
