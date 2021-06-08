@@ -164,3 +164,8 @@ signing {
         logger.warn("Configure project without code signing")
     }
 }
+
+// TODO Try to remove after released #4 Sonar Configuration
+tasks.jacocoTestReport {
+    reports.xml.isEnabled = true
+}
