@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.jvm.tasks.Jar;
-import org.springframework.boot.gradle.tasks.bundling.BootJar;
+import org.gradle.api.plugins.JavaPlugin;
+import org.springframework.boot.gradle.plugin.SpringBootPlugin;
 
 public class RuthlessSpringBootLibraryPlugin extends AbstractProjectPlugin {
   @Override
@@ -17,7 +17,7 @@ public class RuthlessSpringBootLibraryPlugin extends AbstractProjectPlugin {
 
   @Override
   public void apply() {
-    ((Jar) tasks.getByName("jar")).setEnabled(true);
-    ((BootJar) tasks.getByName("bootJar")).setEnabled(false);
+    tasks.getByName(JavaPlugin.JAR_TASK_NAME).setEnabled(true);
+    tasks.getByName(SpringBootPlugin.BOOT_JAR_TASK_NAME).setEnabled(false);
   }
 }
