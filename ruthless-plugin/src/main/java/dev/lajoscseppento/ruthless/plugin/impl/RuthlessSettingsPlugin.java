@@ -31,7 +31,7 @@ public class RuthlessSettingsPlugin implements Plugin<Settings> {
 
     if (major < 7 || major == 7 && minor < 0) {
       throw new GradleException(
-          "Gradle version is too old, please use 7.0 at least. Version detected: " + gradleVersion);
+          "Gradle version is too old, please use 7.0 at least. Detected version: " + gradleVersion);
     }
   }
 }
