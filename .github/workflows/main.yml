@@ -32,7 +32,7 @@ jobs:
         with:
           arguments: publishToMavenLocal
       - name: Build Demo
-        run: ./gradlew --project-dir ruthless-demo --settings-file settings-dev.gradle.kts clean build
+        run: ./gradlew --no-build-cache --project-dir ruthless-demo --settings-file settings-dev.gradle.kts clean build
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
