@@ -26,7 +26,6 @@ import org.gradle.plugin.devel.GradlePluginDevelopmentExtension;
  * later.
  */
 public abstract class AbstractProjectPlugin implements Plugin<Project> {
-
   protected Project project;
   protected Logger logger;
 
