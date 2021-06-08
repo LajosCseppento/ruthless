@@ -1,5 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
+import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactId;
 import java.util.Collections;
 import java.util.List;
 import lombok.NonNull;
@@ -73,5 +74,19 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
   /** Plugin logic. */
   protected void apply() {
     // default no-op
+  }
+
+  protected final void declareDependencies(
+      String configurationName, List<GroupIdArtifactId> dependenciesToDeclare) {
+    for (GroupIdArtifactId dependency : dependenciesToDeclare) {
+      dependencies.add(configurationName, dependency.toDependencyNotation());
+    }
+  }
+
+  protected final void declarePlatformDependencies(
+      String configurationName, List<GroupIdArtifactId> platformDependenciesToDeclare) {
+    for (GroupIdArtifactId dependency : platformDependenciesToDeclare) {
+      dependencies.add(configurationName, dependencies.platform(dependency.toDependencyNotation()));
+    }
   }
 }
