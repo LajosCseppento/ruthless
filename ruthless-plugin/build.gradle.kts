@@ -151,6 +151,7 @@ publishing.publications.withType<MavenPublication> {
         }
     }
 
+    // TODO Try to remove after released #15 Add Base Support for Publishing
     versionMapping {
         allVariants {
             fromResolutionResult()
