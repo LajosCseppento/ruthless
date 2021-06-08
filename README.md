@@ -72,7 +72,7 @@ plugins {
 }
 ```
 
-See `ruthless-demo` for a complete example. 
+See `ruthless-demo` for a complete example.
 
 ## Developing Ruthless
 
