@@ -13,6 +13,7 @@ import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.JavaPluginExtension;
+import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension;
@@ -40,6 +41,7 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
   protected GradlePluginDevelopmentExtension gradlePlugin;
   protected JavaPluginExtension java;
   protected SourceSetContainer sourceSets;
+  protected PublishingExtension publishing;
 
   @Override
   public final void apply(@NonNull Project project) {
@@ -62,6 +64,7 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
     gradlePlugin = (GradlePluginDevelopmentExtension) extensions.findByName("gradlePlugin");
     java = (JavaPluginExtension) extensions.findByName("java");
     sourceSets = (SourceSetContainer) extensions.findByName("sourceSets");
+    publishing = (PublishingExtension) extensions.findByName("publishing");
 
     apply();
   }

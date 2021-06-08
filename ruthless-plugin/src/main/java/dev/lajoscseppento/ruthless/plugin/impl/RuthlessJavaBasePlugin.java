@@ -4,9 +4,6 @@ import com.diffplug.gradle.spotless.SpotlessExtension;
 import com.diffplug.gradle.spotless.SpotlessPlugin;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactIdVersion;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -14,18 +11,32 @@ import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.DependencyResolveDetails;
 import org.gradle.api.artifacts.ModuleVersionSelector;
 import org.gradle.api.plugins.JavaPlugin;
+import org.gradle.api.publish.PublicationContainer;
+import org.gradle.api.publish.VariantVersionMappingStrategy;
+import org.gradle.api.publish.VersionMappingStrategy;
+import org.gradle.api.publish.ivy.IvyPublication;
+import org.gradle.api.publish.maven.MavenPublication;
+import org.gradle.api.publish.plugins.PublishingPlugin;
 import org.gradle.api.tasks.testing.Test;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.testing.jacoco.plugins.JacocoPlugin;
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension;
 import org.gradle.testing.jacoco.tasks.JacocoReport;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
 
   @Override
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
     return Arrays.asList(
-        RuthlessBasePlugin.class, JavaPlugin.class, JacocoPlugin.class, SpotlessPlugin.class);
+        RuthlessBasePlugin.class,
+        JavaPlugin.class,
+        JacocoPlugin.class,
+        PublishingPlugin.class,
+        SpotlessPlugin.class);
   }
 
   @Override
@@ -37,6 +48,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
     configureBoms();
     configureDefaultDependencyResolution();
     configureTest();
+    configurePublishing();
     configureSpotless();
   }
 
@@ -114,6 +126,24 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
     Task testTask = tasks.getByName(JavaPlugin.TEST_TASK_NAME);
     testTask.finalizedBy(jacocoTestReportTask);
     jacocoTestReportTask.dependsOn(testTask);
+  }
+
+  private void configurePublishing() {
+    PublicationContainer publications = publishing.getPublications();
+
+    publications.withType(
+        IvyPublication.class,
+        ivyPublication ->
+            ivyPublication.versionMapping(this::configurePublishingVersionMappingStrategy));
+
+    publications.withType(
+        MavenPublication.class,
+        mavenPublication ->
+            mavenPublication.versionMapping(this::configurePublishingVersionMappingStrategy));
+  }
+
+  private void configurePublishingVersionMappingStrategy(VersionMappingStrategy strategy) {
+    strategy.allVariants(VariantVersionMappingStrategy::fromResolutionResult);
   }
 
   private void configureSpotless() {
