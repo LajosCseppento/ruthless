@@ -150,6 +150,12 @@ publishing.publications.withType<MavenPublication> {
             url.set(POM_SCM_URL)
         }
     }
+
+    versionMapping {
+        allVariants {
+            fromResolutionResult()
+        }
+    }
 }
 
 signing {
