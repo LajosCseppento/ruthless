@@ -1,6 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.gradle.api.Project;
 import org.gradle.testfixtures.ProjectBuilder;
@@ -28,6 +28,6 @@ class RuthlessPluginTest {
     project.getPlugins().apply(pluginId);
 
     // Then
-    assertTrue(project.getPluginManager().hasPlugin("java"));
+    assertThat(project.getPluginManager().hasPlugin("java")).isTrue();
   }
 }
