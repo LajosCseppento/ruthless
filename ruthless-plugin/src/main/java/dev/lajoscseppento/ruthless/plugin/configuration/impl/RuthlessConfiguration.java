@@ -2,11 +2,13 @@ package dev.lajoscseppento.ruthless.plugin.configuration.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
+
+/** Ruthless configuration root. */
 @Builder
 @Data
 @Jacksonized
