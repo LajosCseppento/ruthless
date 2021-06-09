@@ -14,77 +14,78 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class RuthlessPluginFunctionalTest {
+class RuthlessPluginFunctionalTest {
   @TempDir Path projectDir;
 
   @BeforeEach
   void setUp() throws IOException {
     Path demoDir = Paths.get("../ruthless-demo").toAbsolutePath().normalize();
     FileUtils.copyDirectory(
-        demoDir.toFile(), projectDir.toFile(), RuthlessPluginFunctionalTest::shouldCopy, false);
+            demoDir.toFile(), projectDir.toFile(), RuthlessPluginFunctionalTest::shouldCopy, false);
   }
 
   private static boolean shouldCopy(File file) {
     return file.isDirectory()
-        || FilenameUtils.isExtension(file.getName(), "factories", "java", "kts", "properties");
+            || FilenameUtils.isExtension(file.getName(), "factories", "java", "kts", "properties");
   }
 
   @Test
   void testBuild() {
     // Given
     GradleRunner runner =
-        GradleRunner.create()
-            .forwardOutput()
-            .withPluginClasspath()
-            .withArguments("build")
-            .withProjectDir(projectDir.toFile());
+            GradleRunner.create()
+                    .forwardOutput()
+                    .withPluginClasspath()
+                    .withArguments("build")
+                    .withProjectDir(projectDir.toFile());
 
     // When
     BuildResult result = runner.build();
 
     // Then
     assertThat(result.getOutput())
-        .contains("Task :ruthless-demo-java-application:build")
-        .contains("Task :ruthless-demo-java-gradle-plugin:build")
-        .contains("Task :ruthless-demo-java-library:build")
-        .contains("Task :ruthless-demo-spring-boot-application:build")
-        .contains("Task :ruthless-demo-spring-boot-library:build");
+            .contains("Task :ruthless-demo-java-application:build")
+            .contains("Task :ruthless-demo-java-gradle-plugin:build")
+            .contains("Task :ruthless-demo-java-library:build")
+            .contains("Task :ruthless-demo-spring-boot-application:build")
+            .contains("Task :ruthless-demo-spring-boot-library:build");
   }
 
   @Test
   void testRunDryRun() {
     // Given
     GradleRunner runner =
-        GradleRunner.create()
-            .forwardOutput()
-            .withPluginClasspath()
-            .withArguments("run", "--dry-run")
-            .withProjectDir(projectDir.toFile());
+            GradleRunner.create()
+                    .forwardOutput()
+                    .withPluginClasspath()
+                    .withArguments("run", "--dry-run")
+                    .withProjectDir(projectDir.toFile());
 
     // When
     BuildResult result = runner.build();
 
     // Then
     assertThat(result.getOutput())
-        .contains(":ruthless-demo-java-application:run SKIPPED")
-        .contains(":ruthless-demo-spring-boot-application:run SKIPPED");
+            .contains(":ruthless-demo-java-application:run SKIPPED")
+            .contains(":ruthless-demo-spring-boot-application:run SKIPPED");
   }
 
   @Test
-  void testBuildFailsWithTooOldGradleVersion() throws Exception {
+  void testBuildFailsWithTooOldGradleVersion() {
     // Given
     GradleRunner runner =
-        GradleRunner.create()
-            .forwardOutput()
-            .withPluginClasspath()
-            .withGradleVersion("6.8")
-            .withArguments("build")
-            .withProjectDir(projectDir.toFile());
+            GradleRunner.create()
+                    .forwardOutput()
+                    .withPluginClasspath()
+                    .withGradleVersion("6.8")
+                    .withArguments("build")
+                    .withProjectDir(projectDir.toFile());
 
     // When
     BuildResult result = runner.buildAndFail();
 
     // Then
-    assertThat(result.getOutput()).contains("Gradle version is too old");
+    assertThat(result.getOutput())
+            .containsPattern("Gradle version .+ is too old, please use .+ at least");
   }
 }

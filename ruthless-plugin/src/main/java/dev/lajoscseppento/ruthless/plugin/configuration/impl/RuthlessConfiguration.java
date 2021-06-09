@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
+/** Ruthless configuration root. */
 @Builder
 @Data
 @Jacksonized
@@ -18,9 +19,9 @@ public final class RuthlessConfiguration {
     try {
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
       INSTANCE =
-          mapper.readValue(
-              RuthlessConfiguration.class.getResource("/configuration.yml"),
-              RuthlessConfiguration.class);
+              mapper.readValue(
+                      RuthlessConfiguration.class.getResource("/configuration.yml"),
+                      RuthlessConfiguration.class);
     } catch (Exception ex) {
       throw new AssertionError("Failed to load configuration: " + ex.getMessage(), ex);
     }
