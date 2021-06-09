@@ -180,3 +180,10 @@ signing {
 tasks.jacocoTestReport {
     reports.xml.isEnabled = true
 }
+
+sonarqube {
+    properties {
+        val orig = properties["sonar.tests"] as java.util.List<Any>
+        properties["sonar.tests"] = orig + sourceSets.functionalTest.get().allSource.srcDirs.filter { it.exists() }
+    }
+}
