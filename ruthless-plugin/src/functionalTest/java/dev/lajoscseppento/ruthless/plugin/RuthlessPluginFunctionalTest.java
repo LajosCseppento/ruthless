@@ -85,6 +85,7 @@ public class RuthlessPluginFunctionalTest {
     BuildResult result = runner.buildAndFail();
 
     // Then
-    assertThat(result.getOutput()).containsPattern("Gradle version .+ is too old, please use .+ at least");
+    assertThat(result.getOutput())
+        .containsPattern("Gradle version .+ is too old, please use .+ at least");
   }
 }
