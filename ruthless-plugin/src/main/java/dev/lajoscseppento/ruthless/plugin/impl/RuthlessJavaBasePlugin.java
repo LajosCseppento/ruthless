@@ -15,6 +15,7 @@ import org.gradle.api.artifacts.DependencyResolveDetails;
 import org.gradle.api.artifacts.ModuleVersionSelector;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.publish.PublicationContainer;
+import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.publish.VariantVersionMappingStrategy;
 import org.gradle.api.publish.VersionMappingStrategy;
 import org.gradle.api.publish.ivy.IvyPublication;
@@ -31,11 +32,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
   @Override
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
     return Arrays.asList(
-        RuthlessBasePlugin.class,
-        JavaPlugin.class,
-        JacocoPlugin.class,
-        PublishingPlugin.class,
-        SpotlessPlugin.class);
+        RuthlessBasePlugin.class, JavaPlugin.class, JacocoPlugin.class, SpotlessPlugin.class);
   }
 
   @Override
@@ -128,17 +125,27 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
   }
 
   private void configurePublishing() {
-    PublicationContainer publications = publishing.getPublications();
+    project
+        .getPlugins()
+        .withType(
+            PublishingPlugin.class,
+            publishingPlugin -> {
+              PublishingExtension publishing =
+                  (PublishingExtension) extensions.findByName("publishing");
+              PublicationContainer publications = publishing.getPublications();
 
-    publications.withType(
-        IvyPublication.class,
-        ivyPublication ->
-            ivyPublication.versionMapping(this::configurePublishingVersionMappingStrategy));
+              publications.withType(
+                  IvyPublication.class,
+                  ivyPublication ->
+                      ivyPublication.versionMapping(
+                          this::configurePublishingVersionMappingStrategy));
 
-    publications.withType(
-        MavenPublication.class,
-        mavenPublication ->
-            mavenPublication.versionMapping(this::configurePublishingVersionMappingStrategy));
+              publications.withType(
+                  MavenPublication.class,
+                  mavenPublication ->
+                      mavenPublication.versionMapping(
+                          this::configurePublishingVersionMappingStrategy));
+            });
   }
 
   private void configurePublishingVersionMappingStrategy(VersionMappingStrategy strategy) {
