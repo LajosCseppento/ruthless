@@ -10,7 +10,7 @@ plugins {
     id("com.gradle.plugin-publish") version "0.15.0"
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
     `maven-publish`
-    `signing`
+    signing
 }
 
 ruthless.lombok()
@@ -21,8 +21,8 @@ java {
 }
 
 dependencies {
-    val yamlString = project.file("src/main/resources/configuration.yml").readText();
-    val yaml: Map<String, Object> = Yaml().load(yamlString);
+    val yamlString = project.file("src/main/resources/configuration.yml").readText()
+    val yaml: Map<String, Any> = Yaml().load(yamlString)
     val gradlePlugins = yaml["gradlePlugins"] as List<Map<String, String>>
 
     for (gradlePlugin in gradlePlugins) {
@@ -159,13 +159,6 @@ publishing.publications.withType<MavenPublication> {
             url.set(POM_SCM_URL)
         }
     }
-
-    // TODO Try to remove after released #15 Add Base Support for Publishing
-    versionMapping {
-        allVariants {
-            fromResolutionResult()
-        }
-    }
 }
 
 signing {
@@ -176,14 +169,9 @@ signing {
     }
 }
 
-// TODO Try to remove after released #4 Sonar Configuration
-tasks.jacocoTestReport {
-    reports.xml.isEnabled = true
-}
-
 sonarqube {
     properties {
-        val orig = properties["sonar.tests"] as java.util.List<Any>
+        val orig = properties["sonar.tests"] as MutableList<Any>
         properties["sonar.tests"] = orig + sourceSets.functionalTest.get().allSource.srcDirs.filter { it.exists() }
     }
 }
