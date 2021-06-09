@@ -14,6 +14,13 @@ import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.DependencyResolveDetails;
 import org.gradle.api.artifacts.ModuleVersionSelector;
 import org.gradle.api.plugins.JavaPlugin;
+import org.gradle.api.publish.PublicationContainer;
+import org.gradle.api.publish.PublishingExtension;
+import org.gradle.api.publish.VariantVersionMappingStrategy;
+import org.gradle.api.publish.VersionMappingStrategy;
+import org.gradle.api.publish.ivy.IvyPublication;
+import org.gradle.api.publish.maven.MavenPublication;
+import org.gradle.api.publish.plugins.PublishingPlugin;
 import org.gradle.api.tasks.testing.Test;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.testing.jacoco.plugins.JacocoPlugin;
@@ -37,6 +44,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
     configureBoms();
     configureDefaultDependencyResolution();
     configureTest();
+    configurePublishing();
     configureSpotless();
   }
 
@@ -114,6 +122,34 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
     Task testTask = tasks.getByName(JavaPlugin.TEST_TASK_NAME);
     testTask.finalizedBy(jacocoTestReportTask);
     jacocoTestReportTask.dependsOn(testTask);
+  }
+
+  private void configurePublishing() {
+    project
+        .getPlugins()
+        .withType(
+            PublishingPlugin.class,
+            publishingPlugin -> {
+              PublishingExtension publishing =
+                  (PublishingExtension) extensions.findByName("publishing");
+              PublicationContainer publications = publishing.getPublications();
+
+              publications.withType(
+                  IvyPublication.class,
+                  ivyPublication ->
+                      ivyPublication.versionMapping(
+                          this::configurePublishingVersionMappingStrategy));
+
+              publications.withType(
+                  MavenPublication.class,
+                  mavenPublication ->
+                      mavenPublication.versionMapping(
+                          this::configurePublishingVersionMappingStrategy));
+            });
+  }
+
+  private void configurePublishingVersionMappingStrategy(VersionMappingStrategy strategy) {
+    strategy.allVariants(VariantVersionMappingStrategy::fromResolutionResult);
   }
 
   private void configureSpotless() {
