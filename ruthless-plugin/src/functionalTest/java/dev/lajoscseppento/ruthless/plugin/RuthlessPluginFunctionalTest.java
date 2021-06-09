@@ -2,7 +2,7 @@ package dev.lajoscseppento.ruthless.plugin;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.FileFilter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,23 +14,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class RuthlessPluginFunctionalTest {
+class RuthlessPluginFunctionalTest {
   @TempDir Path projectDir;
 
   @BeforeEach
   void setUp() throws IOException {
     Path demoDir = Paths.get("../ruthless-demo").toAbsolutePath().normalize();
-    FileFilter filter =
-        // TODO refine
-        file ->
-            file.isDirectory()
-                || FilenameUtils.isExtension(
-                    file.getName(), "factories", "java", "kts", "properties");
-    FileUtils.copyDirectory(demoDir.toFile(), projectDir.toFile(), filter, false);
+    FileUtils.copyDirectory(
+        demoDir.toFile(), projectDir.toFile(), RuthlessPluginFunctionalTest::shouldCopy, false);
+  }
+
+  private static boolean shouldCopy(File file) {
+    return file.isDirectory()
+        || FilenameUtils.isExtension(file.getName(), "factories", "java", "kts", "properties");
   }
 
   @Test
-  void testBuild() throws Exception {
+  void testBuild() {
     // Given
     GradleRunner runner =
         GradleRunner.create()
@@ -68,5 +68,24 @@ public class RuthlessPluginFunctionalTest {
     assertThat(result.getOutput())
         .contains(":ruthless-demo-java-application:run SKIPPED")
         .contains(":ruthless-demo-spring-boot-application:run SKIPPED");
+  }
+
+  @Test
+  void testBuildFailsWithTooOldGradleVersion() {
+    // Given
+    GradleRunner runner =
+        GradleRunner.create()
+            .forwardOutput()
+            .withPluginClasspath()
+            .withGradleVersion("6.8")
+            .withArguments("build")
+            .withProjectDir(projectDir.toFile());
+
+    // When
+    BuildResult result = runner.buildAndFail();
+
+    // Then
+    assertThat(result.getOutput())
+        .containsPattern("Gradle version .+ is too old, please use .+ at least");
   }
 }

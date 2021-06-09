@@ -2,8 +2,11 @@ package dev.lajoscseppento.ruthless.plugin.impl;
 
 import com.diffplug.gradle.spotless.SpotlessExtension;
 import com.diffplug.gradle.spotless.SpotlessPlugin;
+import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactIdVersion;
+import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -56,27 +59,32 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
 
     configurations.all(
         configuration -> {
-          if (javaConfigs.contains(configuration.getName())) {
-            dependencies.add(
-                configuration.getName(),
-                dependencies.platform("com.fasterxml.jackson:jackson-bom"));
-            dependencies.add(configuration.getName(), dependencies.platform("org.junit:junit-bom"));
+          String name = configuration.getName();
+          if (javaConfigs.contains(name)) {
+            declarePlatformDependencies(
+                name, RuthlessConfiguration.INSTANCE.getPlatformDependencies());
           }
         });
   }
 
   private void resolveDefaultDependency(Configuration configuration, DependencyResolveDetails dep) {
-    // TODO use constraints?
-    // https://docs.gradle.org/current/userguide/single_versions.html#sec:declaring_without_version
     ModuleVersionSelector requested = dep.getRequested();
 
     if (Utils.isUnspecified(requested.getVersion())) {
-      String requestedGA = String.format("%s:%s", requested.getGroup(), requested.getName());
-      String defaultVersion = Utils.DEFAULT_DEPENDENCIES.get(requestedGA);
+      Optional<String> defaultVersionOpt =
+          RuthlessConfiguration.INSTANCE.getDefaultDependencies().stream()
+              .filter(d -> d.matches(requested.getGroup(), requested.getName()))
+              .map(GroupIdArtifactIdVersion::getVersion)
+              .findAny();
 
-      if (defaultVersion != null) {
+      if (defaultVersionOpt.isPresent()) {
+        String defaultVersion = defaultVersionOpt.get();
         logger.info(
-            "[ruthless] Defaulting {} to {} on {}", requestedGA, defaultVersion, configuration);
+            "[ruthless] Defaulting {}:{} to {} on {}",
+            requested.getGroup(),
+            requested.getName(),
+            defaultVersion,
+            configuration);
         dep.useVersion(defaultVersion);
       }
     }
@@ -91,15 +99,14 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
         configuration -> {
           String name = configuration.getName();
           if (javaTestConfigs.contains(name)) {
-            dependencies.add(name, "org.junit.jupiter:junit-jupiter");
-            dependencies.add(name, "org.assertj:assertj-core");
+            declareDependencies(name, RuthlessConfiguration.INSTANCE.getTestDependencies());
           }
         });
 
     tasks.withType(Test.class, Test::useJUnitPlatform);
 
     JacocoPluginExtension jacoco = project.getExtensions().getByType(JacocoPluginExtension.class);
-    jacoco.setToolVersion("0.8.7");
+    jacoco.setToolVersion(RuthlessConfiguration.INSTANCE.getJacocoVersion());
 
     JacocoReport jacocoTestReportTask = (JacocoReport) tasks.getByName("jacocoTestReport");
     jacocoTestReportTask.getReports().getXml().setEnabled(true);

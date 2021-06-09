@@ -1,5 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
+import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
 import java.util.Objects;
 import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
@@ -20,20 +21,15 @@ public class RuthlessSettingsPlugin implements Plugin<Settings> {
   private static void checkGradleVersion(String gradleVersion) {
     Objects.requireNonNull(gradleVersion, "gradleVersion");
 
-    int major;
-    int minor;
+    String minimumGradleVersion = RuthlessConfiguration.INSTANCE.getMinimumGradleVersion();
+    int cmp = new VersionComparator().compare(minimumGradleVersion, gradleVersion);
 
-    try {
-      String[] parts = gradleVersion.split("[.]");
-      major = Integer.parseInt(parts[0]);
-      minor = Integer.parseInt(parts[1]);
-    } catch (Exception ex) {
-      throw new GradleException("Failed to parse Gradle version: " + gradleVersion);
-    }
-
-    if (major < 7 || major == 7 && minor < 0) {
-      throw new GradleException(
-          "Gradle version is too old, please use 7.0 at least. Detected version: " + gradleVersion);
+    if (cmp > 0) {
+      String msg =
+          String.format(
+              "Gradle version %s is too old, please use %s at least.",
+              gradleVersion, minimumGradleVersion);
+      throw new GradleException(msg);
     }
   }
 }
