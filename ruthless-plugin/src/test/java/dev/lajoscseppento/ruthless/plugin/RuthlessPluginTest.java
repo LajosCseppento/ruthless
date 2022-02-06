@@ -1,5 +1,9 @@
 package dev.lajoscseppento.ruthless.plugin;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.lang.reflect.Field;
+import java.util.concurrent.atomic.AtomicReference;
 import org.gradle.api.Project;
 import org.gradle.api.internal.project.DefaultProject;
 import org.gradle.api.provider.Provider;
@@ -10,11 +14,6 @@ import org.gradle.testfixtures.ProjectBuilder;
 import org.gradle.tooling.events.OperationCompletionListener;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.lang.reflect.Field;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class RuthlessPluginTest {
   @ParameterizedTest
