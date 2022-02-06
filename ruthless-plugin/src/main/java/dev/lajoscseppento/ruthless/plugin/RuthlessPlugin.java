@@ -4,6 +4,8 @@ import dev.lajoscseppento.ruthless.plugin.impl.RuthlessBasePlugin;
 import dev.lajoscseppento.ruthless.plugin.impl.RuthlessGradlePlugin;
 import dev.lajoscseppento.ruthless.plugin.impl.RuthlessSettingsPlugin;
 import java.util.Objects;
+
+import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.initialization.Settings;
@@ -16,9 +18,7 @@ import org.gradle.api.plugins.PluginAware;
  */
 public class RuthlessPlugin implements Plugin<PluginAware> {
   @Override
-  public void apply(PluginAware target) {
-    Objects.requireNonNull(target, "target");
-
+  public void apply(@NonNull PluginAware target) {
     if (target instanceof Project) {
       target.getPlugins().apply(RuthlessBasePlugin.class);
     } else if (target instanceof Settings) {

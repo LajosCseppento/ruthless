@@ -1,14 +1,12 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
+import lombok.NonNull;
+
 import java.util.Comparator;
-import java.util.Objects;
 
 public class VersionComparator implements Comparator<String> {
   @Override
-  public int compare(String o1, String o2) {
-    Objects.requireNonNull(o1, "o1");
-    Objects.requireNonNull(o2, "o2");
-
+  public int compare(@NonNull String o1, @NonNull String o2) {
     String[] p1 = o1.split("\\.");
     String[] p2 = o2.split("\\.");
 

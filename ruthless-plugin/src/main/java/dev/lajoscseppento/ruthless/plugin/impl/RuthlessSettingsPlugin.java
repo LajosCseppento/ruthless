@@ -1,7 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
-import java.util.Objects;
 import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.initialization.Settings;
@@ -19,8 +18,6 @@ public class RuthlessSettingsPlugin implements Plugin<Settings> {
   }
 
   private static void checkGradleVersion(String gradleVersion) {
-    Objects.requireNonNull(gradleVersion, "gradleVersion");
-
     String minimumGradleVersion = RuthlessConfiguration.INSTANCE.getMinimumGradleVersion();
     int cmp = new VersionComparator().compare(minimumGradleVersion, gradleVersion);
 
