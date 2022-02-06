@@ -117,7 +117,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
     jacoco.setToolVersion(RuthlessConfiguration.INSTANCE.getJacocoVersion());
 
     JacocoReport jacocoTestReportTask = (JacocoReport) tasks.getByName("jacocoTestReport");
-    jacocoTestReportTask.getReports().getXml().setEnabled(true);
+    jacocoTestReportTask.getReports().getXml().getRequired().set(true);
 
     Task testTask = tasks.getByName(JavaPlugin.TEST_TASK_NAME);
     testTask.finalizedBy(jacocoTestReportTask);
@@ -131,7 +131,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
             PublishingPlugin.class,
             publishingPlugin -> {
               PublishingExtension publishing =
-                  (PublishingExtension) extensions.findByName("publishing");
+                  (PublishingExtension) extensions.getByName("publishing");
               PublicationContainer publications = publishing.getPublications();
 
               publications.withType(

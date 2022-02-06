@@ -1,7 +1,7 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
 import dev.lajoscseppento.ruthless.plugin.RuthlessExtension;
-import java.util.Objects;
+import lombok.NonNull;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.logging.Logger;
@@ -11,9 +11,7 @@ public class RuthlessExtensionImpl implements RuthlessExtension {
   private final Project project;
   private final Logger logger;
 
-  RuthlessExtensionImpl(Project project) {
-    Objects.requireNonNull(project, "project");
-
+  RuthlessExtensionImpl(@NonNull Project project) {
     this.project = project;
     this.logger = project.getLogger();
   }

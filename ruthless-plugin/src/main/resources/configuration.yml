@@ -1,22 +1,22 @@
-minimumGradleVersion: 7.0.2
+minimumGradleVersion: 7.3.3
 jacocoVersion: 0.8.7
 
 defaultDependencies:
   - groupId: com.fasterxml.jackson
     artifactId: jackson-bom
-    version: 2.12.3
+    version: 2.13.1
   - groupId: com.google.guava
     artifactId: guava
-    version: 30.1.1-jre
+    version: 31.0.1-jre
   - groupId: org.assertj
     artifactId: assertj-core
-    version: 3.19.0
+    version: 3.22.0
   - groupId: org.junit
     artifactId: junit-bom
-    version: 5.7.2
+    version: 5.8.2
   - groupId: org.projectlombok
     artifactId: lombok
-    version: 1.18.20
+    version: 1.18.22
 
 platformDependencies:
   - groupId: com.fasterxml.jackson
@@ -37,10 +37,10 @@ springTestDependencies:
 gradlePlugins:
   - groupId: com.diffplug.spotless
     artifactId: spotless-plugin-gradle
-    version: 5.12.4
+    version: 6.2.1
   - groupId: org.springframework.boot
     artifactId: spring-boot-gradle-plugin
-    version: 2.5.0
+    version: 2.6.3
   - groupId: io.spring.gradle
     artifactId: dependency-management-plugin
     version: 1.0.11.RELEASE
