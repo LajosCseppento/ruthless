@@ -1,8 +1,7 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
-import lombok.NonNull;
-
 import java.util.Comparator;
+import lombok.NonNull;
 
 public class VersionComparator implements Comparator<String> {
   @Override

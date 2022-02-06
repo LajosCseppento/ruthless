@@ -3,8 +3,6 @@ package dev.lajoscseppento.ruthless.plugin;
 import dev.lajoscseppento.ruthless.plugin.impl.RuthlessBasePlugin;
 import dev.lajoscseppento.ruthless.plugin.impl.RuthlessGradlePlugin;
 import dev.lajoscseppento.ruthless.plugin.impl.RuthlessSettingsPlugin;
-import java.util.Objects;
-
 import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;

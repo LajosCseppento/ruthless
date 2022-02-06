@@ -1,8 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
 import dev.lajoscseppento.ruthless.plugin.RuthlessExtension;
-import java.util.Objects;
-
 import lombok.NonNull;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
