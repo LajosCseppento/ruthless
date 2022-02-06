@@ -90,3 +90,15 @@ Then use the local snapshot in the demo project:
 cd ruthless-demo
 ../gradlew -c settings-dev.gradle.kts build
 ```
+
+### Release Procedure
+
+1. Fix version, finalise change log
+2. Publish to Maven Central
+   1. Run `./gradlew publishAllPublicationsToStagingRepository`
+   2. Open https://oss.sonatype.org/#stagingRepositories
+   3. Close staging repository
+   4. Inspect contents
+   5. Release 
+3. Publish to Gradle Plugin Portal using `./gradlew publishPlugins`
+4. Bump version & upgrade to recently released version
