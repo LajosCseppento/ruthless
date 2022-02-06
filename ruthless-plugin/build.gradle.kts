@@ -2,12 +2,12 @@ import org.yaml.snakeyaml.Yaml
 
 buildscript {
     dependencies {
-        "classpath"("org.yaml:snakeyaml:1.28")
+        "classpath"("org.yaml:snakeyaml:1.30")
     }
 }
 
 plugins {
-    id("com.gradle.plugin-publish") version "0.15.0"
+    id("com.gradle.plugin-publish") version "0.20.0"
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
     `maven-publish`
     signing
@@ -33,7 +33,7 @@ dependencies {
     }
 
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
-    functionalTestImplementation("commons-io:commons-io:2.9.0")
+    functionalTestImplementation("commons-io:commons-io:2.11.0")
 }
 
 gradlePlugin {
