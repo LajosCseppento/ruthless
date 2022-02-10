@@ -12,12 +12,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Slf4j
 public class ItemRepository {
-  private Set<Item> items;
+  private final Set<Item> items = Sets.newConcurrentHashSet();
 
   @PostConstruct
   private void init() {
     log.info("Initialising item repository");
-    items = Sets.newConcurrentHashSet();
   }
 
   public void add(@NonNull Item item) {

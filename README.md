@@ -101,4 +101,4 @@ cd ruthless-demo
    4. Inspect contents
    5. Release 
 3. Publish to Gradle Plugin Portal using `./gradlew publishPlugins`
-4. Bump version & upgrade to recently released version
+4. Bump version & upgrade to recently released version (both `ruthless` and `ruthless-demo`)
