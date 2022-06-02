@@ -149,7 +149,7 @@ publishing.publications.withType<MavenPublication> {
             developer {
                 id.set("LajosCseppento")
                 name.set("Lajos Cseppentő")
-                this.url.set("https://www.lajoscseppento.dev")
+                url.set("https://www.lajoscseppento.dev")
             }
         }
 
