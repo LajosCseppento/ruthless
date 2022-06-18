@@ -79,16 +79,23 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
   protected final void declareDependencies(
       String configurationName, List<GroupIdArtifactId> dependenciesToDeclare) {
     for (GroupIdArtifactId dependency : dependenciesToDeclare) {
-      logger.info("[ruthless] Declaring dependency {} on {}", dependency, configurationName);
-      dependencies.add(configurationName, dependency.toDependencyNotation());
+      String dep = dependency.toDependencyNotation();
+      logger.info(
+          "[ruthless] Declaring dependency {} on {} of {}", dep, configurationName, project);
+      dependencies.add(configurationName, dep);
     }
   }
 
   protected final void declarePlatformDependencies(
       String configurationName, List<GroupIdArtifactId> platformDependenciesToDeclare) {
     for (GroupIdArtifactId dependency : platformDependenciesToDeclare) {
-      logger.info("[ruthless] Declaring platform dependency {} on {}", dependency, configurationName);
-      dependencies.add(configurationName, dependencies.platform(dependency.toDependencyNotation()));
+      String dep = dependency.toDependencyNotation();
+      logger.info(
+          "[ruthless] Declaring platform dependency {} on {} of {}",
+          dep,
+          configurationName,
+          project);
+      dependencies.add(configurationName, dependencies.platform(dep));
     }
   }
 }
