@@ -79,6 +79,7 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
   protected final void declareDependencies(
       String configurationName, List<GroupIdArtifactId> dependenciesToDeclare) {
     for (GroupIdArtifactId dependency : dependenciesToDeclare) {
+      logger.info("Declaring dependency {} on {}", dependency, configurationName);
       dependencies.add(configurationName, dependency.toDependencyNotation());
     }
   }
@@ -86,6 +87,7 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
   protected final void declarePlatformDependencies(
       String configurationName, List<GroupIdArtifactId> platformDependenciesToDeclare) {
     for (GroupIdArtifactId dependency : platformDependenciesToDeclare) {
+      logger.info("Declaring platform dependency {} on {}", dependency, configurationName);
       dependencies.add(configurationName, dependencies.platform(dependency.toDependencyNotation()));
     }
   }
