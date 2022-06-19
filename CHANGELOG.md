@@ -12,6 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Mockito BOM 4.6.1
 - Add `mockito-core` and `mockito-junit-jupiter` as default test dependencies
 
+### Changed
+
+- Upgrade AssertJ from `3.22.0` to `3.23.1`
+- Upgrade Guava from `31.0.1-jre` to `31.1-jre`
+- Upgrade Jackson from `2.13.1` to `2.13.3`
+- Upgrade JaCoCo from `0.8.7` to `0.8.8`
+- Upgrade Lombok from `1.18.22` to `1.18.24`
+- Upgrade Spotless from `6.2.1` to `6.7.2`
+- Upgrade Spring from `2.6.3` to `2.7.0` 
+
 ## [0.3.0] - 2022-02-06
 
 ### Changed
