@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Upgrade to Gradle 7.4.2
 - Upgrade AssertJ from 3.22.0 to 3.23.1
 - Upgrade Guava from 31.0.1-jre to 31.1-jre
 - Upgrade Jackson from 2.13.1 to 2.13.3
