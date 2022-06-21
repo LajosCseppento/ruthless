@@ -2,12 +2,13 @@ package dev.lajoscseppento.ruthless.plugin.impl;
 
 import dev.lajoscseppento.gradle.plugin.common.GradleVersion;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
+import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.initialization.Settings;
 
 public class RuthlessSettingsPlugin implements Plugin<Settings> {
   @Override
-  public void apply(Settings settings) {
+  public void apply(@NonNull Settings settings) {
     GradleVersion.of(settings)
         .requireAtLeast(RuthlessConfiguration.INSTANCE.getMinimumGradleVersion());
 

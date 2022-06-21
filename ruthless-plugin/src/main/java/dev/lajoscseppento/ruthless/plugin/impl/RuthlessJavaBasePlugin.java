@@ -7,6 +7,7 @@ import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfigurati
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -75,7 +76,8 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
         });
   }
 
-  private void resolveDefaultDependency(Configuration configuration, DependencyResolveDetails dep) {
+  private void resolveDefaultDependency(
+      @NonNull Configuration configuration, @NonNull DependencyResolveDetails dep) {
     ModuleVersionSelector requested = dep.getRequested();
 
     if (Utils.isUnspecified(requested.getVersion())) {
@@ -148,7 +150,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
             });
   }
 
-  private void configurePublishingVersionMappingStrategy(VersionMappingStrategy strategy) {
+  private void configurePublishingVersionMappingStrategy(@NonNull VersionMappingStrategy strategy) {
     strategy.allVariants(VariantVersionMappingStrategy::fromResolutionResult);
   }
 
