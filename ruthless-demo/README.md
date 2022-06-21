@@ -3,5 +3,5 @@
 Demo project, also used for testing. For local development use:
 
 ```
-gradlew -c settings-dev.gradle.kts ...
+../gradlew --init-script init-dev.gradle.kts ...
 ```
