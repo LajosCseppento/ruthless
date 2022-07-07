@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add Mockito BOM 4.6.1
 - Add `mockito-core` and `mockito-junit-jupiter` as default test dependencies
+- Add Ruthless Logging with capability to record build output to file
 
 ### Changed
 
