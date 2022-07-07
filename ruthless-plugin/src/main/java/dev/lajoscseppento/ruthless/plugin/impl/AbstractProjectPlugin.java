@@ -1,8 +1,9 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
-import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactId;
 import java.util.Collections;
 import java.util.List;
+import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactId;
+import dev.lajoscseppento.ruthless.plugin.logging.impl.RuthlessLogger;
 import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -10,7 +11,6 @@ import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.invocation.Gradle;
-import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.JavaPluginExtension;
 import org.gradle.api.tasks.SourceSetContainer;
@@ -28,7 +28,7 @@ import org.gradle.plugin.devel.GradlePluginDevelopmentExtension;
  */
 public abstract class AbstractProjectPlugin implements Plugin<Project> {
   protected Project project;
-  protected Logger logger;
+  protected RuthlessLogger logger;
 
   protected ConfigurationContainer configurations;
   protected DependencyHandler dependencies;
@@ -44,13 +44,13 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
   @Override
   public final void apply(@NonNull Project project) {
     this.project = project;
-    logger = project.getLogger();
+    logger = RuthlessLogger.create(project.getLogger(), "ruthless");
 
     for (Class<?> requiredPlugin : requiredPlugins()) {
       project.getPluginManager().apply(requiredPlugin);
     }
 
-    logger.info("[ruthless] Applying {} to {}", getClass().getSimpleName(), project);
+    logger.info("Applying {} to {}", getClass().getSimpleName(), project);
 
     configurations = project.getConfigurations();
     dependencies = project.getDependencies();
@@ -66,7 +66,9 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
     apply();
   }
 
-  /** @return list of plugins which should be applied before executing this plugin's logic */
+  /**
+   * @return list of plugins which should be applied before executing this plugin's logic
+   */
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
     return Collections.emptyList();
   }
@@ -80,8 +82,7 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
       String configurationName, List<GroupIdArtifactId> dependenciesToDeclare) {
     for (GroupIdArtifactId dependency : dependenciesToDeclare) {
       String dep = dependency.toDependencyNotation();
-      logger.info(
-          "[ruthless] Declaring dependency {} on {} of {}", dep, configurationName, project);
+      logger.info("Declaring dependency {} on {} of {}", dep, configurationName, project);
       dependencies.add(configurationName, dep);
     }
   }
@@ -90,11 +91,7 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
       String configurationName, List<GroupIdArtifactId> platformDependenciesToDeclare) {
     for (GroupIdArtifactId dependency : platformDependenciesToDeclare) {
       String dep = dependency.toDependencyNotation();
-      logger.info(
-          "[ruthless] Declaring platform dependency {} on {} of {}",
-          dep,
-          configurationName,
-          project);
+      logger.info("Declaring platform dependency {} on {} of {}", dep, configurationName, project);
       dependencies.add(configurationName, dependencies.platform(dep));
     }
   }

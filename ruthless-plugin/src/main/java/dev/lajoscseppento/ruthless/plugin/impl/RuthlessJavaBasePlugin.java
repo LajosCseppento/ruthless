@@ -90,7 +90,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
       if (defaultVersionOpt.isPresent()) {
         String defaultVersion = defaultVersionOpt.get();
         logger.info(
-            "[ruthless] Defaulting {}:{} to {} on {}",
+            "Defaulting {}:{} to {} on {}",
             requested.getGroup(),
             requested.getName(),
             defaultVersion,
