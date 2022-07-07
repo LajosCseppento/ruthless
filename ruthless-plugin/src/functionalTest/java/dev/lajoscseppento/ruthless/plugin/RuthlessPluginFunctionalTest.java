@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import lombok.NonNull;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.gradle.testkit.runner.BuildResult;
@@ -24,7 +25,7 @@ class RuthlessPluginFunctionalTest {
         demoDir.toFile(), projectDir.toFile(), RuthlessPluginFunctionalTest::shouldCopy, false);
   }
 
-  private static boolean shouldCopy(File file) {
+  private static boolean shouldCopy(@NonNull File file) {
     return file.isDirectory()
         || FilenameUtils.isExtension(file.getName(), "factories", "java", "kts", "properties");
   }

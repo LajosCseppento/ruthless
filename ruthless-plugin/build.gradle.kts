@@ -34,7 +34,11 @@ dependencies {
 
     implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.1.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    // TODO Ruthless.lombok() should do this too
+    functionalTestCompileOnly("org.projectlombok:lombok")
+    functionalTestAnnotationProcessor("org.projectlombok:lombok")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
+    functionalTestImplementation("io.github.java-diff-utils:java-diff-utils:4.11")
 }
 
 gradlePlugin {
