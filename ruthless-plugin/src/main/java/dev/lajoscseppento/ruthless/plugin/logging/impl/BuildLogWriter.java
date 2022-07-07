@@ -29,8 +29,7 @@ class BuildLogWriter {
   public static final int BACKGROUND_TICK_MS = 100;
 
   private final RuthlessLogger logger;
-  @Getter
-  private final Path file;
+  @Getter private final Path file;
   private volatile PrintWriter writer;
 
   private final ScheduledExecutorService closingService;

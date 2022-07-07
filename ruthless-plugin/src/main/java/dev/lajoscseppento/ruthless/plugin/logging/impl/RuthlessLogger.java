@@ -1,7 +1,7 @@
 package dev.lajoscseppento.ruthless.plugin.logging.impl;
 
-import javax.annotation.Nullable;
 import dev.lajoscseppento.ruthless.plugin.util.impl.BooleanSystemProperty;
+import javax.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,9 @@ public class RuthlessLogger {
     // useful for development.
     boolean debug =
         new BooleanSystemProperty("ruthless.logging.logger." + prefix + ".debug", false).get();
-    return debug ? debug : new BooleanSystemProperty("ruthless.logging.logger.*.debug", false).get();
+    return debug
+        ? debug
+        : new BooleanSystemProperty("ruthless.logging.logger.*.debug", false).get();
   }
 
   private void log(LogLevel level, String message) {

@@ -1,9 +1,9 @@
 package dev.lajoscseppento.ruthless.plugin.logging.impl;
 
+import dev.lajoscseppento.ruthless.plugin.util.impl.BooleanSystemProperty;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import dev.lajoscseppento.ruthless.plugin.util.impl.BooleanSystemProperty;
 import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.initialization.Settings;

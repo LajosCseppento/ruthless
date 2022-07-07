@@ -2,6 +2,10 @@ package dev.lajoscseppento.ruthless.plugin.logging;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.AbstractDelta;
+import com.github.difflib.patch.DeleteDelta;
+import com.github.difflib.patch.InsertDelta;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,10 +15,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import com.github.difflib.DiffUtils;
-import com.github.difflib.patch.AbstractDelta;
-import com.github.difflib.patch.DeleteDelta;
-import com.github.difflib.patch.InsertDelta;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;

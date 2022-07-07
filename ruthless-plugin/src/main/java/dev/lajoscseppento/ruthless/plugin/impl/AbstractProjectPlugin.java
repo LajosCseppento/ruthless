@@ -1,9 +1,9 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
-import java.util.Collections;
-import java.util.List;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactId;
 import dev.lajoscseppento.ruthless.plugin.logging.impl.RuthlessLogger;
+import java.util.Collections;
+import java.util.List;
 import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -66,9 +66,7 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
     apply();
   }
 
-  /**
-   * @return list of plugins which should be applied before executing this plugin's logic
-   */
+  /** @return list of plugins which should be applied before executing this plugin's logic */
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
     return Collections.emptyList();
   }
