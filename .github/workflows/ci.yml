@@ -30,7 +30,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          arguments: build sonarqube
+          arguments: --scan build sonarqube
       - name: Publish to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
