@@ -23,6 +23,7 @@ jobs:
       - name: Compile
         uses: burrunan/gradle-cache-action@v1
         with:
+          job-id: jdk11
           arguments: --scan assemble spotlessCheck
       - name: QA
         uses: burrunan/gradle-cache-action@v1
@@ -30,10 +31,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
+          job-id: jdk11
           arguments: --scan build sonarqube
       - name: Publish to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
+          job-id: jdk11
           arguments: publishToMavenLocal
       - name: Build Demo
         run: ./gradlew --scan --info --no-build-cache --no-daemon --project-dir ruthless-demo --init-script init-dev.gradle.kts clean build
