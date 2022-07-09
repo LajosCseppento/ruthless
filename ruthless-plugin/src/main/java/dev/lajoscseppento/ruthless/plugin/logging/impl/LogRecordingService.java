@@ -10,6 +10,7 @@ import org.gradle.api.Task;
 import org.gradle.api.execution.TaskExecutionAdapter;
 import org.gradle.api.execution.TaskExecutionListener;
 import org.gradle.api.initialization.Settings;
+import org.gradle.api.internal.DocumentationRegistry;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.LogLevel;
@@ -94,6 +95,7 @@ public abstract class LogRecordingService
             };
 
         addListeners();
+        writeSecurityWarningIfDebug();
         logger.quiet(
             "Started log recording at {}, target: {}",
             ZonedDateTime.now().withNano(0),
@@ -181,15 +183,31 @@ public abstract class LogRecordingService
       logger.debug("Stopping {}", getClass().getSimpleName());
 
       if (buildLogWriter != null) {
-        try {
-          // Might be used later
-          buildLogWriter.closing();
-        } catch (Exception ex) {
-          handleException("Failed to close build log writer", ex);
-        }
+        // Might be used later
+        buildLogWriter.closing();
       }
 
       logger.debug("Stopped {}", getClass().getSimpleName());
+    }
+  }
+
+  private void writeSecurityWarningIfDebug() {
+    if (loggerContext.getLevel() == LogLevel.DEBUG) {
+      // See org.gradle.launcher.cli.DebugLoggerWarningAction.WARNING_MESSAGE_BODY
+      buildLogWriter.println();
+      buildLogWriter.println();
+      buildLogWriter.println(
+          "#############################################################################");
+      buildLogWriter.println(
+          "   WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING");
+      buildLogWriter.println();
+      buildLogWriter.println("   Debug level logging will leak security sensitive information!");
+      buildLogWriter.println();
+      buildLogWriter.printf(
+          "   %s%n",
+          new DocumentationRegistry().getDocumentationFor("logging", "sec:debug_security"));
+      buildLogWriter.println(
+          "#############################################################################");
     }
   }
 
@@ -271,6 +289,8 @@ public abstract class LogRecordingService
           "%S %s%n", buildResult.getAction(), failure == null ? "SUCCESSFUL" : "FAILED");
 
       // Gradle shows task statistics, but we ignore them from the file
+
+      writeSecurityWarningIfDebug();
 
       // Will not be used anymore
       buildLogWriter.closeNowIfOpen();

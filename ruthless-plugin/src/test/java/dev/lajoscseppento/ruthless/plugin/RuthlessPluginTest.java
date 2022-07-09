@@ -45,6 +45,7 @@ class RuthlessPluginTest {
   // - https://github.com/gradle/gradle/issues/16774
   //
   // Workaround from https://issuetracker.google.com/issues/193859160#comment2
+  @SuppressWarnings("unchecked")
   private static void addFakeService(Project project) {
     try {
       ProjectScopeServices gss = (ProjectScopeServices) ((DefaultProject) project).getServices();
@@ -55,7 +56,7 @@ class RuthlessPluginTest {
       Class<?> enumClass = Class.forName(DefaultServiceRegistry.class.getName() + "$State");
       stateValue.set(enumClass.getEnumConstants()[0]);
 
-      // add service and set state so that future mutations are not allowed
+      // Add service and set state so that future mutations are not allowed
       gss.add(BuildEventsListenerRegistry.class, new FakeBuildEventsListenerRegistry());
       stateValue.set(enumClass.getEnumConstants()[1]);
     } catch (Throwable e) {

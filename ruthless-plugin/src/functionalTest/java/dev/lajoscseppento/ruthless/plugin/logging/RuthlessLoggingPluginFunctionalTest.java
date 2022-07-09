@@ -7,10 +7,10 @@ import com.github.difflib.patch.AbstractDelta;
 import com.github.difflib.patch.DeleteDelta;
 import com.github.difflib.patch.InsertDelta;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -30,7 +30,7 @@ class RuthlessLoggingPluginFunctionalTest {
   @TempDir Path projectDir;
 
   @BeforeEach
-  void setUp() throws IOException {
+  void setUp() throws Exception {
     Path demoDir = Paths.get("../ruthless-demo").toAbsolutePath().normalize();
     FileUtils.copyDirectory(
         demoDir.toFile(),
@@ -96,11 +96,6 @@ class RuthlessLoggingPluginFunctionalTest {
     testFailure("--info", "fail");
   }
 
-  @Test
-  void testFailWithDebug() throws Exception {
-    testFailure("--debug", "fail");
-  }
-
   private void test(@NonNull String... arguments) throws Exception {
     test(false, arguments);
   }
@@ -111,6 +106,7 @@ class RuthlessLoggingPluginFunctionalTest {
 
   private void test(boolean expectedToFail, @NonNull String... arguments) throws Exception {
     // Given
+    boolean debug = Arrays.asList(arguments).contains("--debug");
     GradleRunner runner = createRunner(arguments);
 
     // When
@@ -120,12 +116,15 @@ class RuthlessLoggingPluginFunctionalTest {
     String buildOutput = result.getOutput();
     String buildLog = Files.readString(projectDir.resolve("build.log"));
 
-    List<String> buildOutputLines =
-        buildOutput.lines().filter(new FilterBeforeRecording()).collect(Collectors.toList());
-    List<String> buildLogLines =
-        buildLog.lines().filter(new FilterBeforeRecording()).collect(Collectors.toList());
+    List<String> filteredBuildOutputLines =
+        buildOutput.lines().filter(new FilterBeforeRecording(debug)).collect(Collectors.toList());
+    List<String> buildLogLines = buildLog.lines().collect(Collectors.toList());
+    List<String> filteredBuildLogLines =
+        buildLogLines.stream()
+            .filter(new FilterBeforeRecording(debug))
+            .collect(Collectors.toList());
 
-    List<AbstractDelta<String>> deltas = diff(buildOutputLines, buildLogLines);
+    List<AbstractDelta<String>> deltas = diff(filteredBuildOutputLines, filteredBuildLogLines);
 
     if (!deltas.isEmpty()) {
       SoftAssertions softly = new SoftAssertions();
@@ -136,6 +135,11 @@ class RuthlessLoggingPluginFunctionalTest {
       // Just to show both the output and the recorded log for troubleshooting purposes
       softly.assertThat(buildOutput).isEqualToNormalizingNewlines(buildLog);
       softly.assertAll();
+    }
+
+    if (debug) {
+      assertThat(buildLogLines)
+          .contains("   Debug level logging will leak security sensitive information!");
     }
   }
 
@@ -223,13 +227,19 @@ class RuthlessLoggingPluginFunctionalTest {
     return true;
   }
 
+  @RequiredArgsConstructor
   private static class FilterBeforeRecording implements Predicate<String> {
+    private final boolean debug;
     private boolean keep = false;
 
     @Override
     public boolean test(String line) {
       if (line.contains("[ruthless-logging] Started log recording at")) {
         keep = true;
+      }
+
+      if (debug && line.contains("Stopping build output recording")) {
+        keep = false;
       }
 
       return keep;

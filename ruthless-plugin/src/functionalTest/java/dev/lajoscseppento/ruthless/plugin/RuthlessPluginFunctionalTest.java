@@ -3,7 +3,6 @@ package dev.lajoscseppento.ruthless.plugin;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import lombok.NonNull;
@@ -19,7 +18,7 @@ class RuthlessPluginFunctionalTest {
   @TempDir Path projectDir;
 
   @BeforeEach
-  void setUp() throws IOException {
+  void setUp() throws Exception {
     Path demoDir = Paths.get("../ruthless-demo").toAbsolutePath().normalize();
     FileUtils.copyDirectory(
         demoDir.toFile(), projectDir.toFile(), RuthlessPluginFunctionalTest::shouldCopy, false);
