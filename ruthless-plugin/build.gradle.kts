@@ -16,6 +16,10 @@ plugins {
 ruthless.lombok()
 
 java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+
     withJavadocJar()
     withSourcesJar()
 }
@@ -23,6 +27,7 @@ java {
 dependencies {
     val yamlString = project.file("src/main/resources/configuration.yml").readText()
     val yaml: Map<String, Any> = Yaml().load(yamlString)
+    @Suppress("UNCHECKED_CAST")
     val gradlePlugins = yaml["gradlePlugins"] as List<Map<String, String>>
 
     for (gradlePlugin in gradlePlugins) {
@@ -32,7 +37,7 @@ dependencies {
         implementation(gav)
     }
 
-    implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.1.1")
+    implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.1.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
 }
@@ -172,6 +177,7 @@ signing {
 
 sonarqube {
     properties {
+        @Suppress("UNCHECKED_CAST")
         val orig = properties["sonar.tests"] as MutableList<Any>
         properties["sonar.tests"] = orig + sourceSets.functionalTest.get().allSource.srcDirs.filter { it.exists() }
     }
