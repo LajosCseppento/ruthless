@@ -12,10 +12,16 @@ import org.gradle.internal.service.DefaultServiceRegistry;
 import org.gradle.internal.service.scopes.ProjectScopeServices;
 import org.gradle.testfixtures.ProjectBuilder;
 import org.gradle.tooling.events.OperationCompletionListener;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class RuthlessPluginTest {
+  @BeforeEach
+  void setUp() {
+    System.setProperty("ruthless.java.languageVersion", "8");
+  }
+
   @ParameterizedTest
   @ValueSource(
       strings = {
