@@ -36,7 +36,7 @@ class RuthlessPluginFunctionalTest {
         GradleRunner.create()
             .forwardOutput()
             .withPluginClasspath()
-            .withArguments("build")
+            .withArguments("build", "--scan", "--no-build-cache")
             .withProjectDir(projectDir.toFile());
 
     // When
