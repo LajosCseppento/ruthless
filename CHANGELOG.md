@@ -9,9 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Obligatory `ruthless.java.languageVersion` system property, which configures Java toolchain language version
+- Java 8 compatibility
 - Add Mockito BOM 4.6.1
 - Add `mockito-core` and `mockito-junit-jupiter` as default test dependencies
-- Java 8 compatibility
 
 ### Changed
 
