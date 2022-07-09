@@ -23,20 +23,20 @@ jobs:
       - name: Compile
         uses: burrunan/gradle-cache-action@v1
         with:
-          arguments: assemble spotlessCheck
+          arguments: --scan assemble spotlessCheck
       - name: QA
         uses: burrunan/gradle-cache-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          arguments: build sonarqube
+          arguments: --scan build sonarqube
       - name: Publish to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
           arguments: publishToMavenLocal
       - name: Build Demo
-        run: ./gradlew --no-build-cache --no-daemon --project-dir ruthless-demo --init-script init-dev.gradle.kts clean build
+        run: ./gradlew --scan --info --no-build-cache --no-daemon --project-dir ruthless-demo --init-script init-dev.gradle.kts clean build
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
