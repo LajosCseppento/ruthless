@@ -41,7 +41,6 @@ public class TestUtils {
       stateValue.set(enumClass.getEnumConstants()[0]);
 
       // Add service and set state so that future mutations are not allowed
-
       gss.add(BuildEventsListenerRegistry.class, new FakeBuildEventsListenerRegistry());
       stateValue.set(enumClass.getEnumConstants()[1]);
     } catch (Throwable e) {
