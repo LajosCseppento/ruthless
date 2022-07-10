@@ -44,6 +44,9 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
     repositories.add(repositories.mavenCentral());
 
     configureToolchain();
+    java.withJavadocJar();
+    java.withSourcesJar();
+
     configureBoms();
     configureDefaultDependencyResolution();
     configureTest();
