@@ -67,7 +67,9 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
   }
 
   /**
-   * @return list of plugins which should be applied before executing this plugin's logic
+   * Returns the list of plugins which should be applied before executing this plugin's logic.
+   *
+   * @return the list of plugins which should be applied before executing this plugin's logic
    */
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
     return Collections.emptyList();
