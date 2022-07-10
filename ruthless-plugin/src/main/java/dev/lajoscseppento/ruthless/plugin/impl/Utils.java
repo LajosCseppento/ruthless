@@ -12,7 +12,7 @@ class Utils {
       return true;
     } else {
       String valueStr = value.toString().trim();
-      return valueStr.isEmpty() || UNSPECIFIED.equals(value.toString());
+      return valueStr.isEmpty() || UNSPECIFIED.equals(valueStr);
     }
   }
 }
