@@ -59,9 +59,9 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
   }
 
   private JavaLanguageVersion parseJavaLanguageVersion() {
-    String version = System.getProperty(JAVA_LANGUAGE_VERSION_PROPERTY_NAME);
+    String version = System.getProperty(JAVA_LANGUAGE_VERSION_PROPERTY_NAME, "").trim();
 
-    if (version == null || version.isEmpty()) {
+    if (version.isEmpty()) {
       throw new GradleException(
           "Missing Java toolchain language version, please set the "
               + JAVA_LANGUAGE_VERSION_PROPERTY_NAME
