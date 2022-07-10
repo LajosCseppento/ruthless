@@ -15,15 +15,6 @@ plugins {
 
 ruthless.lombok()
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-
-    withJavadocJar()
-    withSourcesJar()
-}
-
 dependencies {
     val yamlString = project.file("src/main/resources/configuration.yml").readText()
     val yaml: Map<String, Any> = Yaml().load(yamlString)
