@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import lombok.NonNull;
+import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -30,6 +31,8 @@ import org.gradle.testing.jacoco.tasks.JacocoReport;
 
 public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
 
+  private static final String JAVA_LANGUAGE_VERSION_PROPERTY_NAME = "ruthless.java.languageVersion";
+
   @Override
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
     return Arrays.asList(
@@ -40,7 +43,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
   public void apply() {
     repositories.add(repositories.mavenCentral());
 
-    java.getToolchain().getLanguageVersion().set(JavaLanguageVersion.of(11));
+    configureToolchain();
     java.withJavadocJar();
     java.withSourcesJar();
 
@@ -49,6 +52,30 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
     configureTest();
     configurePublishing();
     configureSpotless();
+  }
+
+  private void configureToolchain() {
+    JavaLanguageVersion version = parseJavaLanguageVersion();
+
+    logger.info("[ruthless] Setting Java toolchain language version to {} on {}", version, project);
+    java.getToolchain().getLanguageVersion().set(version);
+  }
+
+  private JavaLanguageVersion parseJavaLanguageVersion() {
+    String version = System.getProperty(JAVA_LANGUAGE_VERSION_PROPERTY_NAME, "").trim();
+
+    if (version.isEmpty()) {
+      throw new GradleException(
+          "Missing Java toolchain language version, please set the "
+              + JAVA_LANGUAGE_VERSION_PROPERTY_NAME
+              + " system property");
+    }
+
+    try {
+      return JavaLanguageVersion.of(version);
+    } catch (Exception ex) {
+      throw new GradleException("Not recognised Java language version: " + version, ex);
+    }
   }
 
   private void configureDefaultDependencyResolution() {
