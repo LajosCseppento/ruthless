@@ -57,7 +57,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
   private void configureToolchain() {
     JavaLanguageVersion version = parseJavaLanguageVersion();
 
-    logger.info("[ruthless] Setting Java toolchain language version to {} on {}", version, project);
+    logger.info("Setting Java toolchain language version to {} on {}", version, project);
     java.getToolchain().getLanguageVersion().set(version);
   }
 
