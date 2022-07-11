@@ -3,49 +3,65 @@ on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
   build:
-    name: Build
+    name: Build on JDK ${{ matrix.jdk-version }}
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk-version: [ '8', '11', '17' ]
+    # Avoid duplicated CI runs for internal PRs
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - name: Set up JDK ${{ matrix.jdk-version }}
+        uses: actions/setup-java@v3
         with:
-          java-version: 11
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
+          distribution: 'temurin'
+          java-version: ${{ matrix.jdk-version }}
+          check-latest: true
+          cache: 'gradle'
+      - name: Cache SonarCloud packages (JDK 11 only)
+        if: ${{ matrix.jdk-version == 11 }}
+        uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Compile
+          key: ${{ runner.os }}-jdk${{ matrix.jdk-version }}-sonar
+          restore-keys: ${{ runner.os }}-jdk${{ matrix.jdk-version }}-sonar
+      - name: Build
         uses: burrunan/gradle-cache-action@v1
         with:
-          arguments: assemble spotlessCheck
-      - name: QA
+          job-id: jdk-${{ matrix.jdk-version }}
+          arguments: --scan build
+      - name: Sonar (JDK 11 only)
+        if: ${{ matrix.jdk-version == 11 }}
         uses: burrunan/gradle-cache-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          arguments: --scan build sonarqube
+          job-id: jdk-${{ matrix.jdk-version }}
+          arguments: --scan sonarqube
       - name: Publish to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
+          job-id: jdk11
           arguments: publishToMavenLocal
       - name: Build Demo
-        run: ./gradlew --no-build-cache --no-daemon --scan --project-dir ruthless-demo --init-script init-dev.gradle.kts clean build
+        run: ./gradlew --scan --info --no-build-cache --no-daemon --project-dir ruthless-demo --init-script init-dev.gradle.kts clean build
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          check_name: Test Results
+          check_name: Test Results on JDK ${{ matrix.jdk-version }}
           files: '**/build/test-results/**/*.xml'
   validation:
     name: Validate Gradle Wrapper
     runs-on: ubuntu-20.04
+    # Avoid duplicated CI runs for internal PRs
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: gradle/wrapper-validation-action@v1

@@ -8,6 +8,11 @@ class Utils {
   private final String UNSPECIFIED = "unspecified";
 
   boolean isUnspecified(Object value) {
-    return value == null || value.toString().isBlank() || UNSPECIFIED.equals(value.toString());
+    if (value == null) {
+      return true;
+    } else {
+      String valueStr = value.toString().trim();
+      return valueStr.isEmpty() || UNSPECIFIED.equals(valueStr);
+    }
   }
 }

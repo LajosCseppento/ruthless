@@ -23,7 +23,7 @@ import org.gradle.plugin.devel.GradlePluginDevelopmentExtension;
  * <p>Note that some fields might be null during runtime if the plugin which declares it is not
  * applied.
  *
- * <p>Note that fields are populated before {@link #apply()} is called and they are not updated
+ * <p>Note that fields are populated before {@link #apply()} is called, and they are not updated
  * later.
  */
 public abstract class AbstractProjectPlugin implements Plugin<Project> {
@@ -66,7 +66,11 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
     apply();
   }
 
-  /** @return list of plugins which should be applied before executing this plugin's logic */
+  /**
+   * Returns the list of plugins which should be applied before executing this plugin's logic.
+   *
+   * @return the list of plugins which should be applied before executing this plugin's logic
+   */
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
     return Collections.emptyList();
   }
