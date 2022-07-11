@@ -1,15 +1,13 @@
 package dev.lajoscseppento.ruthless.plugin.logging.impl;
 
+import dev.lajoscseppento.ruthless.plugin.impl.Utils;
 import dev.lajoscseppento.ruthless.plugin.util.impl.BooleanSystemProperty;
 import javax.annotation.Nullable;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.gradle.api.logging.LogLevel;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 
-// TODO use this from other Ruthless classes
 /**
  * Wrapper for Gradle {@link Logger}.
  *
@@ -19,16 +17,21 @@ import org.gradle.api.logging.Logging;
  *       debug</code> flag, per logger.
  * </ul>
  */
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class RuthlessLogger {
   private static final String MSG_ONE_PREFIX = "[{}] {}";
   private static final String MSG_TWO_PREFIXES = "[{}] [{}] {}";
   private static final String FMT_ONE_PREFIX = "[{}] ";
   private static final String FMT_TWO_PREFIXES = "[{}] [{}] ";
 
-  @NonNull private final Logger delegate;
+  private final Logger delegate;
   @Nullable private final String prefix;
   private final boolean debug;
+
+  private RuthlessLogger(@NonNull Logger delegate, String prefix, boolean debug) {
+    this.delegate = delegate;
+    this.prefix = Utils.trimToNull(prefix);
+    this.debug = debug;
+  }
 
   public static RuthlessLogger create(@NonNull Class<?> cls) {
     return create(cls, null);
@@ -107,7 +110,7 @@ public class RuthlessLogger {
   }
 
   private boolean hasPrefix() {
-    return prefix != null && !prefix.isBlank();
+    return prefix != null;
   }
 
   private boolean shouldElevate(LogLevel level) {

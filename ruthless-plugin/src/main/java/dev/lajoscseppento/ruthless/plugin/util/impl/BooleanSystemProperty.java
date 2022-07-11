@@ -1,11 +1,17 @@
 package dev.lajoscseppento.ruthless.plugin.util.impl;
 
+import java.util.function.Supplier;
 import lombok.NonNull;
 
 public class BooleanSystemProperty extends SystemProperty<Boolean> {
 
   public BooleanSystemProperty(@NonNull String key, boolean defaultValue) {
     super(key, defaultValue);
+  }
+
+  public BooleanSystemProperty(
+      @NonNull String key, @NonNull Supplier<Boolean> defaultValueSupplier) {
+    super(key, defaultValueSupplier);
   }
 
   public boolean get() {

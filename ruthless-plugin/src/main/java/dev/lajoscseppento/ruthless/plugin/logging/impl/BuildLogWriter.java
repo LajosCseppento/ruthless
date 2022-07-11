@@ -1,6 +1,7 @@
 package dev.lajoscseppento.ruthless.plugin.logging.impl;
 
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -58,7 +59,9 @@ class BuildLogWriter {
         try {
           writer =
               new PrintWriter(
-                  new FileOutputStream(file.toFile(), append), false, StandardCharsets.UTF_8);
+                  new OutputStreamWriter(
+                      new FileOutputStream(file.toFile(), append), StandardCharsets.UTF_8),
+                  false);
           lastActivityAt = System.currentTimeMillis();
         } catch (Exception ex) {
           String msg = String.format("Failed to create writer for %s: %s", file, ex.getMessage());

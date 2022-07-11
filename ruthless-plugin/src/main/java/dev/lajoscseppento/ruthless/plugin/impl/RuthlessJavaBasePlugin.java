@@ -4,6 +4,7 @@ import com.diffplug.gradle.spotless.SpotlessExtension;
 import com.diffplug.gradle.spotless.SpotlessPlugin;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactIdVersion;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
+import dev.lajoscseppento.ruthless.plugin.util.impl.ObjectSystemProperty;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,24 @@ import org.gradle.testing.jacoco.tasks.JacocoReport;
 public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
 
   private static final String JAVA_LANGUAGE_VERSION_PROPERTY_NAME = "ruthless.java.languageVersion";
+  private static final ObjectSystemProperty<JavaLanguageVersion> JAVA_LANGUAGE_VERSION =
+      new ObjectSystemProperty<JavaLanguageVersion>(
+          JAVA_LANGUAGE_VERSION_PROPERTY_NAME,
+          () -> {
+            throw new GradleException(
+                "Missing Java toolchain language version, please set the "
+                    + JAVA_LANGUAGE_VERSION_PROPERTY_NAME
+                    + " system property");
+          }) {
+        @Override
+        protected JavaLanguageVersion parse(@NonNull String value) {
+          try {
+            return JavaLanguageVersion.of(value);
+          } catch (Exception ex) {
+            throw new GradleException("Not recognised Java language version: " + value, ex);
+          }
+        }
+      };
 
   @Override
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
@@ -55,27 +74,10 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
   }
 
   private void configureToolchain() {
-    JavaLanguageVersion version = parseJavaLanguageVersion();
+    JavaLanguageVersion version = JAVA_LANGUAGE_VERSION.get();
 
     logger.info("Setting Java toolchain language version to {} on {}", version, project);
     java.getToolchain().getLanguageVersion().set(version);
-  }
-
-  private JavaLanguageVersion parseJavaLanguageVersion() {
-    String version = System.getProperty(JAVA_LANGUAGE_VERSION_PROPERTY_NAME, "").trim();
-
-    if (version.isEmpty()) {
-      throw new GradleException(
-          "Missing Java toolchain language version, please set the "
-              + JAVA_LANGUAGE_VERSION_PROPERTY_NAME
-              + " system property");
-    }
-
-    try {
-      return JavaLanguageVersion.of(version);
-    } catch (Exception ex) {
-      throw new GradleException("Not recognised Java language version: " + version, ex);
-    }
   }
 
   private void configureDefaultDependencyResolution() {
