@@ -7,6 +7,7 @@ import com.github.difflib.patch.AbstractDelta;
 import com.github.difflib.patch.DeleteDelta;
 import com.github.difflib.patch.InsertDelta;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -114,11 +115,14 @@ class RuthlessLoggingPluginFunctionalTest {
 
     // Then
     String buildOutput = result.getOutput();
-    String buildLog = Files.readString(projectDir.resolve("build.log"));
+    String buildLog =
+        new String(Files.readAllBytes(projectDir.resolve("build.log")), StandardCharsets.UTF_8);
 
     List<String> filteredBuildOutputLines =
-        buildOutput.lines().filter(new FilterBeforeRecording(debug)).collect(Collectors.toList());
-    List<String> buildLogLines = buildLog.lines().collect(Collectors.toList());
+        Arrays.stream(buildOutput.split("\r?\n", -1))
+            .filter(new FilterBeforeRecording(debug))
+            .collect(Collectors.toList());
+    List<String> buildLogLines = Arrays.asList(buildLog.split("\r?\n", -1));
     List<String> filteredBuildLogLines =
         buildLogLines.stream()
             .filter(new FilterBeforeRecording(debug))
