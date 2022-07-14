@@ -2,24 +2,19 @@ package dev.lajoscseppento.ruthless.plugin.logging;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.difflib.DiffUtils;
-import com.github.difflib.patch.AbstractDelta;
-import com.github.difflib.patch.DeleteDelta;
-import com.github.difflib.patch.InsertDelta;
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.AbstractDelta;
+import com.github.difflib.patch.DeleteDelta;
+import com.github.difflib.patch.InsertDelta;
+import dev.lajoscseppento.ruthless.plugin.FunctionalTestUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
@@ -31,42 +26,32 @@ class RuthlessLoggingPluginFunctionalTest {
   @TempDir Path projectDir;
 
   @BeforeEach
-  void setUp() throws Exception {
-    Path demoDir = Paths.get("../ruthless-demo").toAbsolutePath().normalize();
-    FileUtils.copyDirectory(
-        demoDir.toFile(),
-        projectDir.toFile(),
-        RuthlessLoggingPluginFunctionalTest::shouldCopy,
-        false);
-  }
-
-  private static boolean shouldCopy(@NonNull File file) {
-    return file.isDirectory()
-        || FilenameUtils.isExtension(file.getName(), "factories", "java", "kts", "properties");
+  void setUp() {
+    FunctionalTestUtils.copyDemoProject(projectDir);
   }
 
   @Test
-  void testAssembleLog() throws Exception {
+  void testAssembleLog() {
     test("assemble", "log");
   }
 
   @Test
-  void testNoBuildCacheCleanAssembleLog() throws Exception {
+  void testNoBuildCacheCleanAssembleLog() {
     test("--no-build-cache", "clean", "assemble", "log");
   }
 
   @Test
-  void testLogWithRuthlessAllLoggerDebug() throws Exception {
+  void testLogWithRuthlessAllLoggerDebug() {
     test("--system-prop", "ruthless.logging.logger.*.debug=true", "log");
   }
 
   @Test
-  void testLogWithRuthlessLoggingLoggerDebug() throws Exception {
+  void testLogWithRuthlessLoggingLoggerDebug() {
     test("--system-prop", "ruthless.logging.logger.ruthless-logging.debug=true", "log");
   }
 
   @Test
-  void testRuthlessLoggingDisabled() throws Exception {
+  void testRuthlessLoggingDisabled() {
     // Given
     GradleRunner runner = createRunner("--system-prop", "ruthless.logging.enabled=false", "log");
 
@@ -78,34 +63,34 @@ class RuthlessLoggingPluginFunctionalTest {
   }
 
   @Test
-  void testLogWithInfo() throws Exception {
+  void testLogWithInfo() {
     test("--info", "log");
   }
 
   @Test
-  void testLogWithDebug() throws Exception {
+  void testLogWithDebug() {
     test("--debug", "log");
   }
 
   @Test
-  void testFail() throws Exception {
+  void testFail() {
     testFailure("fail");
   }
 
   @Test
-  void testFailWithInfo() throws Exception {
+  void testFailWithInfo() {
     testFailure("--info", "fail");
   }
 
-  private void test(@NonNull String... arguments) throws Exception {
+  private void test(@NonNull String... arguments) {
     test(false, arguments);
   }
 
-  private void testFailure(@NonNull String... arguments) throws Exception {
+  private void testFailure(@NonNull String... arguments) {
     test(true, arguments);
   }
 
-  private void test(boolean expectedToFail, @NonNull String... arguments) throws Exception {
+  private void test(boolean expectedToFail, @NonNull String... arguments) {
     // Given
     boolean debug = Arrays.asList(arguments).contains("--debug");
     GradleRunner runner = createRunner(arguments);
@@ -115,8 +100,7 @@ class RuthlessLoggingPluginFunctionalTest {
 
     // Then
     String buildOutput = result.getOutput();
-    String buildLog =
-        new String(Files.readAllBytes(projectDir.resolve("build.log")), StandardCharsets.UTF_8);
+    String buildLog = FunctionalTestUtils.readString(projectDir.resolve("build.log"));
 
     List<String> filteredBuildOutputLines =
         Arrays.stream(buildOutput.split("\r?\n", -1))
