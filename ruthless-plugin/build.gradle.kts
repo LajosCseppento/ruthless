@@ -1,4 +1,3 @@
-import org.apache.tools.ant.taskdefs.condition.Os
 import org.yaml.snakeyaml.Yaml
 
 buildscript {
@@ -48,26 +47,27 @@ functionalTest.configure {
     finalizedBy(jacocoTestReport)
 
     // See https://github.com/koral--/jacoco-gradle-testkit-plugin/issues/9
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        doLast {
-            val jacocoTestExec = checkNotNull(extensions.getByType(JacocoTaskExtension::class).destinationFile)
-            val intervalMs = 200L
-            val maxRetries = 50
-            var retries = 0
+    doLast {
+        val jacocoTestExec = checkNotNull(extensions.getByType(JacocoTaskExtension::class).destinationFile)
+        val delayMs = 1000L
+        val intervalMs = 200L
+        val maxRetries = 50
+        var retries = 0
 
-            while (!(jacocoTestExec.exists() && jacocoTestExec.renameTo(jacocoTestExec))) {
-                if (retries >= maxRetries) {
-                    val waitTime = intervalMs * retries
-                    throw GradleException("$jacocoTestExec.name is not ready, waited at least $waitTime ms")
-                }
+        TimeUnit.MILLISECONDS.sleep(delayMs) // Linux
 
-                retries++
-                logger.info("Waiting $intervalMs ms for $jacocoTestExec to be ready, try #$retries...")
-                TimeUnit.MILLISECONDS.sleep(intervalMs)
+        while (!(jacocoTestExec.exists() && jacocoTestExec.renameTo(jacocoTestExec))) { // Windows
+            if (retries >= maxRetries) {
+                val waitTime = delayMs + intervalMs * retries
+                throw GradleException("$jacocoTestExec.name is not ready, waited at least $waitTime ms")
             }
 
-            logger.info("$jacocoTestExec is ready")
+            retries++
+            logger.info("Waiting $intervalMs ms for $jacocoTestExec to be ready, try #$retries...")
+            TimeUnit.MILLISECONDS.sleep(intervalMs)
         }
+
+        logger.info("$jacocoTestExec is ready")
     }
 }
 
