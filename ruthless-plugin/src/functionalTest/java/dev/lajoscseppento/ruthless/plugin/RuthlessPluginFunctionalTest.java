@@ -2,11 +2,7 @@ package dev.lajoscseppento.ruthless.plugin;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,15 +13,8 @@ class RuthlessPluginFunctionalTest {
   @TempDir Path projectDir;
 
   @BeforeEach
-  void setUp() throws Exception {
-    Path demoDir = Paths.get("../ruthless-demo").toAbsolutePath().normalize();
-    FileUtils.copyDirectory(
-        demoDir.toFile(), projectDir.toFile(), RuthlessPluginFunctionalTest::shouldCopy, false);
-  }
-
-  private static boolean shouldCopy(File file) {
-    return file.isDirectory()
-        || FilenameUtils.isExtension(file.getName(), "factories", "java", "kts", "properties");
+  void setUp() {
+    FunctionalTestUtils.copyDemoProject(projectDir);
   }
 
   @Test

@@ -9,6 +9,7 @@ buildscript {
 plugins {
     id("com.gradle.plugin-publish") version "0.20.0"
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
+    id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
     `maven-publish`
     signing
 }
@@ -18,6 +19,7 @@ ruthless.lombok()
 dependencies {
     val yamlString = project.file("src/main/resources/configuration.yml").readText()
     val yaml: Map<String, Any> = Yaml().load(yamlString)
+
     @Suppress("UNCHECKED_CAST")
     val gradlePlugins = yaml["gradlePlugins"] as List<Map<String, String>>
 
@@ -32,6 +34,26 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     testImplementation("org.junit-pioneer:junit-pioneer:1.7.1")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
+    // TODO #50 Ruthless.lombok() should do this too
+    functionalTestCompileOnly("org.projectlombok:lombok")
+    functionalTestAnnotationProcessor("org.projectlombok:lombok")
+}
+
+// Set up JaCoCo coverage for Gradle TestKit tests
+val functionalTest = tasks.named("functionalTest")
+val jacocoTestReport = tasks.named("jacocoTestReport")
+
+functionalTest.configure {
+    finalizedBy(jacocoTestReport)
+}
+
+jacocoTestReport.configure {
+    dependsOn(functionalTest)
+    (this as JacocoReport).executionData.from(buildDir.absolutePath + "/jacoco/functionalTest.exec")
+}
+
+jacocoTestKit {
+    applyTo("functionalTestImplementation", functionalTest)
 }
 
 gradlePlugin {
