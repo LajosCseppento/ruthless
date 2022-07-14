@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.condition.Os
 import org.yaml.snakeyaml.Yaml
 
 buildscript {
@@ -45,11 +46,38 @@ val jacocoTestReport = tasks.named("jacocoTestReport")
 
 functionalTest.configure {
     finalizedBy(jacocoTestReport)
+
+    // See https://github.com/koral--/jacoco-gradle-testkit-plugin/issues/9
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        doLast {
+            val jacocoTestExec = checkNotNull(extensions.getByType(JacocoTaskExtension::class).destinationFile)
+            val intervalMs = 200L
+            val maxRetries = 50
+            var retries = 0
+
+            while (!(jacocoTestExec.exists() && jacocoTestExec.renameTo(jacocoTestExec))) {
+                if (retries >= maxRetries) {
+                    val waitTime = intervalMs * retries
+                    throw GradleException("$jacocoTestExec.name was not unlocked, waited at least $waitTime ms")
+                }
+
+                retries++
+                logger.info("Waiting $intervalMs ms for $jacocoTestExec to be ready, try #$retries...")
+                TimeUnit.MILLISECONDS.sleep(intervalMs)
+            }
+
+            logger.info("$jacocoTestExec is ready")
+        }
+    }
 }
 
 jacocoTestReport.configure {
     dependsOn(functionalTest)
     (this as JacocoReport).executionData.from(buildDir.absolutePath + "/jacoco/functionalTest.exec")
+}
+
+tasks.named("compileFunctionalTestJava").configure {
+    dependsOn("generateJacocoFunctionalTestKitProperties")
 }
 
 jacocoTestKit {

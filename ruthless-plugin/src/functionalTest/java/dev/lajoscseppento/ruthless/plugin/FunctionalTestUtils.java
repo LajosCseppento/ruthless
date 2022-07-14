@@ -22,10 +22,10 @@ public class FunctionalTestUtils {
           demoDir.toFile(), targetDirectory.toFile(), FunctionalTestUtils::shouldCopy, false);
 
       // Set up JaCoCo coverage for Gradle TestKit tests
-      String extra;
+      String jacocoTestKitProperties;
       try (InputStream is =
           FunctionalTestUtils.class.getResourceAsStream("/testkit-gradle.properties")) {
-        extra = new Scanner(is).useDelimiter("\\A").next();
+        jacocoTestKitProperties = new Scanner(is).useDelimiter("\\A").next();
       }
 
       Path gradleProperties = targetDirectory.resolve("gradle.properties");
@@ -34,7 +34,7 @@ public class FunctionalTestUtils {
               gradleProperties, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
         writer.append("\n");
         writer.append("# Coverage for Gradle TestKit tests");
-        writer.append(extra);
+        writer.append(jacocoTestKitProperties);
       }
     } catch (Exception ex) {
       throw new RuntimeException("Failed to copy demo project to " + targetDirectory, ex);
