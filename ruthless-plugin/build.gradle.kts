@@ -58,7 +58,7 @@ functionalTest.configure {
             while (!(jacocoTestExec.exists() && jacocoTestExec.renameTo(jacocoTestExec))) {
                 if (retries >= maxRetries) {
                     val waitTime = intervalMs * retries
-                    throw GradleException("$jacocoTestExec.name was not unlocked, waited at least $waitTime ms")
+                    throw GradleException("$jacocoTestExec.name is not ready, waited at least $waitTime ms")
                 }
 
                 retries++
