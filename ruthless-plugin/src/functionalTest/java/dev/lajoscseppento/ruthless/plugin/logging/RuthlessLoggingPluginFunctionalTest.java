@@ -2,17 +2,23 @@ package dev.lajoscseppento.ruthless.plugin.logging;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.difflib.DiffUtils;
-import com.github.difflib.patch.AbstractDelta;
-import com.github.difflib.patch.DeleteDelta;
-import com.github.difflib.patch.InsertDelta;
-import dev.lajoscseppento.ruthless.plugin.FunctionalTestUtils;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.AbstractDelta;
+import com.github.difflib.patch.DeleteDelta;
+import com.github.difflib.patch.InsertDelta;
+import dev.lajoscseppento.ruthless.plugin.FunctionalTestUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.SoftAssertions;
@@ -20,14 +26,19 @@ import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.io.TempDir;
 
 class RuthlessLoggingPluginFunctionalTest {
   @TempDir Path projectDir;
+  private TestInfo testInfo;
+  private Path buildLogFile;
 
   @BeforeEach
-  void setUp() {
+  void setUp(@NonNull TestInfo testInfo) {
     FunctionalTestUtils.copyDemoProject(projectDir);
+    this.testInfo = testInfo;
+    buildLogFile = projectDir.resolve("build.log");
   }
 
   @Test
@@ -59,7 +70,7 @@ class RuthlessLoggingPluginFunctionalTest {
     runner.build();
 
     // Then
-    assertThat(projectDir.resolve("build.log")).doesNotExist();
+    assertThat(buildLogFile).doesNotExist();
   }
 
   @Test
@@ -100,26 +111,32 @@ class RuthlessLoggingPluginFunctionalTest {
 
     // Then
     String buildOutput = result.getOutput();
-    String buildLog = FunctionalTestUtils.readString(projectDir.resolve("build.log"));
+    String buildLog = FunctionalTestUtils.readString(buildLogFile);
 
     List<String> filteredBuildOutputLines =
         Arrays.stream(buildOutput.split("\r?\n", -1))
-            .filter(new FilterBeforeRecording(debug))
+            .filter(new OnlyKeepRecordedSection(debug))
+            .filter(new SkipNoise())
             .collect(Collectors.toList());
     List<String> buildLogLines = Arrays.asList(buildLog.split("\r?\n", -1));
     List<String> filteredBuildLogLines =
         buildLogLines.stream()
-            .filter(new FilterBeforeRecording(debug))
+            .filter(new OnlyKeepRecordedSection(debug))
+            .filter(new SkipNoise())
             .collect(Collectors.toList());
 
     List<AbstractDelta<String>> deltas = diff(filteredBuildOutputLines, filteredBuildLogLines);
 
     if (!deltas.isEmpty()) {
+      Path troubleshootDir =
+          saveOutput(buildOutput, filteredBuildOutputLines, filteredBuildLogLines);
+
       SoftAssertions softly = new SoftAssertions();
       softly.fail("Arguments: " + String.join(" ", arguments));
       softly.fail(
           "Deltas:\n  "
               + deltas.stream().map(Object::toString).collect(Collectors.joining("\n  ")));
+      softly.fail("Output and log copied to " + troubleshootDir);
       // Just to show both the output and the recorded log for troubleshooting purposes
       softly.assertThat(buildOutput).isEqualToNormalizingNewlines(buildLog);
       softly.assertAll();
@@ -129,6 +146,35 @@ class RuthlessLoggingPluginFunctionalTest {
       assertThat(buildLogLines)
           .contains("   Debug level logging will leak security sensitive information!");
     }
+  }
+
+  // Very handy for development and troubleshooting failing tests
+  private Path saveOutput(
+      @NonNull String buildOutput,
+      @NonNull List<String> filteredBuildOutputLines,
+      @NonNull List<String> filteredBuildLogLines) {
+    Path troubleshootDir =
+        Paths.get(
+                String.format(
+                    "build/tmp/functionalTest-output/%s/%s",
+                    getClass().getSimpleName(), testInfo.getDisplayName()))
+            .toAbsolutePath();
+
+    try {
+      Files.createDirectories(troubleshootDir);
+
+      Files.write(
+          troubleshootDir.resolve("build.out"), buildOutput.getBytes(StandardCharsets.UTF_8));
+      Files.write(troubleshootDir.resolve("build.out.filtered"), filteredBuildOutputLines);
+
+      Files.copy(
+          buildLogFile, troubleshootDir.resolve("build.log"), StandardCopyOption.REPLACE_EXISTING);
+      Files.write(troubleshootDir.resolve("build.log.filtered"), filteredBuildLogLines);
+    } catch (IOException ex) {
+      throw new UncheckedIOException(ex);
+    }
+
+    return troubleshootDir;
   }
 
   private GradleRunner createRunner(@NonNull String... arguments) {
@@ -216,7 +262,7 @@ class RuthlessLoggingPluginFunctionalTest {
   }
 
   @RequiredArgsConstructor
-  private static class FilterBeforeRecording implements Predicate<String> {
+  private static class OnlyKeepRecordedSection implements Predicate<String> {
     private final boolean debug;
     private boolean keep = false;
 
@@ -231,6 +277,25 @@ class RuthlessLoggingPluginFunctionalTest {
       }
 
       return keep;
+    }
+  }
+
+  private static class SkipNoise implements Predicate<String> {
+    @Override
+    public boolean test(String line) {
+      if (line.startsWith("VCS Checkout Cache")) {
+        // VCS Checkout Cache (...) removing files not accessed on or after ...
+        // VCS Checkout Cache ...) cleanup deleted 0 files/directories.
+        // VCS Checkout Cache (...) cleaned up in 0.0 secs.
+        return false;
+      } else if (line.startsWith("dependencies-accessors")) {
+        // dependencies-accessors (...) removing files not accessed on or after ...
+        // dependencies-accessors (...) cleanup deleted 0 files/directories.
+        // dependencies-accessors (...) cleaned up in 0.0 secs.
+        return false;
+      } else {
+        return true;
+      }
     }
   }
 
