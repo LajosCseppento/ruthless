@@ -1,5 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
+import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
 import dev.lajoscseppento.ruthless.plugin.RuthlessExtension;
 import org.gradle.api.GradleException;
 

@@ -30,7 +30,7 @@ dependencies {
         implementation(gav)
     }
 
-    implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.1.2")
+    implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.2.0")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     testImplementation("org.junit-pioneer:junit-pioneer:1.7.1")
     functionalTestImplementation("commons-io:commons-io:2.11.0")

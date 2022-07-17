@@ -1,6 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin.logging.impl;
 
-import dev.lajoscseppento.ruthless.plugin.util.impl.BooleanSystemProperty;
+import dev.lajoscseppento.gradle.plugin.common.property.BooleanSystemProperty;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;

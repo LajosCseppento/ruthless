@@ -11,7 +11,6 @@ import org.gradle.api.invocation.Gradle;
 public class RuthlessSettingsPlugin implements Plugin<Settings> {
   @Override
   public void apply(@NonNull Settings settings) {
-
     GradleVersion.of(settings)
         .requireAtLeast(RuthlessConfiguration.INSTANCE.getMinimumGradleVersion());
 

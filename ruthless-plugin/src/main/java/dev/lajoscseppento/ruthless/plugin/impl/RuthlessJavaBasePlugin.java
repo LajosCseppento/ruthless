@@ -2,9 +2,10 @@ package dev.lajoscseppento.ruthless.plugin.impl;
 
 import com.diffplug.gradle.spotless.SpotlessExtension;
 import com.diffplug.gradle.spotless.SpotlessPlugin;
+import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
+import dev.lajoscseppento.gradle.plugin.common.property.ObjectSystemProperty;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactIdVersion;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
-import dev.lajoscseppento.ruthless.plugin.util.impl.ObjectSystemProperty;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -41,15 +42,15 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
                 "Missing Java toolchain language version, please set the "
                     + JAVA_LANGUAGE_VERSION_PROPERTY_NAME
                     + " system property");
+          },
+          value -> {
+            try {
+              return JavaLanguageVersion.of(value);
+            } catch (Exception ex) {
+              throw new GradleException("Not recognised Java language version: " + value, ex);
+            }
           }) {
-        @Override
-        protected JavaLanguageVersion parse(@NonNull String value) {
-          try {
-            return JavaLanguageVersion.of(value);
-          } catch (Exception ex) {
-            throw new GradleException("Not recognised Java language version: " + value, ex);
-          }
-        }
+        // TODO no extension, use 0.2.1
       };
 
   @Override
