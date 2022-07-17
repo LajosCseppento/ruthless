@@ -114,15 +114,11 @@ class RuthlessLoggingPluginFunctionalTest {
 
     List<String> filteredBuildOutputLines =
         Arrays.stream(buildOutput.split("\r?\n", -1))
-            .filter(new OnlyKeepRecordedSection(debug))
-            .filter(new SkipNoise())
+            .filter(new OutputFilter(debug))
             .collect(Collectors.toList());
     List<String> buildLogLines = Arrays.asList(buildLog.split("\r?\n", -1));
     List<String> filteredBuildLogLines =
-        buildLogLines.stream()
-            .filter(new OnlyKeepRecordedSection(debug))
-            .filter(new SkipNoise())
-            .collect(Collectors.toList());
+        buildLogLines.stream().filter(new OutputFilter(debug)).collect(Collectors.toList());
 
     List<AbstractDelta<String>> deltas = diff(filteredBuildOutputLines, filteredBuildLogLines);
 
@@ -251,42 +247,43 @@ class RuthlessLoggingPluginFunctionalTest {
   }
 
   @RequiredArgsConstructor
-  private static class OnlyKeepRecordedSection implements Predicate<String> {
+  private static class OutputFilter implements Predicate<String> {
     private final boolean debug;
-    private boolean keep = false;
+    private boolean inRecordedSection = false;
 
     @Override
     public boolean test(String line) {
+      // Skip empty lines
+      if (line.trim().isEmpty()) {
+        return false;
+      }
+
+      // Skip noise:
+      // VCS Checkout Cache (...) removing files not accessed on or after ...
+      // VCS Checkout Cache ...) cleanup deleted 0 files/directories.
+      // VCS Checkout Cache (...) cleaned up in 0.0 secs.
+      if (line.startsWith("VCS Checkout Cache")) {
+        return false;
+      }
+
+      // Skip noise:
+      // dependencies-accessors (...) removing files not accessed on or after ...
+      // dependencies-accessors (...) cleanup deleted 0 files/directories.
+      // dependencies-accessors (...) cleaned up in 0.0 secs.
+      if (line.startsWith("dependencies-accessors")) {
+        return false;
+      }
+
+      // Keep only the recorded section
       if (line.contains("[ruthless-logging] Started log recording at")) {
-        keep = true;
+        inRecordedSection = true;
       }
 
       if (debug && line.contains("Stopping build output recording")) {
-        keep = false;
+        inRecordedSection = false;
       }
 
-      return keep;
-    }
-  }
-
-  private static class SkipNoise implements Predicate<String> {
-    @Override
-    public boolean test(String line) {
-      if (line.trim().isEmpty()) {
-        return false;
-      } else if (line.startsWith("VCS Checkout Cache")) {
-        // VCS Checkout Cache (...) removing files not accessed on or after ...
-        // VCS Checkout Cache ...) cleanup deleted 0 files/directories.
-        // VCS Checkout Cache (...) cleaned up in 0.0 secs.
-        return false;
-      } else if (line.startsWith("dependencies-accessors")) {
-        // dependencies-accessors (...) removing files not accessed on or after ...
-        // dependencies-accessors (...) cleanup deleted 0 files/directories.
-        // dependencies-accessors (...) cleaned up in 0.0 secs.
-        return false;
-      } else {
-        return true;
-      }
+      return inRecordedSection;
     }
   }
 
