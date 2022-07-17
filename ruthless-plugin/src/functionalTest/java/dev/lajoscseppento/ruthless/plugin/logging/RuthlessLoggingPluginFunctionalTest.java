@@ -2,11 +2,6 @@ package dev.lajoscseppento.ruthless.plugin.logging;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.difflib.DiffUtils;
-import com.github.difflib.patch.AbstractDelta;
-import com.github.difflib.patch.DeleteDelta;
-import com.github.difflib.patch.InsertDelta;
-import dev.lajoscseppento.ruthless.plugin.FunctionalTestUtils;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +14,10 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.AbstractDelta;
+import com.github.difflib.patch.InsertDelta;
+import dev.lajoscseppento.ruthless.plugin.FunctionalTestUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.SoftAssertions;
@@ -248,16 +247,6 @@ class RuthlessLoggingPluginFunctionalTest {
       return false;
     }
 
-    // Extra empty lines
-    if (delta instanceof InsertDelta && source.stream().allMatch(String::isEmpty)) {
-      return false;
-    }
-
-    // Missing empty lines
-    if (delta instanceof DeleteDelta && source.stream().allMatch(String::isEmpty)) {
-      return false;
-    }
-
     return true;
   }
 
@@ -283,7 +272,9 @@ class RuthlessLoggingPluginFunctionalTest {
   private static class SkipNoise implements Predicate<String> {
     @Override
     public boolean test(String line) {
-      if (line.startsWith("VCS Checkout Cache")) {
+      if (line.trim().isEmpty()) {
+        return false;
+      } else if (line.startsWith("VCS Checkout Cache")) {
         // VCS Checkout Cache (...) removing files not accessed on or after ...
         // VCS Checkout Cache ...) cleanup deleted 0 files/directories.
         // VCS Checkout Cache (...) cleaned up in 0.0 secs.
