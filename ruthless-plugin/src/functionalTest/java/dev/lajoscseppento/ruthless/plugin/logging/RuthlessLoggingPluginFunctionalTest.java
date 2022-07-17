@@ -2,6 +2,11 @@ package dev.lajoscseppento.ruthless.plugin.logging;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.AbstractDelta;
+import com.github.difflib.patch.DeleteDelta;
+import com.github.difflib.patch.InsertDelta;
+import dev.lajoscseppento.ruthless.plugin.FunctionalTestUtils;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
@@ -14,11 +19,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import com.github.difflib.DiffUtils;
-import com.github.difflib.patch.AbstractDelta;
-import com.github.difflib.patch.DeleteDelta;
-import com.github.difflib.patch.InsertDelta;
-import dev.lajoscseppento.ruthless.plugin.FunctionalTestUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.SoftAssertions;
