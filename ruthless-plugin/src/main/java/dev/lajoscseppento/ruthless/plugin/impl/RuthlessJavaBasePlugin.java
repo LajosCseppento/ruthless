@@ -6,11 +6,9 @@ import java.util.Optional;
 import com.diffplug.gradle.spotless.SpotlessExtension;
 import com.diffplug.gradle.spotless.SpotlessPlugin;
 import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
-import dev.lajoscseppento.gradle.plugin.common.property.ObjectSystemProperty;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactIdVersion;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
 import lombok.NonNull;
-import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -33,17 +31,8 @@ import org.gradle.testing.jacoco.tasks.JacocoReport;
 
 public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
 
-  private static final String JAVA_LANGUAGE_VERSION_PROPERTY_NAME = "ruthless.java.languageVersion";
-  private static final ObjectSystemProperty<JavaLanguageVersion> JAVA_LANGUAGE_VERSION =
-      new ObjectSystemProperty<>(
-          JAVA_LANGUAGE_VERSION_PROPERTY_NAME,
-          () -> {
-            throw new GradleException(
-                "Missing Java toolchain language version, please set the "
-                    + JAVA_LANGUAGE_VERSION_PROPERTY_NAME
-                    + " system property");
-          },
-          RuthlessJavaBasePlugin::parseJavaLanguageVersion);
+  private static final JavaLanguageVersionSystemProperty JAVA_LANGUAGE_VERSION =
+      new JavaLanguageVersionSystemProperty();
 
   @Override
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
@@ -186,13 +175,5 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
           java.removeUnusedImports();
           java.googleJavaFormat();
         });
-  }
-
-  private static JavaLanguageVersion parseJavaLanguageVersion(String value) {
-    try {
-      return JavaLanguageVersion.of(value);
-    } catch (Exception ex) {
-      throw new GradleException("Not recognised Java language version: " + value, ex);
-    }
   }
 }
