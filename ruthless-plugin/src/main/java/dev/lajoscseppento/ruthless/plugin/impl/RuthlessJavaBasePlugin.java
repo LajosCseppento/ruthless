@@ -1,14 +1,14 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import com.diffplug.gradle.spotless.SpotlessExtension;
 import com.diffplug.gradle.spotless.SpotlessPlugin;
 import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
 import dev.lajoscseppento.gradle.plugin.common.property.ObjectSystemProperty;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactIdVersion;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import lombok.NonNull;
 import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
@@ -35,7 +35,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
 
   private static final String JAVA_LANGUAGE_VERSION_PROPERTY_NAME = "ruthless.java.languageVersion";
   private static final ObjectSystemProperty<JavaLanguageVersion> JAVA_LANGUAGE_VERSION =
-      new ObjectSystemProperty<JavaLanguageVersion>(
+      new ObjectSystemProperty<>(
           JAVA_LANGUAGE_VERSION_PROPERTY_NAME,
           () -> {
             throw new GradleException(
@@ -43,15 +43,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
                     + JAVA_LANGUAGE_VERSION_PROPERTY_NAME
                     + " system property");
           },
-          value -> {
-            try {
-              return JavaLanguageVersion.of(value);
-            } catch (Exception ex) {
-              throw new GradleException("Not recognised Java language version: " + value, ex);
-            }
-          }) {
-        // TODO no extension, use 0.2.1
-      };
+          RuthlessJavaBasePlugin::parseJavaLanguageVersion);
 
   @Override
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
@@ -194,5 +186,13 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
           java.removeUnusedImports();
           java.googleJavaFormat();
         });
+  }
+
+  private static JavaLanguageVersion parseJavaLanguageVersion(String value) {
+    try {
+      return JavaLanguageVersion.of(value);
+    } catch (Exception ex) {
+      throw new GradleException("Not recognised Java language version: " + value, ex);
+    }
   }
 }
