@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import com.github.difflib.DiffUtils;
 import com.github.difflib.patch.AbstractDelta;
+import com.github.difflib.patch.DeleteDelta;
 import com.github.difflib.patch.InsertDelta;
 import dev.lajoscseppento.ruthless.plugin.FunctionalTestUtils;
 import lombok.NonNull;
@@ -243,6 +244,16 @@ class RuthlessLoggingPluginFunctionalTest {
       return false;
     }
 
+    // Extra empty lines
+    if (delta instanceof InsertDelta && source.stream().allMatch(String::isEmpty)) {
+      return false;
+    }
+
+    // Missing empty lines
+    if (delta instanceof DeleteDelta && source.stream().allMatch(String::isEmpty)) {
+      return false;
+    }
+
     return true;
   }
 
@@ -253,11 +264,6 @@ class RuthlessLoggingPluginFunctionalTest {
 
     @Override
     public boolean test(String line) {
-      // Skip empty lines
-      if (line.trim().isEmpty()) {
-        return false;
-      }
-
       // Skip noise:
       // VCS Checkout Cache (...) removing files not accessed on or after ...
       // VCS Checkout Cache ...) cleanup deleted 0 files/directories.
