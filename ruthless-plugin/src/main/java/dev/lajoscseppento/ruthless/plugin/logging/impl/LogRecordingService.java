@@ -183,8 +183,7 @@ public abstract class LogRecordingService
       logger.debug("Stopping {}", getClass().getSimpleName());
 
       if (buildLogWriter != null) {
-        // Might be used later
-        buildLogWriter.closing();
+        buildLogWriter.close();
       }
 
       logger.debug("Stopped {}", getClass().getSimpleName());
@@ -258,6 +257,7 @@ public abstract class LogRecordingService
     }
   }
 
+  // Note: there is no guarantee that this method is called at all in Gradle 7.4.2
   private void onBuildResult(@NonNull BuildResult buildResult) {
     synchronized (lock) {
       Throwable failure = buildResult.getFailure();
@@ -292,8 +292,7 @@ public abstract class LogRecordingService
 
       writeSecurityWarningIfDebug();
 
-      // Will not be used anymore
-      buildLogWriter.closeNowIfOpen();
+      buildLogWriter.close();
     }
   }
 
