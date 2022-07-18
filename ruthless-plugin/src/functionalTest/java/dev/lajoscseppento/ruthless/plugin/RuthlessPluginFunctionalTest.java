@@ -40,6 +40,26 @@ class RuthlessPluginFunctionalTest {
   }
 
   @Test
+  void testAssembleWithRuthlessLoggerDebug() {
+    // Given
+    GradleRunner runner =
+        GradleRunner.create()
+            .forwardOutput()
+            .withPluginClasspath()
+            .withArguments("--system-prop", "ruthless.logging.logger.*.debug=true", "assemble")
+            .withProjectDir(projectDir.toFile());
+
+    // When
+    BuildResult result = runner.build();
+
+    // Then
+    assertThat(result.getOutput())
+        .contains("[INFO] [ruthless] Applying RuthlessBasePlugin to root project 'ruthless-demo'")
+        .contains(
+            "[DEBUG] [ruthless] Declaring org.projectlombok:lombok on configuration ':ruthless-demo-java-library:compileOnly'");
+  }
+
+  @Test
   void testRunDryRun() {
     // Given
     GradleRunner runner =

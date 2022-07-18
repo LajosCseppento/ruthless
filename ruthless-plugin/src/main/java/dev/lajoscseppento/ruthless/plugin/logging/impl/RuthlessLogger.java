@@ -13,11 +13,13 @@ import org.gradle.api.logging.Logging;
  *
  * <ul>
  *   <li>Provides capability to prefix all log messages.
- *   <li>Provides capability to elevate DEBUG and INFO logs to LIFECYCLE on-demand with the <code>
- *       -Druthless.logging.logger.*.debug</code> flag for all {@link RuthlessLogger} instances.
- *   <li>Provides capability to elevate DEBUG and INFO logs to LIFECYCLE on-demand with the <code>
- *       -Druthless.logging.logger.PREFIX.debug</code> flag for {@link RuthlessLogger} instances
- *       with the specified <code>PREFIX</code>.
+ *   <li>Provides capability to elevate DEBUG and INFO logs to LIFECYCLE on-demand for all {@link
+ *       RuthlessLogger} instances using the <code>ruthless.logging.logger.*.debug=true</code>
+ *       system property.
+ *   <li>Provides capability to elevate DEBUG and INFO logs to LIFECYCLE on-demand for selected
+ *       {@link RuthlessLogger} instances using the <code>ruthless.logging.logger.PREFIX.debug=true
+ *       </code> system property, where <code>PREFIX</code> denotes the desired prefix to be
+ *       elevated.
  * </ul>
  */
 public class RuthlessLogger {
@@ -139,6 +141,21 @@ public class RuthlessLogger {
   }
 
   ////////////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
+=======
+  // Logging Enabled Methods /////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+
+  public boolean isDebugEnabled() {
+    return debug || delegate.isDebugEnabled();
+  }
+
+  public boolean isInfoEnabled() {
+    return debug || delegate.isInfoEnabled();
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+>>>>>>> 35-ruthless-logger
   // Logging Methods Per Log Level ///////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
