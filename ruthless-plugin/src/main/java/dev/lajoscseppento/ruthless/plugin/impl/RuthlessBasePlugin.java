@@ -12,11 +12,11 @@ public class RuthlessBasePlugin extends AbstractProjectPlugin {
           "Please apply ruthless in settings.gradle[.kts] for the full experience");
     }
 
-    logger.info("[ruthless] Adding extension to {}", project);
+    logger.info("Adding extension to {}", project);
     configureExtension();
 
     if (project.equals(project.getRootProject())) {
-      logger.info("[ruthless] Configuring sonar on {}", project);
+      logger.info("Configuring sonar on {}", project);
       configureSonar();
     }
 
