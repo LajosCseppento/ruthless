@@ -1,8 +1,8 @@
 package dev.lajoscseppento.ruthless.plugin.logging.impl;
 
-import javax.annotation.Nullable;
 import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
 import dev.lajoscseppento.gradle.plugin.common.property.BooleanSystemProperty;
+import javax.annotation.Nullable;
 import lombok.NonNull;
 import org.gradle.api.logging.LogLevel;
 import org.gradle.api.logging.Logger;
