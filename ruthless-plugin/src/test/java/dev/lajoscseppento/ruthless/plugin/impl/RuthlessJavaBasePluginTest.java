@@ -47,7 +47,7 @@ class RuthlessJavaBasePluginTest {
         .isInstanceOf(GradleException.class)
         .hasMessage(
             "Failed to apply plugin class 'dev.lajoscseppento.ruthless.plugin.impl.RuthlessJavaBasePlugin'.")
-        .getCause()
+        .cause()
         .isInstanceOf(GradleException.class)
         .hasMessage(
             "Missing Java toolchain language version, please set the ruthless.java.languageVersion system property")
@@ -65,7 +65,7 @@ class RuthlessJavaBasePluginTest {
         .isInstanceOf(GradleException.class)
         .hasMessage(
             "Failed to apply plugin class 'dev.lajoscseppento.ruthless.plugin.impl.RuthlessJavaBasePlugin'.")
-        .getCause()
+        .cause()
         .isInstanceOf(GradleException.class)
         .hasMessage(
             "Missing Java toolchain language version, please set the ruthless.java.languageVersion system property")
@@ -85,7 +85,7 @@ class RuthlessJavaBasePluginTest {
         .isInstanceOf(GradleException.class)
         .hasMessage(
             "Failed to apply plugin class 'dev.lajoscseppento.ruthless.plugin.impl.RuthlessJavaBasePlugin'.")
-        .getCause()
+        .cause()
         .isInstanceOf(GradleException.class)
         .hasMessage("Not recognised Java language version: eleven please, with a banana split");
   }
