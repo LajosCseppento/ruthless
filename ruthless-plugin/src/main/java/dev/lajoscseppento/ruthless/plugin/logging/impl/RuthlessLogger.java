@@ -17,8 +17,9 @@ import org.gradle.api.logging.Logging;
  *       RuthlessLogger} instances using the <code>ruthless.logging.logger.*.debug=true</code>
  *       system property.
  *   <li>Provides capability to elevate DEBUG and INFO logs to LIFECYCLE on-demand for selected
- *       {@link RuthlessLogger} using the <code>ruthless.logging.logger.PREFIX.debug=true</code>
- *       system property, where <code>PREFIX</code> denotes the desired prefix to be elevated.
+ *       {@link RuthlessLogger} instances using the <code>ruthless.logging.logger.PREFIX.debug=true
+ *       </code> system property, where <code>PREFIX</code> denotes the desired prefix to be
+ *       elevated.
  * </ul>
  */
 public class RuthlessLogger {
