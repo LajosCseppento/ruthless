@@ -32,6 +32,7 @@ dependencies {
 
     implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.2.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    // TODO Remove when #64 is released
     testImplementation("org.junit-pioneer:junit-pioneer:1.7.1")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
     // TODO #50 Ruthless.lombok() should do this too
