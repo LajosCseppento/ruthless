@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Lombok support for `*Test` source sets
 - JUnit Pioneer 1.7.1 as default test dependency
+- Add Ruthless Logging with capability to record build output to file
 
 ## [0.4.0] - 2022-07-10
 
@@ -21,7 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Declare Javadoc and Source JARs
 - Add Mockito BOM 4.6.1
 - Add `mockito-core` and `mockito-junit-jupiter` as default test dependencies
-- Add Ruthless Logging with capability to record build output to file
 
 ### Changed
 
