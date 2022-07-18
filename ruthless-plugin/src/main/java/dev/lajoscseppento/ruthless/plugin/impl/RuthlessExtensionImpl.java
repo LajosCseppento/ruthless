@@ -3,6 +3,7 @@ package dev.lajoscseppento.ruthless.plugin.impl;
 import dev.lajoscseppento.ruthless.plugin.RuthlessExtension;
 import lombok.NonNull;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.JavaPlugin;
@@ -26,5 +27,17 @@ public class RuthlessExtensionImpl implements RuthlessExtension {
     deps.add(JavaPlugin.ANNOTATION_PROCESSOR_CONFIGURATION_NAME, dep);
     deps.add(JavaPlugin.TEST_COMPILE_ONLY_CONFIGURATION_NAME, dep);
     deps.add(JavaPlugin.TEST_ANNOTATION_PROCESSOR_CONFIGURATION_NAME, dep);
+
+    project
+        .getConfigurations()
+        .withType(
+            Configuration.class,
+            configuration -> {
+              String configurationName = configuration.getName();
+              if (configurationName.endsWith("TestCompileOnly")
+                  || configurationName.endsWith("TestAnnotationProcessor")) {
+                deps.add(configurationName, dep);
+              }
+            });
   }
 }
