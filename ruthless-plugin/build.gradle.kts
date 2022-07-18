@@ -38,6 +38,16 @@ dependencies {
     // TODO Remove after #50 is released
     functionalTestCompileOnly("org.projectlombok:lombok")
     functionalTestAnnotationProcessor("org.projectlombok:lombok")
+
+    constraints {
+        configurations.all {
+            if (!isCanBeConsumed && !isCanBeResolved) {
+                add(name, "commons-codec:commons-codec:1.15") {
+                    because("Older versions have vulnerabilities, see #55")
+                }
+            }
+        }
+    }
 }
 
 // Set up JaCoCo coverage for Gradle TestKit tests
