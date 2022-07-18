@@ -47,7 +47,7 @@ jobs:
       - name: Publish to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
-          job-id: jdk11
+          job-id: jdk-${{ matrix.jdk-version }}
           arguments: publishToMavenLocal
       - name: Build Demo
         run: ./gradlew --scan --info --no-build-cache --no-daemon --project-dir ruthless-demo --init-script init-dev.gradle.kts clean build
