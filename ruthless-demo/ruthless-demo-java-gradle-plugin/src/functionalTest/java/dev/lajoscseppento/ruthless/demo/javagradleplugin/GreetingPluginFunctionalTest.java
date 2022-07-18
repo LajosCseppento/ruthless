@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import lombok.NonNull;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class GreetingPluginFunctionalTest {
     assertThat(result.getOutput()).contains("Greetings from ruthless-demo-java-gradle-plugin!");
   }
 
-  private void writeFile(String relativePath, String content) {
+  private void writeFile(@NonNull String relativePath, @NonNull String content) {
     try {
       Path file = projectDir.resolve(relativePath);
       Files.createDirectories(file.getParent());
