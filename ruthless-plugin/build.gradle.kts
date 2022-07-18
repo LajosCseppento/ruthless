@@ -34,7 +34,7 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     testImplementation("org.junit-pioneer:junit-pioneer:1.7.1")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
-    // TODO #50 Ruthless.lombok() should do this too
+    // TODO Remove after #50 is released
     functionalTestCompileOnly("org.projectlombok:lombok")
     functionalTestAnnotationProcessor("org.projectlombok:lombok")
 }

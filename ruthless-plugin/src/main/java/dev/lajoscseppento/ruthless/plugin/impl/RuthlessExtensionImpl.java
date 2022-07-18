@@ -4,6 +4,7 @@ import dev.lajoscseppento.ruthless.plugin.RuthlessExtension;
 import dev.lajoscseppento.ruthless.plugin.logging.impl.RuthlessLogger;
 import lombok.NonNull;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.plugins.JavaPlugin;
 
 public class RuthlessExtensionImpl implements RuthlessExtension {
@@ -24,6 +25,18 @@ public class RuthlessExtensionImpl implements RuthlessExtension {
     declare(JavaPlugin.ANNOTATION_PROCESSOR_CONFIGURATION_NAME);
     declare(JavaPlugin.TEST_COMPILE_ONLY_CONFIGURATION_NAME);
     declare(JavaPlugin.TEST_ANNOTATION_PROCESSOR_CONFIGURATION_NAME);
+
+    project
+        .getConfigurations()
+        .withType(
+            Configuration.class,
+            configuration -> {
+              String configurationName = configuration.getName();
+              if (configurationName.endsWith("TestCompileOnly")
+                  || configurationName.endsWith("TestAnnotationProcessor")) {
+                declare(configurationName);
+              }
+            });
   }
 
   private void declare(@NonNull String configurationName) {

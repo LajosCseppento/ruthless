@@ -2,6 +2,8 @@ plugins {
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
 }
 
+ruthless.lombok()
+
 gradlePlugin {
     plugins {
         create("ruthless") {
