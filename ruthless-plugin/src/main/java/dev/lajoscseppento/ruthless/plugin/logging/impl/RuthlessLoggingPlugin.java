@@ -9,12 +9,20 @@ import org.gradle.api.Plugin;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.invocation.Gradle;
 
-// TODO maybe it could be a separate plugin
-// TODO class comment
+/**
+ * The Ruthless Logging Plugin applies logging conventions to the Gradle build:
+ *
+ * <ul>
+ *   <li>{@link LogRecordingService}: records the build output to file
+ * </ul>
+ *
+ * <p>The plugin can be disabled via the <code>
+ * ruthless.logging.plugin.enabled=false</code> system property.
+ */
 public class RuthlessLoggingPlugin implements Plugin<Settings> {
 
   private static final BooleanSystemProperty enabled =
-      new BooleanSystemProperty("ruthless.logging.enabled", true);
+      new BooleanSystemProperty("ruthless.logging.plugin.enabled", true);
 
   // See https://github.com/LajosCseppento/ruthless/issues/43
   private static final Map<UUID, Settings> settingsById = new ConcurrentHashMap<>();

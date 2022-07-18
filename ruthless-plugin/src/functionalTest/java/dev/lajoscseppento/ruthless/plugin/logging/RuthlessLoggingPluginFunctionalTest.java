@@ -62,9 +62,10 @@ class RuthlessLoggingPluginFunctionalTest {
   }
 
   @Test
-  void testRuthlessLoggingDisabled() {
+  void testRuthlessLoggingPluginDisabled() {
     // Given
-    GradleRunner runner = createRunner("--system-prop", "ruthless.logging.enabled=false", "log");
+    GradleRunner runner =
+        createRunner("--system-prop", "ruthless.logging.plugin.enabled=false", "log");
 
     // When
     runner.build();

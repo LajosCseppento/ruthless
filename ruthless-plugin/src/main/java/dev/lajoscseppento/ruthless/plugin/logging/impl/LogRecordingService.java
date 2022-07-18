@@ -34,9 +34,17 @@ import org.gradle.internal.time.Clock;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.LoggerFactory;
 
-// TODO class comment
-// TODO document that the advantage if this over .sh / CMD solution is to keep the rich console
-// output
+/**
+ * Service responsible for persisting build output to file.
+ *
+ * <p>Due to the nature of Gradle not all output is recorded and the build result might not be saved
+ * at all.
+ *
+ * <p>This approach the rich console output if the user calls Gradle from the command line (contrary
+ * to saving output using modified Gradle start scripts).
+ *
+ * <p>Note: this class heavily relies on Gradle internals
+ */
 public abstract class LogRecordingService
     implements BuildService<LogRecordingService.Parameters>, AutoCloseable {
   private static final String BUILD_LOG_FILE_NAME = "build.log";
