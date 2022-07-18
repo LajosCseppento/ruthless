@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Lombok support for `*Test` source sets
+- JUnit Pioneer 1.7.1 as default test dependency
 
 ## [0.4.0] - 2022-07-10
 

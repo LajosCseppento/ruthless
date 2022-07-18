@@ -14,6 +14,9 @@ defaultDependencies:
   - groupId: org.junit
     artifactId: junit-bom
     version: 5.8.2
+  - groupId: org.junit-pioneer
+    artifactId: junit-pioneer
+    version: 1.7.1
   - groupId: org.mockito
     artifactId: mockito-bom
     version: 4.6.1
@@ -32,6 +35,8 @@ platformDependencies:
 testDependencies:
   - groupId: org.junit.jupiter
     artifactId: junit-jupiter
+  - groupId: org.junit-pioneer
+    artifactId: junit-pioneer
   - groupId: org.mockito
     artifactId: mockito-core
   - groupId: org.mockito
