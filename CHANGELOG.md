@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Lombok support for the `*Test` source sets
+- Lombok support for `*Test` source sets
 
 ## [0.4.0] - 2022-07-10
 
