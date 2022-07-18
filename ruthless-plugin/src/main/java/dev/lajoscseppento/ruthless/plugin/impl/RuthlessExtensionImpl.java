@@ -1,24 +1,24 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
 import dev.lajoscseppento.ruthless.plugin.RuthlessExtension;
+import dev.lajoscseppento.ruthless.plugin.logging.impl.RuthlessLogger;
 import lombok.NonNull;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
-import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.JavaPlugin;
 
 public class RuthlessExtensionImpl implements RuthlessExtension {
   private final Project project;
-  private final Logger logger;
+  private final RuthlessLogger logger;
 
   RuthlessExtensionImpl(@NonNull Project project) {
     this.project = project;
-    this.logger = project.getLogger();
+    this.logger = RuthlessLogger.create(project.getLogger(), "ruthless");
   }
 
   @Override
   public void lombok() {
-    logger.info("[ruthless] Adding lombok to {}", project);
+    logger.info("Adding lombok to {}", project);
 
     DependencyHandler deps = project.getDependencies();
     String dep = "org.projectlombok:lombok";
