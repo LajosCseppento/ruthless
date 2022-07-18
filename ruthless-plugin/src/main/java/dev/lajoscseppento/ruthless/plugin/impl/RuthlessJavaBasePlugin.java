@@ -1,13 +1,13 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import com.diffplug.gradle.spotless.SpotlessExtension;
 import com.diffplug.gradle.spotless.SpotlessPlugin;
 import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactIdVersion;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;

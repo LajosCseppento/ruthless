@@ -6,15 +6,15 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion;
 
 /** System property for Java language version. */
 public class JavaLanguageVersionSystemProperty extends ObjectSystemProperty<JavaLanguageVersion> {
-  private static final String JAVA_LANGUAGE_VERSION_PROPERTY_NAME = "ruthless.java.languageVersion";
+  private static final String PROPERTY_NAME = "ruthless.java.languageVersion";
 
   public JavaLanguageVersionSystemProperty() {
     super(
-        JAVA_LANGUAGE_VERSION_PROPERTY_NAME,
+        PROPERTY_NAME,
         () -> {
           throw new GradleException(
               "Missing Java toolchain language version, please set the "
-                  + JAVA_LANGUAGE_VERSION_PROPERTY_NAME
+                  + PROPERTY_NAME
                   + " system property");
         },
         value -> {
