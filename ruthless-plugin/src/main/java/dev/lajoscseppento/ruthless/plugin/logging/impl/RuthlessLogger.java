@@ -1,8 +1,8 @@
 package dev.lajoscseppento.ruthless.plugin.logging.impl;
 
+import javax.annotation.Nullable;
 import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
 import dev.lajoscseppento.gradle.plugin.common.property.BooleanSystemProperty;
-import javax.annotation.Nullable;
 import lombok.NonNull;
 import org.gradle.api.logging.LogLevel;
 import org.gradle.api.logging.Logger;
@@ -14,10 +14,11 @@ import org.gradle.api.logging.Logging;
  * <ul>
  *   <li>Provides capability to prefix all log messages.
  *   <li>Provides capability to elevate DEBUG and INFO logs to LIFECYCLE on-demand with the <code>
- *       -Druthless.logging.logger.*.debug</code> flag for all {@link RuthlessLogger} instances.
+ *       ruthless.logging.logger.*.debug</code> system property for all {@link RuthlessLogger}
+ *       instances.
  *   <li>Provides capability to elevate DEBUG and INFO logs to LIFECYCLE on-demand with the <code>
- *       -Druthless.logging.logger.PREFIX.debug</code> flag for {@link RuthlessLogger} instances
- *       with the specified <code>PREFIX</code>.
+ *       ruthless.logging.logger.PREFIX.debug</code> system property for {@link RuthlessLogger}
+ *       instances with the specified <code>PREFIX</code>.
  * </ul>
  */
 public class RuthlessLogger {
