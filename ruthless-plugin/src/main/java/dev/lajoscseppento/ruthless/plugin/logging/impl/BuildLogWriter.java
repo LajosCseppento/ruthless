@@ -1,5 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin.logging.impl;
 
+import dev.lajoscseppento.ruthless.plugin.logging.RuthlessLogger;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -26,7 +27,7 @@ class BuildLogWriter {
   private volatile PrintWriter writer;
   private final Object lock = new Object();
 
-  public BuildLogWriter(@NonNull Path file) {
+  BuildLogWriter(@NonNull Path file) {
     this.logger = RuthlessLogger.create(getClass(), "ruthless-logging");
     this.file = file.toAbsolutePath();
     this.writer = null;
@@ -52,7 +53,7 @@ class BuildLogWriter {
     }
   }
 
-  public void close() {
+  void close() {
     synchronized (lock) {
       if (writer != null) {
         logger.debug("Closing build log writer: {}", file);
@@ -62,7 +63,7 @@ class BuildLogWriter {
     }
   }
 
-  public void print(Object obj) {
+  void print(Object obj) {
     synchronized (lock) {
       ensureOpen(true);
       writer.print(obj);
@@ -70,7 +71,7 @@ class BuildLogWriter {
     }
   }
 
-  public void println() {
+  void println() {
     synchronized (lock) {
       ensureOpen(true);
       writer.println();
@@ -78,7 +79,7 @@ class BuildLogWriter {
     }
   }
 
-  public void println(Object obj) {
+  void println(Object obj) {
     synchronized (lock) {
       ensureOpen(true);
       writer.println(obj);
@@ -86,7 +87,7 @@ class BuildLogWriter {
     }
   }
 
-  public void printf(String format, Object... args) {
+  void printf(String format, Object... args) {
     synchronized (lock) {
       ensureOpen(true);
       writer.printf(format, args);
@@ -94,7 +95,7 @@ class BuildLogWriter {
     }
   }
 
-  public void printStackTrace(Throwable throwable) {
+  void printStackTrace(Throwable throwable) {
     synchronized (lock) {
       ensureOpen(true);
       throwable.printStackTrace(writer);

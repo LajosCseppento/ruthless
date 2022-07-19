@@ -2,7 +2,7 @@ package dev.lajoscseppento.ruthless.plugin.impl;
 
 import dev.lajoscseppento.gradle.plugin.common.GradleVersion;
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.RuthlessConfiguration;
-import dev.lajoscseppento.ruthless.plugin.logging.impl.RuthlessLoggingPlugin;
+import dev.lajoscseppento.ruthless.plugin.logging.RuthlessLoggingPlugin;
 import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.initialization.Settings;

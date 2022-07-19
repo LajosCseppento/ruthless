@@ -1,7 +1,7 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
 import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactId;
-import dev.lajoscseppento.ruthless.plugin.logging.impl.RuthlessLogger;
+import dev.lajoscseppento.ruthless.plugin.logging.RuthlessLogger;
 import java.util.Collections;
 import java.util.List;
 import lombok.NonNull;

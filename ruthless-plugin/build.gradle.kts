@@ -105,6 +105,13 @@ gradlePlugin {
             description = "Ruthless base plugin"
         }
 
+        create("ruthlessLogging") {
+            id = "dev.lajoscseppento.ruthless.logging"
+            implementationClass = "dev.lajoscseppento.ruthless.plugin.logging.RuthlessLoggingPlugin"
+            displayName = "Ruthless Logging"
+            description = "Ruthless logging conventions"
+        }
+
         create("ruthlessJavaApplication") {
             id = "dev.lajoscseppento.ruthless.java-application"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaApplicationPlugin"

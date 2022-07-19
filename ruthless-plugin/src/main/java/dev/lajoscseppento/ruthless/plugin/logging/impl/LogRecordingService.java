@@ -1,5 +1,7 @@
 package dev.lajoscseppento.ruthless.plugin.logging.impl;
 
+import dev.lajoscseppento.ruthless.plugin.logging.RuthlessLogger;
+import dev.lajoscseppento.ruthless.plugin.logging.RuthlessLoggingPlugin;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
