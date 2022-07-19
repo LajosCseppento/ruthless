@@ -35,6 +35,7 @@ dependencies {
     // TODO Remove after #64 is released
     testImplementation("org.junit-pioneer:junit-pioneer:1.7.1")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
+    functionalTestImplementation("io.github.java-diff-utils:java-diff-utils:4.11")
     // TODO Remove after #50 is released
     functionalTestCompileOnly("org.projectlombok:lombok")
     functionalTestAnnotationProcessor("org.projectlombok:lombok")
@@ -102,6 +103,13 @@ gradlePlugin {
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessPlugin"
             displayName = "Ruthless"
             description = "Ruthless base plugin"
+        }
+
+        create("ruthlessLogging") {
+            id = "dev.lajoscseppento.ruthless.logging"
+            implementationClass = "dev.lajoscseppento.ruthless.plugin.logging.RuthlessLoggingPlugin"
+            displayName = "Ruthless Logging"
+            description = "Ruthless logging conventions"
         }
 
         create("ruthlessJavaApplication") {

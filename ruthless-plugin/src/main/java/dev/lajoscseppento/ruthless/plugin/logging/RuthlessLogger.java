@@ -1,4 +1,4 @@
-package dev.lajoscseppento.ruthless.plugin.logging.impl;
+package dev.lajoscseppento.ruthless.plugin.logging;
 
 import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
 import dev.lajoscseppento.gradle.plugin.common.property.BooleanSystemProperty;

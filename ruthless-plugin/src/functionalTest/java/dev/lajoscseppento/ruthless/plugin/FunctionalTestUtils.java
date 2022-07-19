@@ -1,8 +1,7 @@
 package dev.lajoscseppento.ruthless.plugin;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,6 +14,14 @@ import org.gradle.internal.impldep.org.eclipse.jgit.annotations.NonNull;
 
 @UtilityClass
 public class FunctionalTestUtils {
+  public String readString(@NonNull Path file) {
+    try {
+      return new String(Files.readAllBytes(file), StandardCharsets.UTF_8);
+    } catch (IOException ex) {
+      throw new UncheckedIOException(ex);
+    }
+  }
+
   public void copyDemoProject(@NonNull Path targetDirectory) {
     Path demoDir = Paths.get("../ruthless-demo").toAbsolutePath().normalize();
     try {
