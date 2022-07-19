@@ -33,7 +33,8 @@ jobs:
       - name: Build
         uses: burrunan/gradle-cache-action@v1
         with:
-          job-id: jdk-${{ matrix.jdk-version }}-20220719
+          job-id: jdk-${{ matrix.jdk-version }}
+          save-maven-dependencies-cache: false
           arguments: --scan build
       - name: Sonar (JDK 11 only)
         if: ${{ matrix.jdk-version == 11 }}
@@ -42,12 +43,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          job-id: jdk-${{ matrix.jdk-version }}-20220719
+          job-id: jdk-${{ matrix.jdk-version }}
+          save-maven-dependencies-cache: false
           arguments: --scan sonarqube
       - name: Publish to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
-          job-id: jdk-${{ matrix.jdk-version }}-20220719
+          job-id: jdk-${{ matrix.jdk-version }}
+          save-maven-dependencies-cache: false
           arguments: publishToMavenLocal
       - name: Build Demo
         run: ./gradlew --scan --info --no-build-cache --no-daemon --project-dir ruthless-demo --init-script init-dev.gradle.kts clean build
