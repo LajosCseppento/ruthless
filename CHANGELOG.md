@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Change `ruthless.lombok()` into `ruthless.lombok` spec
+- Change `ruthless.lombok()` into `ruthless.lombok` DSL
 
 ## [0.4.0] - 2022-07-10
 
