@@ -15,6 +15,7 @@ allprojects {
 
 sonarqube {
     properties {
-        property("projectKey", "LajosCseppento_ruthless")
+//        property("projectKey", "LajosCseppento_ruthless")
+        property("sonar.projectKey", "LajosCseppento_ruthless")
     }
 }
