@@ -2,7 +2,7 @@ plugins {
     id("org.sonarqube") version "3.4.0.2513"
 }
 
-System.setProperty("systemProp.sonar.projectKey", "LajosCseppento_ruthless")
+System.setProperty("sonar.projectKey", "LajosCseppento_ruthless")
 
 allprojects {
     tasks.withType {
