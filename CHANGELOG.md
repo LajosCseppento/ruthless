@@ -10,14 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Lombok support for `*Test` source sets
+- Lombok is enabled by default
 - JUnit Pioneer 1.7.1 as default test dependency
 - Add Ruthless Logging with capability to record build output to file
+
+### Changed
+
+- Change `ruthless.lombok()` into `ruthless.lombok` DSL
 
 ## [0.4.0] - 2022-07-10
 
 ### Added
 
-- Obligatory `ruthless.java.languageVersion` system property, which configures Java toolchain language version
+- Obligatory `ruthless.java.languageVersion` system property, which configures Java toolchain
+  language version
 - Java 8 compatibility
 - Declare Javadoc and Source JARs
 - Add Mockito BOM 4.6.1
