@@ -218,7 +218,7 @@ tasks.withType {
                     .map {
                         Pair(
                                 String.format("%s:%s:%s", it.groupId, it.artifactId, it.version),
-                                String.format("https://oss.sonatype.org/index.html#nexus-search;gav~{}~{}~{}~~", it.groupId, it.artifactId, it.version)
+                                String.format("https://oss.sonatype.org/index.html#nexus-search;gav~%s~%s~%s~~", it.groupId, it.artifactId, it.version)
                         )
                     }
                     .sortedBy { it.first }
