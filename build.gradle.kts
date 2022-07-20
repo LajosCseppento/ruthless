@@ -20,9 +20,14 @@ if (hasProperty("ossrhUsername")) {
 
 allprojects {
     tasks.withType {
-        val task = this
         if (name == "check") {
-            rootProject.tasks.sonarqube { dependsOn(task) }
+            rootProject.tasks.sonarqube { dependsOn(this@withType) }
+        }
+
+        if (name == "closeSonatypeStagingRepository") {
+            doLast {
+                logger.lifecycle("Staging repository has been closed, continue at https://oss.sonatype.org/#stagingRepositories to finalise the release")
+            }
         }
     }
 }

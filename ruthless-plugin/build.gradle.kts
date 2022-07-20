@@ -211,10 +211,8 @@ publishing.publications.withType<MavenPublication> {
 tasks.withType {
     if (name == "publishToSonatype") {
         doLast {
-
             publishing.publications
-                    .filter { it is MavenPublication }
-                    .map { it as MavenPublication }
+                    .filterIsInstance<MavenPublication>()
                     .map {
                         Pair(
                                 String.format("%s:%s:%s", it.groupId, it.artifactId, it.version),
@@ -229,14 +227,13 @@ tasks.withType {
     }
 }
 
-//
-//signing {
-//    if (hasProperty("signing.keyId")) {
-//        sign(publishing.publications)
-//    } else {
-//        logger.warn("Configure project without code signing")
-//    }
-//}
+signing {
+    if (hasProperty("signing.keyId")) {
+        sign(publishing.publications)
+    } else {
+        logger.warn("Configure project without code signing")
+    }
+}
 
 sonarqube {
     properties {
