@@ -1,7 +1,8 @@
 package dev.lajoscseppento.ruthless.plugin.impl;
 
 import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
-import dev.lajoscseppento.ruthless.plugin.RuthlessExtension;
+import dev.lajoscseppento.ruthless.plugin.extension.RuthlessExtension;
+import dev.lajoscseppento.ruthless.plugin.extension.impl.RuthlessExtensionImpl;
 import org.gradle.api.GradleException;
 
 public class RuthlessBasePlugin extends AbstractProjectPlugin {
