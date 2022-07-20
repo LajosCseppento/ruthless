@@ -95,7 +95,7 @@ cd ruthless-demo
 
 1. Fix version, finalise change log
 2. Publish to Maven Central
-    1. Run `./gradlew publishAllPublicationsToStagingRepository`
+    1. Run `./gradlew publishToSonatype closeSonatypeStagingRepository`
     2. Open https://oss.sonatype.org/#stagingRepositories
     3. Close staging repository
     4. Inspect contents

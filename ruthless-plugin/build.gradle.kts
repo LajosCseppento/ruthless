@@ -154,6 +154,15 @@ val DESCRIPTION = "Ruthless conventions for Gradle projects to keep them DRY"
 val VCS_URL = "https://github.com/LajosCseppento/ruthless.git"
 val WEBSITE = "https://github.com/LajosCseppento/ruthless"
 
+val PLUGIN_MAVEN_PUBLICATION_NAME = "Ruthless"
+
+val LICENSE_NAME = "Apache License, Version 2.0"
+val LICENSE_URL = "https://www.apache.org/licenses/LICENSE-2.0"
+
+val DEVELOPER_ID = "LajosCseppento"
+val DEVELOPER_NAME = "Lajos Cseppentő"
+val DEVELOPER_URL = "https://www.lajoscseppento.dev"
+
 val POM_SCM_CONNECTION = "scm:git:git://github.com/LajosCseppento/ruthless.git"
 val POM_SCM_DEVELOPER_CONNECTION = "scm:git:ssh://git@github.com/LajosCseppento/ruthless.git"
 val POM_SCM_URL = "https://github.com/LajosCseppento/ruthless"
@@ -165,41 +174,12 @@ pluginBundle {
     website = WEBSITE
 }
 
-if (hasProperty("ossrhUsername")) {
-    publishing {
-        repositories {
-            val ossrhUsername: String by project
-            val ossrhPassword: String by project
-
-            maven {
-                name = "snapshots"
-                url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
-                }
-            }
-
-            maven {
-                name = "staging"
-                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
-                }
-            }
-        }
-    }
-} else {
-    logger.warn("Configure project without OSSRH publishing")
-}
-
 publishing.publications.withType<MavenPublication> {
     val publicationName = name
 
     pom {
         if (publicationName == "pluginMaven") {
-            name.set("Ruthless")
+            name.set(PLUGIN_MAVEN_PUBLICATION_NAME)
             description.set(DESCRIPTION)
         }
 
@@ -207,16 +187,16 @@ publishing.publications.withType<MavenPublication> {
 
         licenses {
             license {
-                name.set("Apache License, Version 2.0")
-                url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                name.set(LICENSE_NAME)
+                url.set(LICENSE_URL)
             }
         }
 
         developers {
             developer {
-                id.set("LajosCseppento")
-                name.set("Lajos Cseppentő")
-                url.set("https://www.lajoscseppento.dev")
+                id.set(DEVELOPER_ID)
+                name.set(DEVELOPER_NAME)
+                url.set(DEVELOPER_URL)
             }
         }
 
@@ -224,6 +204,25 @@ publishing.publications.withType<MavenPublication> {
             connection.set(POM_SCM_CONNECTION)
             developerConnection.set(POM_SCM_DEVELOPER_CONNECTION)
             url.set(POM_SCM_URL)
+        }
+    }
+}
+
+tasks.withType {
+    if (name == "publishToSonatype") {
+        doLast {
+            publishing.publications
+                    .filterIsInstance<MavenPublication>()
+                    .map {
+                        Pair(
+                                String.format("%s:%s:%s", it.groupId, it.artifactId, it.version),
+                                String.format("https://oss.sonatype.org/index.html#nexus-search;gav~%s~%s~%s~~", it.groupId, it.artifactId, it.version)
+                        )
+                    }
+                    .sortedBy { it.first }
+                    .forEach {
+                        logger.lifecycle("Published {}: {}", it.first, it.second)
+                    }
         }
     }
 }
