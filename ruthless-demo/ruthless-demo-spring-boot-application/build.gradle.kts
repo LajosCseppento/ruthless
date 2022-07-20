@@ -2,8 +2,6 @@ plugins {
     id("dev.lajoscseppento.ruthless.spring-boot-application")
 }
 
-ruthless.lombok()
-
 dependencies {
     implementation(project(":ruthless-demo-spring-boot-library"))
     implementation("org.springframework.boot:spring-boot-starter-web")
