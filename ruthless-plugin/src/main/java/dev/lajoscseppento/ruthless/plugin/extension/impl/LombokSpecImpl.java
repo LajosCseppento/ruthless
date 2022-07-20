@@ -18,7 +18,7 @@ class LombokSpecImpl implements LombokSpec {
   @Getter private final Property<Boolean> enabled;
 
   LombokSpecImpl(@NonNull Project project) {
-    this.logger = RuthlessLogger.create(project.getLogger(), "ruthless-lombok");
+    this.logger = RuthlessLogger.create(project.getLogger(), "ruthless");
     this.lombokDependency = project.getDependencies().create(LOMBOK_DEPENDENCY);
     this.enabled = project.getObjects().property(boolean.class).convention(true);
 
