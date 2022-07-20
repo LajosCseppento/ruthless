@@ -2,7 +2,7 @@ plugins {
     id("org.sonarqube") version "3.4.0.2513"
 }
 
-System.setProperty("sonar.projectKey", "LajosCseppento_ruthless")
+//System.setProperty("sonar.projectKey", "LajosCseppento_ruthless")
 
 allprojects {
     tasks.withType {
@@ -10,5 +10,11 @@ allprojects {
         if (task.name == "check") {
             rootProject.tasks.sonarqube { dependsOn(task) }
         }
+    }
+}
+
+sonarqube {
+    properties {
+        property("projectKey", "LajosCseppento_ruthless")
     }
 }
