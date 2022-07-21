@@ -13,8 +13,6 @@ plugins {
     `maven-publish`
 }
 
-ruthless.lombok()
-
 dependencies {
     val yamlString = project.file("src/main/resources/configuration.yml").readText()
     val yaml: Map<String, Any> = Yaml().load(yamlString)
@@ -33,13 +31,8 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     // #55 Direct declaration over dependency constraints to also propagate to the POM
     implementation("commons-codec:commons-codec:1.15")
-    // TODO Remove after #64 is released
-    testImplementation("org.junit-pioneer:junit-pioneer:1.7.1")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
     functionalTestImplementation("io.github.java-diff-utils:java-diff-utils:4.11")
-    // TODO Remove after #50 is released
-    functionalTestCompileOnly("org.projectlombok:lombok")
-    functionalTestAnnotationProcessor("org.projectlombok:lombok")
 }
 
 // Set up JaCoCo coverage for Gradle TestKit tests
