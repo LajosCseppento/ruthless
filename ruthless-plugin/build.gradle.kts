@@ -7,11 +7,10 @@ buildscript {
 }
 
 plugins {
-    id("com.gradle.plugin-publish") version "0.20.0"
+    id("com.gradle.plugin-publish") version "1.0.0"
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
     id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
     `maven-publish`
-    signing
 }
 
 ruthless.lombok()
@@ -32,6 +31,8 @@ dependencies {
 
     implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.2.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    // #55 Direct declaration over dependency constraints to also propagate to the POM
+    implementation("commons-codec:commons-codec:1.15")
     // TODO Remove after #64 is released
     testImplementation("org.junit-pioneer:junit-pioneer:1.7.1")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
@@ -39,16 +40,6 @@ dependencies {
     // TODO Remove after #50 is released
     functionalTestCompileOnly("org.projectlombok:lombok")
     functionalTestAnnotationProcessor("org.projectlombok:lombok")
-
-    constraints {
-        configurations.all {
-            if (!isCanBeConsumed && !isCanBeResolved) {
-                add(name, "commons-codec:commons-codec:1.15") {
-                    because("Older versions have vulnerabilities, see #55")
-                }
-            }
-        }
-    }
 }
 
 // Set up JaCoCo coverage for Gradle TestKit tests
@@ -94,6 +85,34 @@ tasks.named("compileFunctionalTestJava").configure {
 
 jacocoTestKit {
     applyTo("functionalTestImplementation", functionalTest)
+}
+
+val TAGS = listOf("ruthless", "conventions", "defaults", "standards", "dry")
+val TAGS_LOGGING = TAGS + "logging"
+val DESCRIPTION = "Ruthless conventions for Gradle projects to keep them DRY"
+val VCS_URL = "https://github.com/LajosCseppento/ruthless.git"
+val WEBSITE = "https://github.com/LajosCseppento/ruthless"
+
+val PLUGIN_MAVEN_PUBLICATION_NAME = "Ruthless"
+
+val LICENSE_NAME = "Apache License, Version 2.0"
+val LICENSE_URL = "https://www.apache.org/licenses/LICENSE-2.0"
+
+val DEVELOPER_ID = "LajosCseppento"
+val DEVELOPER_NAME = "Lajos Cseppentő"
+val DEVELOPER_URL = "https://www.lajoscseppento.dev"
+
+val POM_SCM_CONNECTION = "scm:git:git://github.com/LajosCseppento/ruthless.git"
+val POM_SCM_DEVELOPER_CONNECTION = "scm:git:ssh://git@github.com/LajosCseppento/ruthless.git"
+val POM_SCM_URL = "https://github.com/LajosCseppento/ruthless"
+
+pluginBundle {
+    description = DESCRIPTION
+    tags = TAGS
+    vcsUrl = VCS_URL
+    website = WEBSITE
+
+    pluginTags = mapOf("ruthlessLogging" to TAGS_LOGGING)
 }
 
 gradlePlugin {
@@ -149,57 +168,12 @@ gradlePlugin {
     }
 }
 
-val TAGS = listOf("ruthless", "conventions", "defaults", "standards", "dry")
-val DESCRIPTION = "Ruthless conventions for Gradle projects to keep them DRY"
-val VCS_URL = "https://github.com/LajosCseppento/ruthless.git"
-val WEBSITE = "https://github.com/LajosCseppento/ruthless"
-
-val POM_SCM_CONNECTION = "scm:git:git://github.com/LajosCseppento/ruthless.git"
-val POM_SCM_DEVELOPER_CONNECTION = "scm:git:ssh://git@github.com/LajosCseppento/ruthless.git"
-val POM_SCM_URL = "https://github.com/LajosCseppento/ruthless"
-
-pluginBundle {
-    description = DESCRIPTION
-    tags = TAGS
-    vcsUrl = VCS_URL
-    website = WEBSITE
-}
-
-if (hasProperty("ossrhUsername")) {
-    publishing {
-        repositories {
-            val ossrhUsername: String by project
-            val ossrhPassword: String by project
-
-            maven {
-                name = "snapshots"
-                url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
-                }
-            }
-
-            maven {
-                name = "staging"
-                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
-                }
-            }
-        }
-    }
-} else {
-    logger.warn("Configure project without OSSRH publishing")
-}
-
 publishing.publications.withType<MavenPublication> {
     val publicationName = name
 
     pom {
         if (publicationName == "pluginMaven") {
-            name.set("Ruthless")
+            name.set(PLUGIN_MAVEN_PUBLICATION_NAME)
             description.set(DESCRIPTION)
         }
 
@@ -207,16 +181,16 @@ publishing.publications.withType<MavenPublication> {
 
         licenses {
             license {
-                name.set("Apache License, Version 2.0")
-                url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                name.set(LICENSE_NAME)
+                url.set(LICENSE_URL)
             }
         }
 
         developers {
             developer {
-                id.set("LajosCseppento")
-                name.set("Lajos Cseppentő")
-                url.set("https://www.lajoscseppento.dev")
+                id.set(DEVELOPER_ID)
+                name.set(DEVELOPER_NAME)
+                url.set(DEVELOPER_URL)
             }
         }
 
@@ -228,12 +202,32 @@ publishing.publications.withType<MavenPublication> {
     }
 }
 
-signing {
-    if (hasProperty("signing.keyId")) {
-        sign(publishing.publications)
-    } else {
-        logger.warn("Configure project without code signing")
+tasks.withType {
+    if (name == "publishToSonatype") {
+        doLast {
+            publishing.publications
+                    .filterIsInstance<MavenPublication>()
+                    .map {
+                        Pair(
+                                String.format("%s:%s:%s", it.groupId, it.artifactId, it.version),
+                                String.format("https://oss.sonatype.org/index.html#nexus-search;gav~%s~%s~%s~~", it.groupId, it.artifactId, it.version)
+                        )
+                    }
+                    .sortedBy { it.first }
+                    .forEach {
+                        logger.lifecycle("Published {}: {}", it.first, it.second)
+                    }
+        }
     }
+}
+
+if (hasProperty("signing.keyId")) {
+    apply(plugin = "signing")
+    configure<SigningExtension> {
+        sign(publishing.publications)
+    }
+} else {
+    logger.warn("Configure project without code signing")
 }
 
 sonarqube {
