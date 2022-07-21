@@ -11,7 +11,6 @@ plugins {
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
     id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
     `maven-publish`
-    signing
 }
 
 ruthless.lombok()
@@ -222,12 +221,13 @@ tasks.withType {
     }
 }
 
-signing {
-    if (hasProperty("signing.keyId")) {
+if (hasProperty("signing.keyId")) {
+    apply(plugin = "signing")
+    configure<SigningExtension> {
         sign(publishing.publications)
-    } else {
-        logger.warn("Configure project without code signing")
     }
+} else {
+    logger.warn("Configure project without code signing")
 }
 
 sonarqube {
