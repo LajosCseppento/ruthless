@@ -51,7 +51,7 @@ jobs:
         with:
           job-id: jdk-${{ matrix.jdk-version }}
           save-maven-dependencies-cache: false
-          arguments: --scan --info publishToMavenLocal
+          arguments: --scan publishToMavenLocal
       - name: Build Demo
         run: ./gradlew --scan --info --no-build-cache --no-daemon --project-dir ruthless-demo --init-script init-dev.gradle.kts clean build
       - name: Build Logging Demo
