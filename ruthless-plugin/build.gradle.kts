@@ -32,6 +32,8 @@ dependencies {
 
     implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.2.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    // #55 Direct declaration over dependency constraints to also propagate to the POM
+    implementation("commons-codec:commons-codec:1.15")
     // TODO Remove after #64 is released
     testImplementation("org.junit-pioneer:junit-pioneer:1.7.1")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
@@ -39,16 +41,6 @@ dependencies {
     // TODO Remove after #50 is released
     functionalTestCompileOnly("org.projectlombok:lombok")
     functionalTestAnnotationProcessor("org.projectlombok:lombok")
-
-    constraints {
-        configurations.all {
-            if (!isCanBeConsumed && !isCanBeResolved) {
-                add(name, "commons-codec:commons-codec:1.15") {
-                    because("Older versions have vulnerabilities, see #55")
-                }
-            }
-        }
-    }
 }
 
 // Set up JaCoCo coverage for Gradle TestKit tests
