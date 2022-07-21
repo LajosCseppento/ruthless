@@ -7,11 +7,10 @@ buildscript {
 }
 
 plugins {
-    id("com.gradle.plugin-publish") version "0.20.0"
+    id("com.gradle.plugin-publish") version "1.0.0"
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
     id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
     `maven-publish`
-    signing
 }
 
 ruthless.lombok()
@@ -88,6 +87,34 @@ jacocoTestKit {
     applyTo("functionalTestImplementation", functionalTest)
 }
 
+val TAGS = listOf("ruthless", "conventions", "defaults", "standards", "dry")
+val TAGS_LOGGING = TAGS + "logging"
+val DESCRIPTION = "Ruthless conventions for Gradle projects to keep them DRY"
+val VCS_URL = "https://github.com/LajosCseppento/ruthless.git"
+val WEBSITE = "https://github.com/LajosCseppento/ruthless"
+
+val PLUGIN_MAVEN_PUBLICATION_NAME = "Ruthless"
+
+val LICENSE_NAME = "Apache License, Version 2.0"
+val LICENSE_URL = "https://www.apache.org/licenses/LICENSE-2.0"
+
+val DEVELOPER_ID = "LajosCseppento"
+val DEVELOPER_NAME = "Lajos Cseppentő"
+val DEVELOPER_URL = "https://www.lajoscseppento.dev"
+
+val POM_SCM_CONNECTION = "scm:git:git://github.com/LajosCseppento/ruthless.git"
+val POM_SCM_DEVELOPER_CONNECTION = "scm:git:ssh://git@github.com/LajosCseppento/ruthless.git"
+val POM_SCM_URL = "https://github.com/LajosCseppento/ruthless"
+
+pluginBundle {
+    description = DESCRIPTION
+    tags = TAGS
+    vcsUrl = VCS_URL
+    website = WEBSITE
+
+    pluginTags = mapOf("ruthlessLogging" to TAGS_LOGGING)
+}
+
 gradlePlugin {
     plugins {
         create("ruthless") {
@@ -139,31 +166,6 @@ gradlePlugin {
             description = "Ruthless plugin for Spring boot libraries"
         }
     }
-}
-
-val TAGS = listOf("ruthless", "conventions", "defaults", "standards", "dry")
-val DESCRIPTION = "Ruthless conventions for Gradle projects to keep them DRY"
-val VCS_URL = "https://github.com/LajosCseppento/ruthless.git"
-val WEBSITE = "https://github.com/LajosCseppento/ruthless"
-
-val PLUGIN_MAVEN_PUBLICATION_NAME = "Ruthless"
-
-val LICENSE_NAME = "Apache License, Version 2.0"
-val LICENSE_URL = "https://www.apache.org/licenses/LICENSE-2.0"
-
-val DEVELOPER_ID = "LajosCseppento"
-val DEVELOPER_NAME = "Lajos Cseppentő"
-val DEVELOPER_URL = "https://www.lajoscseppento.dev"
-
-val POM_SCM_CONNECTION = "scm:git:git://github.com/LajosCseppento/ruthless.git"
-val POM_SCM_DEVELOPER_CONNECTION = "scm:git:ssh://git@github.com/LajosCseppento/ruthless.git"
-val POM_SCM_URL = "https://github.com/LajosCseppento/ruthless"
-
-pluginBundle {
-    description = DESCRIPTION
-    tags = TAGS
-    vcsUrl = VCS_URL
-    website = WEBSITE
 }
 
 publishing.publications.withType<MavenPublication> {
@@ -219,12 +221,13 @@ tasks.withType {
     }
 }
 
-signing {
-    if (hasProperty("signing.keyId")) {
+if (hasProperty("signing.keyId")) {
+    apply(plugin = "signing")
+    configure<SigningExtension> {
         sign(publishing.publications)
-    } else {
-        logger.warn("Configure project without code signing")
     }
+} else {
+    logger.warn("Configure project without code signing")
 }
 
 sonarqube {
