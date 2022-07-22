@@ -4,6 +4,7 @@ import dev.lajoscseppento.ruthless.plugin.configuration.impl.GroupIdArtifactId;
 import dev.lajoscseppento.ruthless.plugin.logging.RuthlessLogger;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.Nullable;
 import lombok.NonNull;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -37,8 +38,12 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
   protected RepositoryHandler repositories;
   protected TaskContainer tasks;
 
+  // TODO remove these from AbstractProjectPlugin
+  @Nullable
   protected GradlePluginDevelopmentExtension gradlePlugin;
+  @Nullable
   protected JavaPluginExtension java;
+  @Nullable
   protected SourceSetContainer sourceSets;
 
   @Override

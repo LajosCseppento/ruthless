@@ -13,6 +13,13 @@ plugins {
     `maven-publish`
 }
 
+
+// TODO not all plugins are in maven central
+// TODO ruthless should do the same for java-gradle-plugin
+repositories {
+    gradlePluginPortal()
+}
+
 ruthless.lombok()
 
 dependencies {
@@ -29,7 +36,10 @@ dependencies {
         implementation(gav)
     }
 
-    implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.2.1")
+    // TODO what is preferred?
+    api("com.fasterxml.jackson.core:jackson-databind")
+    api("dev.lajoscseppento.gradle:gradle-plugin-common:0.2.1")
+    implementation("com.fasterxml.jackson.core:jackson-core")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     // #55 Direct declaration over dependency constraints to also propagate to the POM
     implementation("commons-codec:commons-codec:1.15")
