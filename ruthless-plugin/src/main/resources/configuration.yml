@@ -58,3 +58,6 @@ gradlePlugins:
   - groupId: io.spring.gradle
     artifactId: dependency-management-plugin
     version: 1.0.11.RELEASE
+  - groupId: org.sonarsource.scanner.gradle
+    artifactId: sonarqube-gradle-plugin
+    version: 3.4.0.2513
