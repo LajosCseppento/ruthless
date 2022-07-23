@@ -17,9 +17,6 @@ import org.gradle.plugin.devel.plugins.JavaGradlePluginPlugin;
 import org.gradle.testing.base.TestingExtension;
 
 public class RuthlessJavaGradlePluginPlugin extends AbstractProjectPlugin {
-
-  private static final String TESTING_EXTENSION_NAME = "testing";
-
   private GradlePluginDevelopmentExtension gradlePlugin;
 
   @Override
@@ -30,7 +27,7 @@ public class RuthlessJavaGradlePluginPlugin extends AbstractProjectPlugin {
   @Override
   protected void apply() {
     gradlePlugin = (GradlePluginDevelopmentExtension) extensions.getByName("gradlePlugin");
-    TestingExtension testing = (TestingExtension) extensions.getByName(TESTING_EXTENSION_NAME);
+    TestingExtension testing = (TestingExtension) extensions.getByName("testing");
 
     NamedDomainObjectProvider<JvmTestSuite> functionalTestSuite =
         testing
