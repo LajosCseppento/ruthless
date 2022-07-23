@@ -29,6 +29,8 @@ public class RuthlessJavaGradlePluginPlugin extends AbstractProjectPlugin {
 
   @Override
   protected void apply() {
+    repositories.gradlePluginPortal();
+
     gradlePlugin = (GradlePluginDevelopmentExtension) extensions.getByName("gradlePlugin");
     TestingExtension testing = (TestingExtension) extensions.getByName(TESTING_EXTENSION_NAME);
 
@@ -40,6 +42,8 @@ public class RuthlessJavaGradlePluginPlugin extends AbstractProjectPlugin {
     tasks
         .named(LifecycleBasePlugin.CHECK_TASK_NAME)
         .configure(checkTask -> checkTask.dependsOn(functionalTestSuite));
+
+    configureJacocoCoverage();
   }
 
   private void configureFunctionalTestSuite(@NonNull JvmTestSuite functionalTest) {
@@ -52,5 +56,57 @@ public class RuthlessJavaGradlePluginPlugin extends AbstractProjectPlugin {
     target
         .getTestTask()
         .configure(testTask -> testTask.shouldRunAfter(tasks.named(JavaPlugin.TEST_TASK_NAME)));
+  }
+
+  private void configureJacocoCoverage() {
+    //// Set up JaCoCo coverage for Gradle TestKit tests
+    //    val functionalTest = tasks.named("functionalTest")
+    //    val jacocoTestReport = tasks.named("jacocoTestReport")
+    //
+    //    functionalTest.configure {
+    //      finalizedBy(jacocoTestReport)
+    //
+    //      // See https://github.com/koral--/jacoco-gradle-testkit-plugin/issues/9
+    //      doLast {
+    //        val jacocoTestExec =
+    // checkNotNull(extensions.getByType(JacocoTaskExtension::class).destinationFile)
+    //        val delayMs = 1000L
+    //        val intervalMs = 200L
+    //        val maxRetries = 50
+    //        var retries = 0
+    //
+    //        TimeUnit.MILLISECONDS.sleep(delayMs) // Linux
+    //
+    //        while (!(jacocoTestExec.exists() && jacocoTestExec.renameTo(jacocoTestExec))) { //
+    // Windows
+    //          if (retries >= maxRetries) {
+    //            val waitTime = delayMs + intervalMs * retries
+    //            throw GradleException("$jacocoTestExec.name is not ready, waited at least
+    // $waitTime ms")
+    //          }
+    //
+    //          retries++
+    //          logger.info("Waiting $intervalMs ms for $jacocoTestExec to be ready, try
+    // #$retries...")
+    //          TimeUnit.MILLISECONDS.sleep(intervalMs)
+    //        }
+    //
+    //        logger.info("$jacocoTestExec is ready")
+    //      }
+    //    }
+    //
+    //    jacocoTestReport.configure {
+    //      dependsOn(functionalTest)
+    //      (this as JacocoReport).executionData.from(buildDir.absolutePath +
+    // "/jacoco/functionalTest.exec")
+    //    }
+    //
+    //    tasks.named("compileFunctionalTestJava").configure {
+    //      dependsOn("generateJacocoFunctionalTestKitProperties")
+    //    }
+    //
+    //    jacocoTestKit {
+    //      applyTo("functionalTestImplementation", functionalTest)
+    //    }
   }
 }

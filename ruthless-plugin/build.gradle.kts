@@ -13,6 +13,11 @@ plugins {
     `maven-publish`
 }
 
+repositories {
+    // TODO Remove when #80 is released
+    gradlePluginPortal()
+}
+
 dependencies {
     val yamlString = project.file("src/main/resources/configuration.yml").readText()
     val yaml: Map<String, Any> = Yaml().load(yamlString)
