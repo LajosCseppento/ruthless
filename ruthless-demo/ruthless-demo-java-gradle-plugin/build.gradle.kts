@@ -2,6 +2,10 @@ plugins {
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
 }
 
+dependencies {
+    functionalTestImplementation("com.google.guava:guava")
+}
+
 gradlePlugin {
     plugins {
         create("ruthless") {
