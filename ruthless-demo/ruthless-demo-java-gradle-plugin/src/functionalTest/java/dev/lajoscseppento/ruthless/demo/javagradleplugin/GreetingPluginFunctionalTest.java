@@ -2,8 +2,8 @@ package dev.lajoscseppento.ruthless.demo.javagradleplugin;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.google.common.io.MoreFiles;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import lombok.NonNull;
 import org.gradle.testkit.runner.BuildResult;
@@ -38,8 +38,7 @@ class GreetingPluginFunctionalTest {
   private void writeFile(@NonNull String relativePath, @NonNull String content) {
     try {
       Path file = projectDir.resolve(relativePath);
-      Files.createDirectories(file.getParent());
-      Files.write(file, content.getBytes(StandardCharsets.UTF_8));
+      MoreFiles.asCharSink(file, StandardCharsets.UTF_8).write(content);
     } catch (Exception ex) {
       throw new AssertionError("Failed to write file: " + relativePath, ex);
     }

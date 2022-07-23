@@ -15,7 +15,6 @@ import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.JavaPluginExtension;
 import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.TaskContainer;
-import org.gradle.plugin.devel.GradlePluginDevelopmentExtension;
 
 /**
  * Base class to approximate buildscript DSL and facilitate writing cleaner plugin code.
@@ -37,7 +36,6 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
   protected RepositoryHandler repositories;
   protected TaskContainer tasks;
 
-  protected GradlePluginDevelopmentExtension gradlePlugin;
   protected JavaPluginExtension java;
   protected SourceSetContainer sourceSets;
 
@@ -59,7 +57,6 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
     repositories = project.getRepositories();
     tasks = project.getTasks();
 
-    gradlePlugin = (GradlePluginDevelopmentExtension) extensions.findByName("gradlePlugin");
     java = (JavaPluginExtension) extensions.findByName("java");
     sourceSets = (SourceSetContainer) extensions.findByName("sourceSets");
 
