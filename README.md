@@ -103,9 +103,8 @@ cd ruthless-logging-demo
 2. Publish to Maven Central
     1. Run `./gradlew publishToSonatype closeSonatypeStagingRepository`
     2. Open https://oss.sonatype.org/#stagingRepositories
-    3. Close staging repository
-    4. Inspect contents
-    5. Release
+    3. Inspect contents
+    4. Release
 3. Publish to Gradle Plugin Portal using `./gradlew publishPlugins`
 4. Bump version
 5. Upgrade to recently released version (both `ruthless`, `ruthless-demo` and  `ruthless-logging-demo`)
