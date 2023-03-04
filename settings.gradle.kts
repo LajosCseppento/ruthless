@@ -12,3 +12,4 @@ gradleEnterprise {
         termsOfServiceAgree = "yes"
     }
 }
+include("ruthless-gradle-plugin-test")

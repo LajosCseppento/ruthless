@@ -22,17 +22,16 @@ import org.gradle.plugin.devel.plugins.JavaGradlePluginPlugin;
 import org.gradle.testing.base.TestingExtension;
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension;
 import org.gradle.testing.jacoco.tasks.JacocoReport;
+import pl.droidsonroids.gradle.jacoco.testkit.JaCoCoTestKitPlugin;
 import pl.droidsonroids.gradle.jacoco.testkit.JacocoTestKitExtension;
 
 public class RuthlessJavaGradlePluginPlugin extends AbstractProjectPlugin {
-
-  private static final String TESTING_EXTENSION_NAME = "testing";
-
   private GradlePluginDevelopmentExtension gradlePlugin;
 
   @Override
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {
-    return Arrays.asList(RuthlessJavaBasePlugin.class, JavaGradlePluginPlugin.class);
+    return Arrays.asList(
+        RuthlessJavaBasePlugin.class, JavaGradlePluginPlugin.class, JaCoCoTestKitPlugin.class);
   }
 
   @Override
@@ -40,7 +39,7 @@ public class RuthlessJavaGradlePluginPlugin extends AbstractProjectPlugin {
     repositories.gradlePluginPortal();
 
     gradlePlugin = (GradlePluginDevelopmentExtension) extensions.getByName("gradlePlugin");
-    TestingExtension testing = (TestingExtension) extensions.getByName(TESTING_EXTENSION_NAME);
+    TestingExtension testing = (TestingExtension) extensions.getByName("testing");
 
     NamedDomainObjectProvider<JvmTestSuite> functionalTestSuite =
         testing
