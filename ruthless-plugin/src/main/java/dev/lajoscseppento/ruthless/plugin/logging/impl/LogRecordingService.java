@@ -267,7 +267,7 @@ public abstract class LogRecordingService
     }
   }
 
-  // Note: there is no guarantee that this method is called at all in Gradle 7.4.2
+  // Note: there is no guarantee that this method is called at all in Gradle 7.x
   private void onBuildResult(@NonNull BuildResult buildResult) {
     synchronized (lock) {
       Throwable failure = buildResult.getFailure();
