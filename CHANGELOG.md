@@ -11,7 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Declare Gradle Plugin functional test as JVM test suite
 - Upgrade to Gradle 7.5.1
+- Upgrade AssertJ from 3.23.1 to 3.24.2
+- Upgrade Jackson from 2.13.3 to 2.14.2
+- Upgrade JUnit 5 from 5.8.2 to 2.9.2
+- Upgrade JUnit Pioneer from 1.7.1 to 1.9.1
+- Upgrade Lombok from 1.18.24 to 1.18.26
+- Upgrade Mockito from 4.6.1 to 4.11.0
 - Upgrade Spotless from 6.7.2 to 6.13.0
+- Upgrade Spring Boot from 2.7.0 to 2.7.9
+- Upgrade Spring Dependency Management Plugin from 1.0.11.RELEASE to 1.1.0
 
 ## [0.5.0] - 2022-07-21
 
@@ -46,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade JaCoCo from 0.8.7 to 0.8.8
 - Upgrade Lombok from 1.18.22 to 1.18.24
 - Upgrade Spotless from 6.2.1 to 6.7.2
-- Upgrade Spring from 2.6.3 to 2.7.0
+- Upgrade Spring Boot from 2.6.3 to 2.7.0
 
 ## [0.3.0] - 2022-02-06
 
@@ -87,7 +95,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Unreleased]: https://github.com/LajosCseppento/ruthless/compare/v0.5.0...HEAD
 
-[0.4.0]: https://github.com/LajosCseppento/ruthless/releases/tag/v0.5.0
+[0.5.0]: https://github.com/LajosCseppento/ruthless/releases/tag/v0.5.0
 
 [0.4.0]: https://github.com/LajosCseppento/ruthless/releases/tag/v0.4.0
 
