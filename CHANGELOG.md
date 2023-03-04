@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Gradle plugin functional test coverage
+
 ### Changed
 
 - Declare Gradle Plugin functional test as JVM test suite

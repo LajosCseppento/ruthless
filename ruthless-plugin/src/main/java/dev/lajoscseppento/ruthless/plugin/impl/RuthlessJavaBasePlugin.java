@@ -132,6 +132,7 @@ public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
     jacoco.setToolVersion(RuthlessConfiguration.INSTANCE.getJacocoVersion());
 
     JacocoReport jacocoTestReportTask = (JacocoReport) tasks.getByName("jacocoTestReport");
+    jacocoTestReportTask.getReports().getHtml().getRequired().set(true);
     jacocoTestReportTask.getReports().getXml().getRequired().set(true);
 
     Task testTask = tasks.getByName(JavaPlugin.TEST_TASK_NAME);

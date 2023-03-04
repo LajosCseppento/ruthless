@@ -9,8 +9,13 @@ buildscript {
 plugins {
     id("com.gradle.plugin-publish") version "1.0.0"
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
-    id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
+    // id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
     `maven-publish`
+}
+
+repositories {
+    // TODO Remove when #80 is released
+    gradlePluginPortal()
 }
 
 dependencies {
