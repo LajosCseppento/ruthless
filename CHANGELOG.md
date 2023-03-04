@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Upgrade to Gradle 7.5.1
 - Declare Gradle Plugin functional test as JVM test suite
+- Upgrade to Gradle 7.5.1
+- Upgrade Spotless from 6.7.2 to 6.13.0
 
 ## [0.5.0] - 2022-07-21
 
