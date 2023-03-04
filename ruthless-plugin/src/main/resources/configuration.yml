@@ -1,4 +1,4 @@
-minimumGradleVersion: 7.4.2
+minimumGradleVersion: 7.5.1
 jacocoVersion: 0.8.8
 
 defaultDependencies:
@@ -49,9 +49,10 @@ springTestDependencies:
     artifactId: spring-boot-starter-test
 
 gradlePlugins:
+  # Last known version built with Java 8 bytecode
   - groupId: com.diffplug.spotless
     artifactId: spotless-plugin-gradle
-    version: 6.7.2
+    version: 6.13.0
   - groupId: org.springframework.boot
     artifactId: spring-boot-gradle-plugin
     version: 2.7.0

@@ -85,7 +85,7 @@ class RuthlessPluginFunctionalTest {
         GradleRunner.create()
             .forwardOutput()
             .withPluginClasspath()
-            .withGradleVersion("7.4.1")
+            .withGradleVersion("7.5")
             .withArguments("build")
             .withProjectDir(projectDir.toFile());
 
