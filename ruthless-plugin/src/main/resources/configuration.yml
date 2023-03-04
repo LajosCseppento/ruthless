@@ -58,6 +58,7 @@ gradlePlugins:
   - groupId: org.springframework.boot
     artifactId: spring-boot-gradle-plugin
     version: 2.7.9
+  # Spring Initializr recommendation for Spring Boot 2.7.9
   - groupId: io.spring.gradle
     artifactId: dependency-management-plugin
-    version: 1.1.0
+    version: 1.0.15.RELEASE

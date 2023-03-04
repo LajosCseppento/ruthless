@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade Mockito from 4.6.1 to 4.11.0
 - Upgrade Spotless from 6.7.2 to 6.13.0
 - Upgrade Spring Boot from 2.7.0 to 2.7.9
-- Upgrade Spring Dependency Management Plugin from 1.0.11.RELEASE to 1.1.0
+- Upgrade Spring Dependency Management Plugin from 1.0.11.RELEASE to 1.0.15.RELEASE
 
 ## [0.5.0] - 2022-07-21
 
