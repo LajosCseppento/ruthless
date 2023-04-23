@@ -1,4 +1,4 @@
- minimumGradleVersion: 7.6.1
+minimumGradleVersion: 7.6.1
 jacocoVersion: 0.8.9
 
 defaultDependencies:
