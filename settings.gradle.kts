@@ -17,7 +17,6 @@ plugins {
 rootProject.name = "ruthless"
 include("ruthless-plugin")
 
-
 gradleEnterprise {
     buildScan {
         termsOfServiceUrl = "https://gradle.com/terms-of-service"
