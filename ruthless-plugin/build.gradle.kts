@@ -2,14 +2,14 @@ import org.yaml.snakeyaml.Yaml
 
 buildscript {
     dependencies {
-        "classpath"("org.yaml:snakeyaml:1.30")
+        "classpath"("org.yaml:snakeyaml:2.0")
     }
 }
 
 plugins {
-    id("com.gradle.plugin-publish") version "1.0.0"
+    id("com.gradle.plugin-publish") version "1.1.0"
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
-    id("pl.droidsonroids.jacoco.testkit") version "1.0.9"
+    id("pl.droidsonroids.jacoco.testkit") version "1.0.11"
     `maven-publish`
 }
 
@@ -27,12 +27,12 @@ dependencies {
         implementation(gav)
     }
 
-    implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.2.1")
+    implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.3.0")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     // #55 Direct declaration over dependency constraints to also propagate to the POM
     implementation("commons-codec:commons-codec:1.15")
     functionalTestImplementation("commons-io:commons-io:2.11.0")
-    functionalTestImplementation("io.github.java-diff-utils:java-diff-utils:4.11")
+    functionalTestImplementation("io.github.java-diff-utils:java-diff-utils:4.12")
 }
 
 // Set up JaCoCo coverage for Gradle TestKit tests
