@@ -7,9 +7,9 @@ buildscript {
 }
 
 plugins {
-    id("com.gradle.plugin-publish") version "1.1.0"
+    id("com.gradle.plugin-publish")
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
-    id("pl.droidsonroids.jacoco.testkit") version "1.0.11"
+    id("pl.droidsonroids.jacoco.testkit")
     `maven-publish`
 }
 
