@@ -261,10 +261,16 @@ class RuthlessLoggingPluginFunctionalTest {
   @RequiredArgsConstructor
   private static class OutputFilter implements Predicate<String> {
     private final boolean debug;
+    private String previousKeptLine = null;
     private boolean inRecordedSection = false;
 
     @Override
     public boolean test(String line) {
+      // Skip duplicate empty lines
+      if (previousKeptLine != null && previousKeptLine.isEmpty() && line.isEmpty()) {
+        return false;
+      }
+
       // Skip noise:
       // VCS Checkout Cache (...) removing files not accessed on or after ...
       // VCS Checkout Cache ...) cleanup deleted 0 files/directories.
@@ -283,7 +289,8 @@ class RuthlessLoggingPluginFunctionalTest {
 
       // TODO Remove this once migration to Gradle 8.x is done
       if (line.contains("Deprecated Gradle features were used in this build")
-          || line.contains("You can use '--warning-mode all' to show")) {
+          || line.contains("You can use '--warning-mode all' to show")
+          || line.contains("command_line_interface.html#sec:command_line_warnings")) {
         return false;
       }
 
@@ -294,6 +301,11 @@ class RuthlessLoggingPluginFunctionalTest {
 
       if (debug && line.contains("Stopping build output recording")) {
         inRecordedSection = false;
+      }
+
+
+      if (inRecordedSection) {
+        previousKeptLine = line;
       }
 
       return inRecordedSection;
