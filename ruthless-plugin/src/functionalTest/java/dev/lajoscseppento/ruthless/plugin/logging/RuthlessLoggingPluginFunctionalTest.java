@@ -303,7 +303,6 @@ class RuthlessLoggingPluginFunctionalTest {
         inRecordedSection = false;
       }
 
-
       if (inRecordedSection) {
         previousKeptLine = line;
       }
