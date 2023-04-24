@@ -1,6 +1,6 @@
 pluginManagement {
     plugins {
-        id("dev.lajoscseppento.ruthless") version "0.6.0"
+        id("dev.lajoscseppento.ruthless") version "0.7.0"
         id("com.gradle.plugin-publish") version "1.1.0"
         // Note: newer versions do not seem to work with Gradle 7.6.1
         id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
