@@ -281,6 +281,12 @@ class RuthlessLoggingPluginFunctionalTest {
         return false;
       }
 
+      // TODO Remove this once migration to Gradle 8.x is done
+      if (line.contains("Deprecated Gradle features were used in this build")
+          || line.contains("You can use '--warning-mode all' to show")) {
+        return false;
+      }
+
       // Keep only the recorded section
       if (line.contains("[ruthless-logging] Started log recording at")) {
         inRecordedSection = true;

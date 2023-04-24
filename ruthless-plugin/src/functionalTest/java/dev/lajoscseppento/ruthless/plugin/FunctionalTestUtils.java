@@ -31,6 +31,9 @@ public class FunctionalTestUtils {
       String jacocoTestKitProperties;
       try (InputStream is =
           FunctionalTestUtils.class.getResourceAsStream("/testkit-gradle.properties")) {
+        if (is == null) {
+          throw new IllegalStateException("Failed to load testkit-gradle.properties");
+        }
         jacocoTestKitProperties = new Scanner(is).useDelimiter("\\A").next();
       }
 
