@@ -1,6 +1,6 @@
 plugins {
-    id("org.sonarqube") version "3.4.0.2513"
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("org.sonarqube")
+    id("io.github.gradle-nexus.publish-plugin")
 }
 
 if (hasProperty("ossrhUsername")) {

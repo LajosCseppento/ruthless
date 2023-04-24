@@ -4,11 +4,11 @@ on: [ push, pull_request, workflow_dispatch ]
 jobs:
   build:
     name: Build on JDK ${{ matrix.jdk-version }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        jdk-version: [ '8', '11', '17' ]
+        jdk-version: [ '11', '17' ]
     # Avoid duplicated CI runs for internal PRs
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     steps:

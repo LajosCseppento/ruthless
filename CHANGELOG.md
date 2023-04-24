@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade to Java 11
+- Upgrade to Gradle 7.6.1
+- Upgrade JaCoCo from 0.8.8 to 0.8.9
+- Upgrade JUnit Pioneer from 1.9.1 to 2.0.1
+- Upgrade Mockito from 4.11.0 to 5.3.1
+- Upgrade Spotless from 6.13.0 to 6.18.0
+- Upgrade Spring Boot from 2.7.9 to 2.7.11
+
 ## [0.6.0] - 2023-03-04
 
 ### Changed
@@ -15,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade to Gradle 7.5.1
 - Upgrade AssertJ from 3.23.1 to 3.24.2
 - Upgrade Jackson from 2.13.3 to 2.14.2
-- Upgrade JUnit 5 from 5.8.2 to 2.9.2
+- Upgrade JUnit 5 from 5.8.2 to 5.9.2
 - Upgrade JUnit Pioneer from 1.7.1 to 1.9.1
 - Upgrade Lombok from 1.18.24 to 1.18.26
 - Upgrade Mockito from 4.6.1 to 4.11.0

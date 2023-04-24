@@ -1,7 +1,6 @@
 package dev.lajoscseppento.ruthless.plugin;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,7 +15,7 @@ import org.gradle.internal.impldep.org.eclipse.jgit.annotations.NonNull;
 public class FunctionalTestUtils {
   public String readString(@NonNull Path file) {
     try {
-      return new String(Files.readAllBytes(file), StandardCharsets.UTF_8);
+      return Files.readString(file);
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
     }
@@ -32,6 +31,9 @@ public class FunctionalTestUtils {
       String jacocoTestKitProperties;
       try (InputStream is =
           FunctionalTestUtils.class.getResourceAsStream("/testkit-gradle.properties")) {
+        if (is == null) {
+          throw new IllegalStateException("Failed to load testkit-gradle.properties");
+        }
         jacocoTestKitProperties = new Scanner(is).useDelimiter("\\A").next();
       }
 

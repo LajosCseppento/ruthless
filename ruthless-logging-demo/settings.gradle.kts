@@ -1,5 +1,5 @@
 plugins {
-    id("dev.lajoscseppento.ruthless.logging") version "0.5.0"
+    id("dev.lajoscseppento.ruthless.logging") version "0.6.0"
     id("com.gradle.enterprise") version "+"
 }
 
