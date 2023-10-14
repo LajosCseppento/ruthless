@@ -114,7 +114,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `dev.lajoscseppento.ruthless.spring-boot-library` - Spring Boot library
 - Publication to Gradle Plugin Portal
 
-[Unreleased]: https://github.com/LajosCseppento/ruthless/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/LajosCseppento/ruthless/compare/v0.7.1...HEAD
+
+[0.7.1]: https://github.com/LajosCseppento/ruthless/releases/tag/v0.7.1
 
 [0.7.0]: https://github.com/LajosCseppento/ruthless/releases/tag/v0.7.0
 
