@@ -11,6 +11,8 @@ plugins {
     id("dev.lajoscseppento.ruthless.java-gradle-plugin")
     id("pl.droidsonroids.jacoco.testkit")
     `maven-publish`
+    // Added to facilitate migration to Gradle 8.4, to be removed later
+    id("com.diffplug.gradle.spotless") version "6.22.0"
 }
 
 dependencies {

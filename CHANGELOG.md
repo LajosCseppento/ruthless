@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade to Java 17
 - Upgrade to Gradle 8.4
 
+## [0.7.1] - 2023-10-14
+
+- Upgrade Spotless from 6.18.0 to 6.22.0
+
 ## [0.7.0] - 2023-04-24
 
 ### Changed
