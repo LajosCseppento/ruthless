@@ -22,7 +22,7 @@ defaultDependencies:
     version: 5.6.0
   - groupId: org.projectlombok
     artifactId: lombok
-    version: 1.18.20
+    version: 1.18.30
 
 platformDependencies:
   - groupId: com.fasterxml.jackson

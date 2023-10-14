@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Upgrade to Java 17
 - Upgrade to Gradle 8.4
+- Upgrade Guava from 31.1-jre to 32.1.3-jre
+- Upgrade Jackson from 2.14.2 to 2.15.3
+- Upgrade JaCoCo from 0.8.8 to 0.8.10
+- Upgrade JUnit from 5.9.2 to 5.10.0
+- Upgrade JUnit Pioneer from 2.0.1 to 2.1.0
+- Upgrade Lombok from 1.18.26 to 1.18.30
+- Upgrade Mockito from 5.3.1 to 5.6.0
+- Upgrade Spring Boot from 2.7.11 to 3.1.4
+- Upgrade Spring Dependency Management Plugin from 1.0.15.RELEASE to 1.1.3
 
 ## [0.7.1] - 2023-10-14
 
