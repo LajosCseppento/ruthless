@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/** Generates items. */
 @RequiredArgsConstructor
 @Component
 @EnableScheduling
@@ -18,6 +19,7 @@ public class ItemFactory {
   private final AtomicLong nextId = new AtomicLong(1);
   private final ItemRepository itemRepository;
 
+  /** Generates an item every 5 seconds. */
   @Scheduled(fixedRate = 5000)
   void generateItem() {
     long id = nextId.getAndIncrement();
