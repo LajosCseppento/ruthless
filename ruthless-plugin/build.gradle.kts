@@ -69,7 +69,7 @@ functionalTest.configure {
 
 jacocoTestReport.configure {
     dependsOn(functionalTest)
-    (this as JacocoReport).executionData.from(buildDir.absolutePath + "/jacoco/functionalTest.exec")
+    (this as JacocoReport).executionData.from(layout.buildDirectory.file("jacoco/functionalTest.exec"))
 }
 
 tasks.named("compileFunctionalTestJava").configure {
@@ -80,8 +80,7 @@ jacocoTestKit {
     applyTo("functionalTestImplementation", functionalTest)
 }
 
-val TAGS = listOf("ruthless", "conventions", "defaults", "standards", "dry")
-val TAGS_LOGGING = TAGS + "logging"
+val COMMON_TAGS = listOf("ruthless", "conventions", "defaults", "standards", "dry")
 val DESCRIPTION = "Ruthless conventions for Gradle projects to keep them DRY"
 val VCS_URL = "https://github.com/LajosCseppento/ruthless.git"
 val WEBSITE = "https://github.com/LajosCseppento/ruthless"
@@ -99,22 +98,17 @@ val POM_SCM_CONNECTION = "scm:git:git://github.com/LajosCseppento/ruthless.git"
 val POM_SCM_DEVELOPER_CONNECTION = "scm:git:ssh://git@github.com/LajosCseppento/ruthless.git"
 val POM_SCM_URL = "https://github.com/LajosCseppento/ruthless"
 
-pluginBundle {
-    description = DESCRIPTION
-    tags = TAGS
-    vcsUrl = VCS_URL
-    website = WEBSITE
-
-    pluginTags = mapOf("ruthlessLogging" to TAGS_LOGGING)
-}
-
 gradlePlugin {
+    website.set(WEBSITE)
+    vcsUrl.set(VCS_URL)
+
     plugins {
         create("ruthless") {
             id = "dev.lajoscseppento.ruthless"
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessPlugin"
             displayName = "Ruthless"
             description = "Ruthless base plugin"
+            tags.set(COMMON_TAGS)
         }
 
         create("ruthlessLogging") {
@@ -122,6 +116,7 @@ gradlePlugin {
             implementationClass = "dev.lajoscseppento.ruthless.plugin.logging.RuthlessLoggingPlugin"
             displayName = "Ruthless Logging"
             description = "Ruthless logging conventions"
+            tags.set(COMMON_TAGS + "logging")
         }
 
         create("ruthlessJavaApplication") {
@@ -129,6 +124,7 @@ gradlePlugin {
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaApplicationPlugin"
             displayName = "Ruthless / Java Application"
             description = "Ruthless plugin for Java applications"
+            tags.set(COMMON_TAGS + "java")
         }
 
         create("ruthlessJavaGradlePlugin") {
@@ -136,6 +132,7 @@ gradlePlugin {
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaGradlePluginPlugin"
             displayName = "Ruthless / Java Gradle Plugin"
             description = "Ruthless plugin for Gradle plugins (implemented in Java)"
+            tags.set(COMMON_TAGS + "java" + "gradle-plugin")
         }
 
         create("ruthlessJavaLibrary") {
@@ -143,6 +140,7 @@ gradlePlugin {
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessJavaLibraryPlugin"
             displayName = "Ruthless / Java Library"
             description = "Ruthless plugin for Java libraries"
+            tags.set(COMMON_TAGS + "java")
         }
 
         create("ruthlessSpringBootApplication") {
@@ -150,6 +148,7 @@ gradlePlugin {
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessSpringBootApplicationPlugin"
             displayName = "Ruthless / Spring Boot Application"
             description = "Ruthless plugin for Spring boot applications"
+            tags.set(COMMON_TAGS + "java" + "spring-boot")
         }
 
         create("ruthlessSpringBootLibrary") {
@@ -157,6 +156,7 @@ gradlePlugin {
             implementationClass = "dev.lajoscseppento.ruthless.plugin.RuthlessSpringBootLibraryPlugin"
             displayName = "Ruthless / Spring Boot Library"
             description = "Ruthless plugin for Spring boot libraries"
+            tags.set(COMMON_TAGS + "java" + "spring-boot")
         }
     }
 }

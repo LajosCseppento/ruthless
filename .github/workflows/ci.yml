@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk-version: [ '11', '17' ]
+        jdk-version: [ '17', '21' ]
     # Avoid duplicated CI runs for internal PRs
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     steps:
@@ -23,8 +23,8 @@ jobs:
           java-version: ${{ matrix.jdk-version }}
           check-latest: true
           cache: 'gradle'
-      - name: Cache SonarCloud packages (JDK 11 only)
-        if: ${{ matrix.jdk-version == 11 }}
+      - name: Cache SonarCloud packages (JDK 17 only)
+        if: ${{ matrix.jdk-version == 17 }}
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
@@ -36,8 +36,8 @@ jobs:
           job-id: jdk-${{ matrix.jdk-version }}
           save-maven-dependencies-cache: false
           arguments: --scan build
-      - name: Sonar (JDK 11 only)
-        if: ${{ matrix.jdk-version == 11 }}
+      - name: Sonar (JDK 17 only)
+        if: ${{ matrix.jdk-version == 17 }}
         uses: burrunan/gradle-cache-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
@@ -45,7 +45,7 @@ jobs:
         with:
           job-id: jdk-${{ matrix.jdk-version }}
           save-maven-dependencies-cache: false
-          arguments: --scan sonarqube
+          arguments: --scan assemble sonar
       - name: Publish to Maven Local
         uses: burrunan/gradle-cache-action@v1
         with:
