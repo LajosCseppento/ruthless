@@ -1,5 +1,5 @@
-minimumGradleVersion: 7.6.1
-jacocoVersion: 0.8.9
+minimumGradleVersion: 8.4
+jacocoVersion: 0.8.10
 
 defaultDependencies:
   - groupId: com.fasterxml.jackson
@@ -51,7 +51,7 @@ springTestDependencies:
 gradlePlugins:
   - groupId: com.diffplug.spotless
     artifactId: spotless-plugin-gradle
-    version: 6.18.0
+    version: 6.22.0
   - groupId: org.springframework.boot
     artifactId: spring-boot-gradle-plugin
     version: 2.7.11
