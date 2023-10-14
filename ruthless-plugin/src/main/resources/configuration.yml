@@ -1,5 +1,5 @@
-minimumGradleVersion: 7.6.1
-jacocoVersion: 0.8.9
+minimumGradleVersion: 8.4
+jacocoVersion: 0.8.10
 
 defaultDependencies:
   - groupId: com.fasterxml.jackson

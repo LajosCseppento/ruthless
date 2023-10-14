@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
+/** Represents an item. */
 @Jacksonized
 @Builder
 @Value
