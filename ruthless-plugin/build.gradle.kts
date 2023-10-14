@@ -223,10 +223,10 @@ if (hasProperty("signing.keyId")) {
     logger.warn("Configure project without code signing")
 }
 
-sonarqube {
+sonar {
     properties {
         @Suppress("UNCHECKED_CAST")
-        val orig = properties["sonar.tests"] as MutableList<Any>
+        val orig = properties["sonar.tests"] as Collection<Any>
         properties["sonar.tests"] = orig + sourceSets.functionalTest.get().allSource.srcDirs.filter { it.exists() }
     }
 }
