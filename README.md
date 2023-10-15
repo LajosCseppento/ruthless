@@ -48,7 +48,7 @@ setup more):
 
 ```kotlin
 plugins {
-    id("dev.lajoscseppento.ruthless") version "0.7.1"
+    id("dev.lajoscseppento.ruthless") version "0.8.0"
 }
 
 rootProject.name = "my-project"

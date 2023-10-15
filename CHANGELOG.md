@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2023-10-15
+
 ### Added
 
 - Add Jakarta Annotation API 2.1.1 as available dependency
@@ -140,7 +142,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `dev.lajoscseppento.ruthless.spring-boot-library` - Spring Boot library
 - Publication to Gradle Plugin Portal
 
-[Unreleased]: https://github.com/LajosCseppento/ruthless/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/LajosCseppento/ruthless/compare/v0.8.0...HEAD
+
+[0.8.0]: https://github.com/LajosCseppento/ruthless/releases/tag/v0.8.0
 
 [0.7.1]: https://github.com/LajosCseppento/ruthless/releases/tag/v0.7.1
 
