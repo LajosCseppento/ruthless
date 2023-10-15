@@ -55,7 +55,6 @@ public abstract class LogRecordingService
   private final Gradle gradle;
   private final LoggingOutputInternal loggingOutputInternal;
   private final OutputEventListenerBackedLoggerContext loggerContext;
-
   private final BuildLogWriter buildLogWriter;
   private StyledTextOutput renderer = null;
   private final SimpleDateFormat debugDateFormat =
@@ -120,12 +119,12 @@ public abstract class LogRecordingService
   }
 
   private LoggingOutputInternal findLoggingOutputInternal() {
-    if (gradle instanceof GradleInternal) {
-      Object loggingOutput = ((GradleInternal) gradle).getServices().find(LoggingOutput.class);
+    if (gradle instanceof GradleInternal gradleInternal) {
+      Object loggingOutput = gradleInternal.getServices().find(LoggingOutput.class);
 
-      if (loggingOutput instanceof LoggingOutputInternal) {
+      if (loggingOutput instanceof LoggingOutputInternal loggingOutputInt) {
         logger.debug("Found LoggingOutputInternal");
-        return (LoggingOutputInternal) loggingOutput;
+        return loggingOutputInt;
       } else {
         logger.warn("LoggingOutputInternal not found, cannot save build output to file");
       }
@@ -138,9 +137,10 @@ public abstract class LogRecordingService
 
   private OutputEventListenerBackedLoggerContext findOutputEventListenerBackedLoggerContext() {
     ILoggerFactory iLoggerFactory = LoggerFactory.getILoggerFactory();
-    if (iLoggerFactory instanceof OutputEventListenerBackedLoggerContext) {
+    if (iLoggerFactory
+        instanceof OutputEventListenerBackedLoggerContext outputEventListenerBackedLoggerContext) {
       logger.debug("Found OutputEventListenerBackedLoggerContext");
-      return (OutputEventListenerBackedLoggerContext) iLoggerFactory;
+      return outputEventListenerBackedLoggerContext;
     } else {
       logger.warn(
           "OutputEventListenerBackedLoggerContext not found, cannot save build output to file");
@@ -231,8 +231,8 @@ public abstract class LogRecordingService
 
   private void onOutput(OutputEvent event) {
     synchronized (lock) {
-      if (loggerContext.getLevel() == LogLevel.DEBUG && event instanceof CategorisedOutputEvent) {
-        CategorisedOutputEvent categorisedOutputEvent = (CategorisedOutputEvent) event;
+      if (loggerContext.getLevel() == LogLevel.DEBUG
+          && event instanceof CategorisedOutputEvent categorisedOutputEvent) {
         buildLogWriter.printf(
             "%s [%s] [%s] ",
             debugDateFormat.format(categorisedOutputEvent.getTimestamp()),
@@ -240,11 +240,10 @@ public abstract class LogRecordingService
             categorisedOutputEvent.getCategory());
       }
 
-      if (event instanceof LogLevelChangeEvent) {
-        buildLogWriter.printf(
-            "Log level changed to %s%n", ((LogLevelChangeEvent) event).getNewLogLevel());
-      } else if (event instanceof RenderableOutputEvent) {
-        ((RenderableOutputEvent) event).render(renderer);
+      if (event instanceof LogLevelChangeEvent logLevelChangeEvent) {
+        buildLogWriter.printf("Log level changed to %s%n", logLevelChangeEvent.getNewLogLevel());
+      } else if (event instanceof RenderableOutputEvent renderableOutputEvent) {
+        renderableOutputEvent.render(renderer);
       } else if (event instanceof EndOutputEvent) {
         // End of output, nothing to do
       } else {
@@ -274,8 +273,7 @@ public abstract class LogRecordingService
       Throwable failure = buildResult.getFailure();
 
       if (failure != null) {
-        if (gradle instanceof GradleInternal) {
-          GradleInternal gradleInternal = (GradleInternal) gradle;
+        if (gradle instanceof GradleInternal gradleInternal) {
           Clock clock = (Clock) gradleInternal.getServices().find(Clock.class);
           BuildClientMetaData buildClientMetaData =
               (BuildClientMetaData) gradleInternal.getServices().find(BuildClientMetaData.class);
