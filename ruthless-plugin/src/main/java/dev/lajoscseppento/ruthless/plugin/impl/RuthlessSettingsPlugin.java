@@ -8,6 +8,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.initialization.Settings;
 import org.gradle.api.invocation.Gradle;
 
+/** Plugin for {@link Settings} instances. */
 public class RuthlessSettingsPlugin implements Plugin<Settings> {
   @Override
   public void apply(@NonNull Settings settings) {

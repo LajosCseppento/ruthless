@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
+import java.util.Set;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -52,6 +53,10 @@ public class FunctionalTestUtils {
 
   private boolean shouldCopy(@NonNull File file) {
     return file.isDirectory()
-        || FilenameUtils.isExtension(file.getName(), "factories", "java", "kts", "properties");
+        || FilenameUtils.isExtension(file.getName(), "factories", "java", "kts", "properties")
+        || Set.of(
+                "org.springframework.boot.autoconfigure.AutoConfiguration.imports",
+                "spring.factories")
+            .contains(file.getName());
   }
 }

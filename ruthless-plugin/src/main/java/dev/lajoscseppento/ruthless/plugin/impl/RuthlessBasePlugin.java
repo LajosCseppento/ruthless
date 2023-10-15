@@ -5,6 +5,7 @@ import dev.lajoscseppento.ruthless.plugin.extension.RuthlessExtension;
 import dev.lajoscseppento.ruthless.plugin.extension.impl.RuthlessExtensionImpl;
 import org.gradle.api.GradleException;
 
+/** Base plugin. */
 public class RuthlessBasePlugin extends AbstractProjectPlugin {
   @Override
   public void apply() {

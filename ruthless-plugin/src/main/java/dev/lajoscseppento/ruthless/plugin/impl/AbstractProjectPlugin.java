@@ -22,26 +22,44 @@ import org.gradle.api.tasks.TaskContainer;
  * <p>Note that some fields might be null during runtime if the plugin which declares it is not
  * applied.
  *
- * <p>Note that fields are populated before {@link #apply()} is called, and they are not updated
+ * <p>Note that fields are populated when {@link #apply()} is called, and they are not updated
  * later.
  */
 public abstract class AbstractProjectPlugin implements Plugin<Project> {
+  /** Corresponding {@link Project} object. */
   protected Project project;
+
+  /** Corresponding {@link Gradle} object. */
+  protected Gradle gradle;
+
+  /** Ruthless logger. */
   protected RuthlessLogger logger;
 
+  /** Quick access to <code>project.configurations</code>. */
   protected ConfigurationContainer configurations;
+
+  /** Quick access to <code>project.dependencies</code>. */
   protected DependencyHandler dependencies;
+
+  /** Quick access to <code>project.extensions</code>. */
   protected ExtensionContainer extensions;
-  protected Gradle gradle;
+
+  /** Quick access to <code>project.repositories</code>. */
   protected RepositoryHandler repositories;
+
+  /** Quick access to <code>project.tasks</code>. */
   protected TaskContainer tasks;
 
+  /** Quick access to <code>project.java</code>. */
   protected JavaPluginExtension java;
+
+  /** Quick access to <code>project.sourceSets</code>. */
   protected SourceSetContainer sourceSets;
 
   @Override
   public final void apply(@NonNull Project project) {
     this.project = project;
+    gradle = project.getGradle();
     logger = RuthlessLogger.create(project.getLogger(), "ruthless");
 
     for (Class<?> requiredPlugin : requiredPlugins()) {
@@ -53,7 +71,6 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
     configurations = project.getConfigurations();
     dependencies = project.getDependencies();
     extensions = project.getExtensions();
-    gradle = project.getGradle();
     repositories = project.getRepositories();
     tasks = project.getTasks();
 
@@ -77,6 +94,12 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
     // default no-op
   }
 
+  /**
+   * Declares dependencies.
+   *
+   * @param configurationName the configuration name
+   * @param dependenciesToDeclare the dependencies to declare
+   */
   protected final void declareDependencies(
       String configurationName, List<GroupIdArtifactId> dependenciesToDeclare) {
     for (GroupIdArtifactId dependency : dependenciesToDeclare) {
@@ -86,6 +109,12 @@ public abstract class AbstractProjectPlugin implements Plugin<Project> {
     }
   }
 
+  /**
+   * Declares platform dependencies.
+   *
+   * @param configurationName the configuration name
+   * @param platformDependenciesToDeclare the platform dependencies to declare
+   */
   protected final void declarePlatformDependencies(
       String configurationName, List<GroupIdArtifactId> platformDependenciesToDeclare) {
     for (GroupIdArtifactId dependency : platformDependenciesToDeclare) {
