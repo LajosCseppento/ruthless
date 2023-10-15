@@ -28,7 +28,7 @@ public class GroupIdArtifactIdVersion {
   /**
    * Formats the GAV as dependency notation.
    *
-   * @return the GA as dependency notation
+   * @return the GAV as dependency notation
    */
   public String toDependencyNotation() {
     return String.format("%s:%s:%s", groupId, artifactId, version);
