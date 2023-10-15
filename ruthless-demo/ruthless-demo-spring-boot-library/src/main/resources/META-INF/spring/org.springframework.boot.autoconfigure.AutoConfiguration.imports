@@ -1,2 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 dev.lajoscseppento.ruthless.demo.springbootlibrary.ItemRepositoryAutoConfiguration
