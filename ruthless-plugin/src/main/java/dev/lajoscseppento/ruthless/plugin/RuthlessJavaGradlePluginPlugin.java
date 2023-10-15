@@ -16,6 +16,7 @@ import org.gradle.plugin.devel.GradlePluginDevelopmentExtension;
 import org.gradle.plugin.devel.plugins.JavaGradlePluginPlugin;
 import org.gradle.testing.base.TestingExtension;
 
+/** Ruthless convention plugin for Gradle plugins. */
 public class RuthlessJavaGradlePluginPlugin extends AbstractProjectPlugin {
   private GradlePluginDevelopmentExtension gradlePlugin;
 

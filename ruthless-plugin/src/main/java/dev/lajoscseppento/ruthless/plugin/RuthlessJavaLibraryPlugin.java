@@ -8,6 +8,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaLibraryPlugin;
 
+/** Ruthless convention plugin for Java libraries. */
 public class RuthlessJavaLibraryPlugin extends AbstractProjectPlugin {
   @Override
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {

@@ -5,6 +5,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.invocation.Gradle;
 
+/** Plugin for {@link Gradle} instances. */
 public class RuthlessGradlePlugin implements Plugin<Gradle> {
   @Override
   public void apply(@NonNull Gradle gradle) {

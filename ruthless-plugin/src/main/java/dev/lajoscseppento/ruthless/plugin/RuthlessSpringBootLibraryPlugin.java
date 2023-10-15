@@ -9,6 +9,7 @@ import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaPlugin;
 import org.springframework.boot.gradle.plugin.SpringBootPlugin;
 
+/** Ruthless convention plugin for Spring Boot libraries. */
 public class RuthlessSpringBootLibraryPlugin extends AbstractProjectPlugin {
   @Override
   protected List<Class<? extends Plugin<Project>>> requiredPlugins() {

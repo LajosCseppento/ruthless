@@ -8,6 +8,7 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion;
 public class JavaLanguageVersionSystemProperty extends ObjectSystemProperty<JavaLanguageVersion> {
   private static final String PROPERTY_NAME = "ruthless.java.languageVersion";
 
+  /** Constructor. */
   public JavaLanguageVersionSystemProperty() {
     super(
         PROPERTY_NAME,

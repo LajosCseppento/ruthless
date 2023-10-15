@@ -60,6 +60,12 @@ public class RuthlessLoggingPlugin implements Plugin<Settings> {
         .get();
   }
 
+  /**
+   * Returns the {@link Settings} instance for the given ID.
+   *
+   * @param id the ID
+   * @return the {@link Settings} instance
+   */
   public static Settings findSettingsById(@NonNull UUID id) {
     return settingsById.get(id);
   }

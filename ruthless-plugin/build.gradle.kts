@@ -30,6 +30,7 @@ dependencies {
     implementation("dev.lajoscseppento.gradle:gradle-plugin-common:0.4.0")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     // #55 Direct declaration over dependency constraints to also propagate to the POM
+    implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
     implementation("commons-codec:commons-codec:1.16.0")
     functionalTestImplementation("commons-io:commons-io:2.14.0")
     functionalTestImplementation("io.github.java-diff-utils:java-diff-utils:4.12")

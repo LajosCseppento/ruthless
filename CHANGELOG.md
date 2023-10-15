@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add Jakarta Annotation API 2.1.1 as available dependency
+
+### Changed
+
 - Upgrade to Java 17
 - Upgrade to Gradle 8.4
 - Upgrade Guava from 31.1-jre to 32.1.3-jre
@@ -19,7 +25,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade Spring Boot from 2.7.11 to 3.1.4
 - Upgrade Spring Dependency Management Plugin from 1.0.15.RELEASE to 1.1.3
 
+### Removed
+
+- Java 11 support
+- Gradle 7 support
+
 ## [0.7.1] - 2023-10-14
+
+### Changed
 
 - Upgrade Spotless from 6.18.0 to 6.22.0
 
@@ -34,6 +47,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade Mockito from 4.11.0 to 5.3.1
 - Upgrade Spotless from 6.13.0 to 6.18.0
 - Upgrade Spring Boot from 2.7.9 to 2.7.11
+
+### Removed
+
+- Java 8 support
 
 ## [0.6.0] - 2023-03-04
 

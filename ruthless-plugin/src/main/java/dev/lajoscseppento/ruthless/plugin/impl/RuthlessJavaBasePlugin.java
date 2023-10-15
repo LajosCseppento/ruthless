@@ -29,6 +29,7 @@ import org.gradle.testing.jacoco.plugins.JacocoPlugin;
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension;
 import org.gradle.testing.jacoco.tasks.JacocoReport;
 
+/** Ruthless convention plugin for Java projects. */
 public class RuthlessJavaBasePlugin extends AbstractProjectPlugin {
 
   private static final JavaLanguageVersionSystemProperty JAVA_LANGUAGE_VERSION =

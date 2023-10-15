@@ -2,7 +2,7 @@ package dev.lajoscseppento.ruthless.plugin.logging;
 
 import dev.lajoscseppento.gradle.plugin.common.impl.Utils;
 import dev.lajoscseppento.gradle.plugin.common.property.BooleanSystemProperty;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import lombok.NonNull;
 import org.gradle.api.logging.LogLevel;
 import org.gradle.api.logging.Logger;
@@ -38,18 +38,44 @@ public class RuthlessLogger {
     this.debug = debug;
   }
 
+  /**
+   * Creates a new {@link RuthlessLogger} instance.
+   *
+   * @param cls the class to create the logger for
+   * @return the new {@link RuthlessLogger} instance
+   */
   public static RuthlessLogger create(@NonNull Class<?> cls) {
     return create(cls, null);
   }
 
+  /**
+   * Creates a new {@link RuthlessLogger} instance.
+   *
+   * @param cls the class to create the logger for
+   * @param prefix the prefix to use for all log messages
+   * @return the new {@link RuthlessLogger} instance
+   */
   public static RuthlessLogger create(@NonNull Class<?> cls, @Nullable String prefix) {
     return create(Logging.getLogger(cls), prefix);
   }
 
+  /**
+   * Creates a new {@link RuthlessLogger} instance.
+   *
+   * @param delegate the delegate {@link Logger} to use
+   * @return the new {@link RuthlessLogger} instance
+   */
   public static RuthlessLogger create(@NonNull Logger delegate) {
     return create(delegate, null);
   }
 
+  /**
+   * Creates a new {@link RuthlessLogger} instance.
+   *
+   * @param delegate the delegate {@link Logger} to use
+   * @param prefix the prefix to use for all log messages
+   * @return the new {@link RuthlessLogger} instance
+   */
   public static RuthlessLogger create(@NonNull Logger delegate, @Nullable String prefix) {
     return new RuthlessLogger(delegate, prefix, isDebug(prefix));
   }
@@ -144,10 +170,20 @@ public class RuthlessLogger {
   // Logging Enabled Methods /////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Checks if the debug log level is enabled.
+   *
+   * @return true if the debug log level is enabled
+   */
   public boolean isDebugEnabled() {
     return debug || delegate.isDebugEnabled();
   }
 
+  /**
+   * Checks if the info log level is enabled.
+   *
+   * @return true if the info log level is enabled
+   */
   public boolean isInfoEnabled() {
     return debug || delegate.isInfoEnabled();
   }
@@ -156,74 +192,176 @@ public class RuthlessLogger {
   // Logging Methods Per Log Level ///////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Logs a message at the debug log level.
+   *
+   * @param message the message to log
+   */
   public void debug(String message) {
     log(LogLevel.DEBUG, message);
   }
 
+  /**
+   * Logs a message at the debug log level.
+   *
+   * @param format the format string
+   * @param arguments the arguments referenced by the format specifiers in the format string
+   */
   public void debug(String format, Object... arguments) {
     log(LogLevel.DEBUG, format, arguments);
   }
 
+  /**
+   * Logs a message at the debug log level.
+   *
+   * @param msg the message to log
+   * @param throwable the exception to log
+   */
   public void debug(String msg, Throwable throwable) {
     log(LogLevel.DEBUG, msg, throwable);
   }
 
+  /**
+   * Logs a message at the error log level.
+   *
+   * @param message the message to log
+   */
   public void error(String message) {
     log(LogLevel.ERROR, message);
   }
 
+  /**
+   * Logs a message at the error log level.
+   *
+   * @param format the format string
+   * @param arguments the arguments referenced by the format specifiers in the format string
+   */
   public void error(String format, Object... arguments) {
     log(LogLevel.ERROR, format, arguments);
   }
 
+  /**
+   * Logs a message at the error log level.
+   *
+   * @param msg the message to log
+   * @param throwable the exception to log
+   */
   public void error(String msg, Throwable throwable) {
     log(LogLevel.ERROR, msg, throwable);
   }
 
+  /**
+   * Logs a message at the info log level.
+   *
+   * @param message the message to log
+   */
   public void info(String message) {
     log(LogLevel.INFO, message);
   }
 
+  /**
+   * Logs a message at the info log level.
+   *
+   * @param format the format string
+   * @param arguments the arguments referenced by the format specifiers in the format string
+   */
   public void info(String format, Object... arguments) {
     log(LogLevel.INFO, format, arguments);
   }
 
+  /**
+   * Logs a message at the info log level.
+   *
+   * @param msg the message to log
+   * @param throwable the exception to log
+   */
   public void info(String msg, Throwable throwable) {
     log(LogLevel.INFO, msg, throwable);
   }
 
+  /**
+   * Logs a message at the lifecycle log level.
+   *
+   * @param message the message to log
+   */
   public void lifecycle(String message) {
     log(LogLevel.LIFECYCLE, message);
   }
 
+  /**
+   * Logs a message at the lifecycle log level.
+   *
+   * @param format the format string
+   * @param arguments the arguments referenced by the format specifiers in the format string
+   */
   public void lifecycle(String format, Object... arguments) {
     log(LogLevel.LIFECYCLE, format, arguments);
   }
 
+  /**
+   * Logs a message at the lifecycle log level.
+   *
+   * @param msg the message to log
+   * @param throwable the exception to log
+   */
   public void lifecycle(String msg, Throwable throwable) {
     log(LogLevel.LIFECYCLE, msg, throwable);
   }
 
+  /**
+   * Logs a message at the quiet log level.
+   *
+   * @param message the message to log
+   */
   public void quiet(String message) {
     log(LogLevel.QUIET, message);
   }
 
+  /**
+   * Logs a message at the quiet log level.
+   *
+   * @param format the format string
+   * @param arguments the arguments referenced by the format specifiers in the format string
+   */
   public void quiet(String format, Object... arguments) {
     log(LogLevel.QUIET, format, arguments);
   }
 
+  /**
+   * Logs a message at the quiet log level.
+   *
+   * @param msg the message to log
+   * @param throwable the exception to log
+   */
   public void quiet(String msg, Throwable throwable) {
     log(LogLevel.QUIET, msg, throwable);
   }
 
+  /**
+   * Logs a message at the warn log level.
+   *
+   * @param message the message to log
+   */
   public void warn(String message) {
     log(LogLevel.WARN, message);
   }
 
+  /**
+   * Logs a message at the warn log level.
+   *
+   * @param format the format string
+   * @param arguments the arguments referenced by the format specifiers in the format string
+   */
   public void warn(String format, Object... arguments) {
     log(LogLevel.WARN, format, arguments);
   }
 
+  /**
+   * Logs a message at the warn log level.
+   *
+   * @param msg the message to log
+   * @param throwable the exception to log
+   */
   public void warn(String msg, Throwable throwable) {
     log(LogLevel.WARN, msg, throwable);
   }

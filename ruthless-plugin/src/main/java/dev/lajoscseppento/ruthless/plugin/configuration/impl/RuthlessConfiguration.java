@@ -7,11 +7,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
-/** Ruthless configuration root. */
+/** Ruthless configuration. */
 @Builder
 @Data
 @Jacksonized
 public final class RuthlessConfiguration {
+  /** Singleton instance. */
   public static final RuthlessConfiguration INSTANCE;
 
   static {

@@ -67,6 +67,7 @@ public abstract class LogRecordingService
 
   private final Object lock = new Object();
 
+  /** Constructor. */
   public LogRecordingService() {
     UUID id = getParameters().getId().get();
     logger = RuthlessLogger.create(getClass(), "ruthless-logging");
@@ -316,7 +317,13 @@ public abstract class LogRecordingService
     buildLogWriter.println();
   }
 
+  /** {@link LogRecordingService} parameters. */
   public interface Parameters extends BuildServiceParameters {
+    /**
+     * Returns the unique identifier.
+     *
+     * @return the unique identifier
+     */
     Property<UUID> getId();
   }
 }

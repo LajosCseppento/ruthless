@@ -11,8 +11,8 @@ import org.gradle.api.invocation.Gradle;
 import org.gradle.api.plugins.PluginAware;
 
 /**
- * Meta-plugin which can be applied to any {@link PluginAware object} and applies in the
- * corresponding plugin. This allows to re-use a plugin id for different Gradle components.
+ * Meta-plugin which can be applied to any {@link PluginAware object} and applies the appropriate
+ * plugin. This allows to re-use a plugin id for different Gradle components.
  */
 public class RuthlessPlugin implements Plugin<PluginAware> {
   @Override
