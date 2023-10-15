@@ -107,4 +107,4 @@ cd ruthless-logging-demo
     4. Release
 3. Publish to Gradle Plugin Portal using `./gradlew publishPlugins`
 4. Bump version
-5. Upgrade to recently released version (both `ruthless`, `ruthless-demo` and  `ruthless-logging-demo`)
+5. Upgrade to recently released version (`ruthless`, `ruthless-demo` and  `ruthless-logging-demo`)
